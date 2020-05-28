@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_title">Tytułu nie znaleziono</string>
+    <string name="default_author">Autora nie znaleziono</string>
+    <string name="publication_date_default">Daty publikacji nie znaleziono</string>
+    <string name="rating_default">Oceny nie znaleziono</string>
+    <string name="buy_book">Kup książkę</string>
+    <string name="borrow_book">Wypożycz książkę</string>
+    <string name="find_in_library">Znajdź w bibliotece</string>
+    <string name="other_author_books">Inne książki autora</string>
+    <string name="similar_books">Podobne książki</string>
+</resources>
