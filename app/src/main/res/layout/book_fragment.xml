@@ -44,7 +44,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@{viewModel.author.name, default=@string/default_author}" />
+                        android:text="@{viewModel.book.author.name, default=@string/default_author}" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -96,7 +96,7 @@
                     android:layout_marginLeft="32dp"
                     android:layout_marginRight="32dp"
                     android:layout_weight="1"
-                    android:text="@string/borrow_book" />
+                    android:text="@string/add_to_shelf" />
 
                 <Button
                     android:layout_width="wrap_content"
@@ -104,7 +104,7 @@
                     android:layout_marginLeft="32dp"
                     android:layout_marginRight="32dp"
                     android:layout_weight="1"
-                    android:text="@string/find_in_library" />
+                    android:text="@string/borrow_book" />
             </LinearLayout>
 
             <com.moonlightbutterfly.bookid.customviews.LineSeparator
@@ -129,7 +129,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    tools:text="@{viewModel.author.name, default=@string/default_author}" />
+                    tools:text="@{viewModel.book.author.name, default=@string/default_author}" />
             </LinearLayout>
 
             <com.moonlightbutterfly.bookid.customviews.LineSeparator

@@ -16,9 +16,9 @@ import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 class BookFragment : Fragment() {
 
     companion object {
-        fun newInstance(book: Book, author: Author) = BookFragment().apply {
-            viewModel.book.value = book
-            viewModel.author.value = author
+        fun newInstance(book: Book) {
+            val fragment = BookFragment()
+            fragment
         }
     }
 
