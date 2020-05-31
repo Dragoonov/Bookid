@@ -16,10 +16,11 @@ import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 class BookFragment : Fragment() {
 
     companion object {
-        fun newInstance(book: Book) {
-            val fragment = BookFragment()
-            fragment
-        }
+        fun newInstance(book: String): BookFragment =
+             BookFragment().apply {
+                 arguments = Bundle().apply { putString("book", book) }
+             }
+
     }
 
     private lateinit var viewModel: BookViewModel
@@ -33,13 +34,10 @@ class BookFragment : Fragment() {
             R.layout.book_fragment,
             container,
             false)
+        viewModel = ViewModelProviders.of(this).get(BookViewModel::class.java)
+
         binding.viewModel = viewModel
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(BookViewModel::class.java)
     }
 
 }
