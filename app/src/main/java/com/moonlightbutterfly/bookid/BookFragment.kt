@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import com.moonlightbutterfly.bookid.databinding.BookFragmentBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
+import com.moonlightbutterfly.bookid.repository.externalrepos.goodreads.GoodreadsRepository
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 
 
@@ -35,7 +36,7 @@ class BookFragment : Fragment() {
             container,
             false)
         viewModel = ViewModelProviders.of(this).get(BookViewModel::class.java)
-
+        viewModel.init(book = Utils.convertToObject(arguments?.getString("book")!!),repository =  GoodreadsRepository())
         binding.viewModel = viewModel
         return binding.root
     }

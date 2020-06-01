@@ -7,4 +7,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class Author(
     @PrimaryKey val id: Int,
-    @ColumnInfo(name = "name") val name: String)
+    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "imageUrl") val imageUrl: String?
+)

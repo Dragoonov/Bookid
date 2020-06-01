@@ -8,4 +8,5 @@ interface ExternalRepository {
     fun getSimilarBooks(book: Book): LiveData<List<Book>>
     fun getAuthorBooks(author: Author): LiveData<List<Book>>
     fun getSearchedBooks(query: String, page: Int): LiveData<List<Book>>
+    fun getAuthorInfo(author:Author): LiveData<Author>
 }

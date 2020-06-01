@@ -11,5 +11,4 @@ data class Book (
     @ColumnInfo(name = "author") val author: Author,
     @ColumnInfo(name = "publicationDate") val publicationDate: String,
     @ColumnInfo(name = "rating") val rating: Double,
-    @ColumnInfo(name = "imageUrl") val imageUrl: String,
-    @ColumnInfo(name = "smallImageUrl") val smallImageUrl: String)
+    @ColumnInfo(name = "imageUrl") val imageUrl: String)

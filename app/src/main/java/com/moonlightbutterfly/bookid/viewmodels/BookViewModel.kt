@@ -7,10 +7,16 @@ import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
 
-class BookViewModel(book: Book, val repository: ExternalRepository) : ViewModel() {
+class BookViewModel : ViewModel() {
 
-    var book: LiveData<Book> = MutableLiveData(book)
-    val similarBooks: LiveData<List<Book>> = repository.getSimilarBooks(book)
-    val authorsBooks: LiveData<List<Book>> = repository.getAuthorBooks(book.author)
+    lateinit var book: LiveData<Book>
+    lateinit var similarBooks: LiveData<List<Book>>
+    lateinit var authorsBooks: LiveData<List<Book>>
+
+    fun init(book:Book,repository: ExternalRepository) {
+        this.book = MutableLiveData(book)
+        //similarBooks = repository.getSimilarBooks(book)
+        authorsBooks = repository.getAuthorBooks(book.author)
+    }
 
 }

@@ -1,4 +1,4 @@
-package com.moonlightbutterfly.bookid.repository.externalrepos.dtos
+package com.moonlightbutterfly.bookid.repository.externalrepos.goodreads.dtos
 
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root

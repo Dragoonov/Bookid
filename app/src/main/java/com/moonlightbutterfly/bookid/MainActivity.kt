@@ -19,11 +19,10 @@ class MainActivity : AppCompatActivity() {
                 Utils.convertToJSONString(Book(
                 1,
                 "Title",
-                Author(2,"Author"),
+                Author(18541,"Author","url"),
                 "pubdate",
             4.5,
-            "url",
-            "smallUrl"))))
+            "url"))))
             .commit()
     }
 }
