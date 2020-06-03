@@ -10,5 +10,6 @@
     <string name="other_author_books">Other author\'s books</string>
     <string name="similar_books">Similar books</string>
     <string name="add_to_shelf">Add to Shelf</string>
+    <string name="remove_from_shelf">Remove from shelf</string>
 
 </resources>

@@ -20,148 +20,189 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:baselineAligned="false">
+                android:layout_height="match_parent"
+                android:layout_margin="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@{viewModel.book.title, default=@string/default_title}" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@{viewModel.book.author.name, default=@string/default_author}" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@{viewModel.book.publicationDate, default=@string/publication_date_default}" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@{Double.toString(viewModel.book.rating), default=@string/rating_default}" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_weight="1"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <ImageView
                         android:id="@+id/imageView"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:src="@drawable/ic_launcher_foreground" />
+                        app:imageUrl="@{viewModel.book.imageUrl}" />
 
-                    <Button
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="32dp"
-                        android:layout_marginRight="32dp"
-                        android:text="@string/buy_book" />
+                        android:baselineAligned="false"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="16dp"
+                            android:layout_weight="2"
+                            android:orientation="vertical"
+                            android:layout_marginStart="16dp">
+
+                            <TextView
+                                style="@style/MediumLabel"
+                                android:layout_weight="1"
+                                android:text="@{viewModel.book.title, default=@string/default_title}"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                style="@style/MediumLabel"
+                                android:layout_weight="1"
+                                android:text="@{viewModel.book.author.name, default=@string/default_author}"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                style="@style/MediumLabel"
+                                android:layout_weight="1"
+                                android:text="@{viewModel.book.publicationDate, default=@string/publication_date_default}" />
+
+                            <TextView
+                                style="@style/MediumLabel"
+                                android:layout_weight="1"
+                                android:text="@{Double.toString(viewModel.book.rating), default=@string/rating_default}" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_weight="3"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:text="@string/buy_book" />
+
+                            <Button
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:text="@string/add_to_shelf" />
+
+                            <Button
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:text="@string/borrow_book" />
+
+                            <Button
+                                android:id="@+id/button"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:text="@string/remove_from_shelf" />
+
+                        </LinearLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
-                    android:layout_weight="1"
-                    android:text="@string/add_to_shelf" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
-                    android:layout_weight="1"
-                    android:text="@string/borrow_book" />
-            </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <com.moonlightbutterfly.bookid.customviews.LineSeparator
+                style="@style/LineSeparatorHorizontal" />
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:orientation="HORIZONTAL" />
+                android:layout_height="200dp"
+                android:layout_margin="16dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_launcher_foreground" />
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    tools:text="@{viewModel.book.author.name, default=@string/default_author}" />
-            </LinearLayout>
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:imageUrl="@{viewModel.authorDetailed.imageUrl}" />
+
+                    <TextView
+                        style="@style/MediumLabel"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@{viewModel.authorDetailed.name, default=@string/default_author}" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <com.moonlightbutterfly.bookid.customviews.LineSeparator
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:orientation="HORIZONTAL" />
+                style="@style/LineSeparatorHorizontal" />
 
-            <TextView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/other_author_books" />
+                android:layout_height="500dp"
+                android:layout_margin="16dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/LargeLabel"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/other_author_books" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/authorBooks"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="32dp"
+                        android:scrollbars="horizontal" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <com.moonlightbutterfly.bookid.customviews.LineSeparator
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:orientation="HORIZONTAL" />
+                style="@style/LineSeparatorHorizontal" />
 
-            <TextView
-                android:id="@+id/textView4"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/similar_books" />
+                android:layout_height="500dp"
+                android:layout_margin="16dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/LargeLabel"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/similar_books" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/similarBooks"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="32dp"
+                        android:scrollbars="horizontal">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <com.moonlightbutterfly.bookid.customviews.LineSeparator
+                style="@style/LineSeparatorHorizontal" />
 
         </LinearLayout>
 

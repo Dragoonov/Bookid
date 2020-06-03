@@ -47,7 +47,7 @@ class GoodreadsRepository :
     }
 
     override fun getSimilarBooks(book: Book): LiveData<List<Book>> {
-        TODO("Not yet implemented")
+        return MutableLiveData()
     }
 
     override fun getAuthorBooks(author: Author): LiveData<List<Book>> {
