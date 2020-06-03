@@ -7,8 +7,9 @@ import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
+import javax.inject.Inject
 
-class BookViewModel : ViewModel() {
+class BookViewModel @Inject constructor(): ViewModel() {
 
     lateinit var book: LiveData<Book>
     lateinit var similarBooks: LiveData<List<Book>>

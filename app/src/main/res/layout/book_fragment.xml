@@ -53,23 +53,27 @@
 
                             <TextView
                                 style="@style/MediumLabel"
+                                android:gravity="start|center_vertical"
                                 android:layout_weight="1"
                                 android:text="@{viewModel.book.title, default=@string/default_title}"
                                 android:textSize="18sp" />
 
                             <TextView
                                 style="@style/MediumLabel"
+                                android:gravity="start|center_vertical"
                                 android:layout_weight="1"
                                 android:text="@{viewModel.book.author.name, default=@string/default_author}"
                                 android:textSize="18sp" />
 
                             <TextView
                                 style="@style/MediumLabel"
+                                android:gravity="start|center_vertical"
                                 android:layout_weight="1"
                                 android:text="@{viewModel.book.publicationDate, default=@string/publication_date_default}" />
 
                             <TextView
                                 style="@style/MediumLabel"
+                                android:gravity="start|center_vertical"
                                 android:layout_weight="1"
                                 android:text="@{Double.toString(viewModel.book.rating), default=@string/rating_default}" />
 
@@ -137,6 +141,7 @@
 
                     <TextView
                         style="@style/MediumLabel"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="@{viewModel.authorDetailed.name, default=@string/default_author}" />

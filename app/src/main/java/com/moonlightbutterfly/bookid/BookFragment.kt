@@ -1,6 +1,5 @@
 package com.moonlightbutterfly.bookid
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.databinding.BookFragmentBinding
 import com.moonlightbutterfly.bookid.repository.externalrepos.goodreads.GoodreadsRepository
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
+import javax.inject.Inject
 
 
 class BookFragment : Fragment() {
@@ -25,6 +26,8 @@ class BookFragment : Fragment() {
              }
 
     }
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: BookViewModel
 
@@ -32,6 +35,7 @@ class BookFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity?.application as BookidApplication).appComponent.inject(this)
         val binding: BookFragmentBinding = DataBindingUtil.inflate(
             inflater,
             R.layout.book_fragment,
@@ -39,7 +43,7 @@ class BookFragment : Fragment() {
             false)
 
 
-        viewModel = ViewModelProviders.of(this).get(BookViewModel::class.java)
+        viewModel = ViewModelProvider(this,viewModelFactory)[BookViewModel::class.java]
         viewModel.init(book = Utils.convertToObject(arguments?.getString("book")!!),repository =  GoodreadsRepository())
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
