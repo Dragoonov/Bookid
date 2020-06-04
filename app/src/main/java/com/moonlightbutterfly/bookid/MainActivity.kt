@@ -3,6 +3,7 @@ package com.moonlightbutterfly.bookid
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.moonlightbutterfly.bookid.fragments.BookFragment
 import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.fragment_container, BookFragment.newInstance(
                 Utils.convertToJSONString(Book(
                 1,
-                "Title",
+                "Title siabada",
                 Author(18541,"Author","url"),
                 "pubdate",
             4.5,

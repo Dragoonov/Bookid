@@ -32,4 +32,13 @@
         <item name="orientation">VERTICAL</item>
     </style>
 
+    <style name="BookidButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">#00000000</item>
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/secondaryDarkColor</item>
+    </style>
+
 </resources>

@@ -1,11 +1,13 @@
 package com.moonlightbutterfly.bookid
 
-import android.graphics.drawable.Drawable
+import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
+import android.widget.ProgressBar
+import android.widget.ScrollView
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
+import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 
 
 @BindingAdapter("imageUrl")
@@ -15,4 +17,22 @@ fun loadImage(view: ImageView, url: String?) {
         .placeholder(R.drawable.ic_launcher_foreground)
         .error(R.drawable.ic_launcher_foreground)
         .into(view)
+}
+
+@BindingAdapter("android:visibility")
+fun goneUnless(view: ProgressBar, data: Boolean) {
+    view.visibility = if (data) {
+        View.GONE
+    } else {
+        View.VISIBLE
+    }
+}
+
+@BindingAdapter("android:visibility")
+fun goneUnless(view: ScrollView, data: Boolean) {
+    view.visibility = if (data) {
+        View.VISIBLE
+    } else {
+        View.GONE
+    }
 }

@@ -1,4 +1,4 @@
-package com.moonlightbutterfly.bookid
+package com.moonlightbutterfly.bookid.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.moonlightbutterfly.bookid.BookidApplication
+import com.moonlightbutterfly.bookid.R
+import com.moonlightbutterfly.bookid.Utils
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.databinding.BookFragmentBinding
 import com.moonlightbutterfly.bookid.repository.externalrepos.goodreads.GoodreadsRepository
@@ -44,7 +47,13 @@ class BookFragment : Fragment() {
 
 
         viewModel = ViewModelProvider(this,viewModelFactory)[BookViewModel::class.java]
-        viewModel.init(book = Utils.convertToObject(arguments?.getString("book")!!),repository =  GoodreadsRepository())
+        viewModel.init(
+            book = Utils.convertToObject(
+                arguments?.getString(
+                    "book"
+                )!!
+            ),
+            repository =  GoodreadsRepository())
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -65,12 +74,20 @@ class BookFragment : Fragment() {
         }
 
         viewModel.authorsBooks.observe(viewLifecycleOwner, Observer{
-            (binding.authorBooks.adapter as BookAdapter).updateList(it)
+            val list = viewModel.removeDisplayedBookFromList()
+            (binding.authorBooks.adapter as BookAdapter).updateList(list)
+            viewModel.updateDataLoaded()
         })
 
         viewModel.similarBooks.observe(viewLifecycleOwner, Observer{
             (binding.similarBooks.adapter as BookAdapter).updateList(it)
+            viewModel.updateDataLoaded()
         })
+
+        viewModel.authorDetailed.observe(viewLifecycleOwner, Observer {
+            viewModel.updateDataLoaded()
+        })
+        viewModel.updateDataLoaded()
         return binding.root
     }
 

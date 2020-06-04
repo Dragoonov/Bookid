@@ -18,7 +18,7 @@ fun View.convertDpsToPixels(dps: Int): Int {
 
 class LineSeparator(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val LINE_SIZE: Int = 2
-    private val MARGINS = 32
+    private val MARGINS = 8
 
     private val paint = Paint(ANTI_ALIAS_FLAG).apply {
         color = Color.GRAY

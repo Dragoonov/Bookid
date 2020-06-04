@@ -1,7 +1,8 @@
 package com.moonlightbutterfly.bookid.di
 
 import android.content.Context
-import com.moonlightbutterfly.bookid.BookFragment
+import com.moonlightbutterfly.bookid.fragments.BookFragment
+import com.moonlightbutterfly.bookid.fragments.ProfileFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -15,4 +16,5 @@ interface AppComponent {
     }
 
     fun inject(fragment: BookFragment)
+    fun inject(fragment: ProfileFragment)
 }

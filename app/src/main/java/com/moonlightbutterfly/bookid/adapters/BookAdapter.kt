@@ -3,7 +3,11 @@ package com.moonlightbutterfly.bookid.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.moonlightbutterfly.bookid.fragments.BookFragment
+import com.moonlightbutterfly.bookid.R
+import com.moonlightbutterfly.bookid.Utils
 import com.moonlightbutterfly.bookid.databinding.BookContainerBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
@@ -13,6 +17,18 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
     val books = ArrayList<Book>()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        init {
+            itemView.setOnClickListener {
+                (it.context as AppCompatActivity).supportFragmentManager
+                    .beginTransaction()
+                    .replace(
+                        R.id.fragment_container,
+                        BookFragment.newInstance(Utils.convertToJSONString(books[adapterPosition])))
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
 
         private var binding: BookContainerBinding? = null
 
@@ -37,9 +53,9 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
         return ViewHolder(itemBinding)
     }
 
-    override fun getItemCount(): Int = books?.size ?: 0
+    override fun getItemCount(): Int = books.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(books!![position])
+        holder.bind(books[position])
     }
 }
