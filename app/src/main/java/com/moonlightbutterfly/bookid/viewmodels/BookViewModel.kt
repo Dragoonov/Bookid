@@ -1,39 +1,84 @@
 package com.moonlightbutterfly.bookid.viewmodels
 
-import androidx.databinding.Bindable
-import androidx.databinding.Observable
-import androidx.databinding.PropertyChangeRegistry
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
-import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
 import javax.inject.Inject
 
-class BookViewModel @Inject constructor() : ViewModel() {
+class BookViewModel @Inject constructor(val repository: ExternalRepository) : ViewModel() {
 
-    lateinit var book: LiveData<Book>
-    lateinit var similarBooks: LiveData<List<Book>>
-    lateinit var authorsBooks: LiveData<List<Book>>
-    lateinit var authorDetailed: LiveData<Author>
+    private val _similarBooksLiveData = MutableLiveData<List<Book>>()
+    val similarBooksLiveData: LiveData<List<Book>> get() = _similarBooksLiveData
+
+    private val _authorBooksLiveData = MutableLiveData<List<Book>>()
+    val authorBooksLiveData: LiveData<List<Book>> get() = _authorBooksLiveData
+
+    private val _authorInfoLiveData = MutableLiveData<Author>()
+    val authorInfoLiveData: LiveData<Author> get() = _authorInfoLiveData
+
+    private var _bookLiveData = MutableLiveData<Book>()
+    val bookLiveData: LiveData<Book> get() = _bookLiveData
+
     val allDataLoaded: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    fun init(book: Book, repository: ExternalRepository) {
-        this.book = MutableLiveData(book)
-        similarBooks = repository.getSimilarBooks(book)
-        authorsBooks = repository.getAuthorBooks(book.author)
-        authorDetailed = repository.getAuthorInfo(book.author)
+    private val similarBooksLiveDataObserver =
+        Observer<List<Book>> { _similarBooksLiveData.value = it }
+    private val authorBooksLiveDataObserver =
+        Observer<List<Book>> { _authorBooksLiveData.value = it }
+    private val authorInfoLiveDataObserver = Observer<Author> { _authorInfoLiveData.value = it }
+
+    init {
+        subscribeToRepository()
+    }
+
+    fun setBook(book: Book) {
+        if( _bookLiveData.value?.id == book.id) {
+            return
+        }
+        this._bookLiveData = MutableLiveData(book)
+        refreshData()
     }
 
     fun updateDataLoaded() {
-        allDataLoaded.value = authorDetailed.value != null && authorsBooks.value != null
+        allDataLoaded.value = authorInfoLiveData.value != null && authorBooksLiveData.value != null
     }
 
-    fun removeDisplayedBookFromList(): List<Book> = authorsBooks.value!!
-        .toMutableList()
-        .filter{it.id != book.value!!.id}
+    fun removeDisplayedBookFromList(): List<Book>? = _authorBooksLiveData.value
+        ?.toMutableList()
+        ?.filter { it.id != _bookLiveData.value?.id }
 
+    fun refreshData() {
+        clearCurrentData()
+        repository.loadSimilarBooks(_bookLiveData.value!!)
+        repository.loadAuthorBooks(_bookLiveData.value?.author!!)
+        repository.loadAuthorInfo(_bookLiveData.value?.author!!)
+    }
+
+    private fun clearCurrentData() {
+        _similarBooksLiveData.value = null
+        _authorBooksLiveData.value = null
+        _authorInfoLiveData.value = null
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        unsubscribeFromRepository()
+    }
+
+    private fun subscribeToRepository() {
+        repository.authorBooksLiveData.observeForever(authorBooksLiveDataObserver)
+        repository.authorInfoLiveData.observeForever(authorInfoLiveDataObserver)
+        repository.similarBooksLiveData.observeForever(similarBooksLiveDataObserver)
+    }
+
+    private fun unsubscribeFromRepository() {
+        repository.authorBooksLiveData.removeObserver(authorBooksLiveDataObserver)
+        repository.authorInfoLiveData.removeObserver(authorInfoLiveDataObserver)
+        repository.similarBooksLiveData.removeObserver(similarBooksLiveDataObserver)
+    }
 
 }

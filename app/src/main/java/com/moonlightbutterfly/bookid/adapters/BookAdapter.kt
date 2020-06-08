@@ -42,8 +42,8 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
         }
     }
 
-    fun updateList(list: List<Book>) {
-        books.addAll(list)
+    fun updateList(list: List<Book>?) {
+        books.addAll(list ?: ArrayList())
         notifyDataSetChanged()
     }
 

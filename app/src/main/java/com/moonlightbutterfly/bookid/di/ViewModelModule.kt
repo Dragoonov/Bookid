@@ -7,6 +7,7 @@ import com.moonlightbutterfly.bookid.viewmodels.ProfileViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import javax.inject.Singleton
 
 @Module
 abstract class ViewModelModule {

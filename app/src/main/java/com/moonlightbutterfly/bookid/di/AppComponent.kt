@@ -8,7 +8,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ViewModelModule::class])
+@Component(modules = [ViewModelModule::class, RepositoryModule::class])
 interface AppComponent {
     @Component.Factory
     interface Factory {

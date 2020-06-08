@@ -14,13 +14,13 @@ import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.Utils
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.databinding.BookFragmentBinding
-import com.moonlightbutterfly.bookid.repository.externalrepos.goodreads.GoodreadsRepository
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 import javax.inject.Inject
 
 
-class BookFragment : Fragment() {
+class BookFragment : Fragment(){
 
+    private lateinit var binding: BookFragmentBinding
 
     companion object {
         fun newInstance(book: String): BookFragment =
@@ -39,21 +39,14 @@ class BookFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         (activity?.application as BookidApplication).appComponent.inject(this)
-        val binding: BookFragmentBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater,
             R.layout.book_fragment,
             container,
             false)
 
-
         viewModel = ViewModelProvider(this,viewModelFactory)[BookViewModel::class.java]
-        viewModel.init(
-            book = Utils.convertToObject(
-                arguments?.getString(
-                    "book"
-                )!!
-            ),
-            repository =  GoodreadsRepository())
+        viewModel.setBook(Utils.convertToObject(arguments?.getString("book")))
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -73,18 +66,18 @@ class BookFragment : Fragment() {
             adapter = BookAdapter()
         }
 
-        viewModel.authorsBooks.observe(viewLifecycleOwner, Observer{
-            val list = viewModel.removeDisplayedBookFromList()
-            (binding.authorBooks.adapter as BookAdapter).updateList(list)
+        viewModel.authorInfoLiveData.observe(viewLifecycleOwner, Observer{
             viewModel.updateDataLoaded()
         })
 
-        viewModel.similarBooks.observe(viewLifecycleOwner, Observer{
+        viewModel.similarBooksLiveData.observe(viewLifecycleOwner, Observer{
             (binding.similarBooks.adapter as BookAdapter).updateList(it)
             viewModel.updateDataLoaded()
         })
 
-        viewModel.authorDetailed.observe(viewLifecycleOwner, Observer {
+        viewModel.authorBooksLiveData.observe(viewLifecycleOwner, Observer {
+            val list = viewModel.removeDisplayedBookFromList()
+            (binding.authorBooks.adapter as BookAdapter).updateList(list)
             viewModel.updateDataLoaded()
         })
         viewModel.updateDataLoaded()

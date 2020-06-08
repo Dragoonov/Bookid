@@ -20,15 +20,6 @@ fun loadImage(view: ImageView, url: String?) {
 }
 
 @BindingAdapter("android:visibility")
-fun goneUnless(view: ProgressBar, data: Boolean) {
-    view.visibility = if (data) {
-        View.GONE
-    } else {
-        View.VISIBLE
-    }
-}
-
-@BindingAdapter("android:visibility")
 fun goneUnless(view: ScrollView, data: Boolean) {
     view.visibility = if (data) {
         View.VISIBLE

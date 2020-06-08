@@ -12,10 +12,10 @@ object GoodreadsConverters {
             ?.map { workDto ->
                 Book(
                     workDto.bestBook?.id!!,
-                    workDto.bestBook?.title!!,
+                    workDto.bestBook?.title,
                     Author(
                         workDto.bestBook?.author?.id!!,
-                        workDto.bestBook?.author?.name!!,
+                        workDto.bestBook?.author?.name,
                         null
                     ),
                     String.format(
@@ -24,8 +24,8 @@ object GoodreadsConverters {
                         workDto.originalPublicationMonth,
                         workDto.originalPublicationYear
                     ),
-                    workDto.averageRating!!,
-                    workDto.bestBook?.imageUrl!!
+                    workDto.averageRating,
+                    workDto.bestBook?.imageUrl
                 )
             }
             ?.toList()
@@ -40,7 +40,7 @@ object GoodreadsConverters {
                     book.title!!,
                     Author(
                         book.authors?.authors?.get(0)?.id!!,
-                        book.authors?.authors?.get(0)?.name!!,
+                        book.authors?.authors?.get(0)?.name,
                         null
                     ),
                     String.format(
@@ -49,15 +49,15 @@ object GoodreadsConverters {
                         book.publicationMonth,
                         book.publicationYear
                     ),
-                    book.averageRating!!,
-                    book.imageUrl!!
+                    book.averageRating,
+                    book.imageUrl
                 )
             }
             ?.toList()
     }
 
-    fun extractAuthorFromDto(response: GoodreadsResponseDto): Author? {
-        val author = response.author
-        return Author(author?.id!!, author.name!!, author.imageUrl)
+    fun extractAuthorFromDto(response: GoodreadsResponseDto?): Author? {
+        val author = response?.author
+        return Author(author?.id!!, author.name, author.imageUrl)
     }
 }

@@ -14,12 +14,24 @@ import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
+import javax.inject.Inject
 
-class GoodreadsRepository :
-    ExternalRepository {
+class GoodreadsRepository @Inject constructor() : ExternalRepository {
 
     private var retrofit: Retrofit? = null
     private val BASE_URL = "https://www.goodreads.com"
+
+    private val _similarBooksLiveData = MutableLiveData<List<Book>>()
+    override val similarBooksLiveData: LiveData<List<Book>> get() = _similarBooksLiveData
+
+    private val _searchedBooksLiveData = MutableLiveData<List<Book>>()
+    override val searchedBooksLiveData: LiveData<List<Book>> get() = _searchedBooksLiveData
+
+    private val _authorBooksLiveData = MutableLiveData<List<Book>>()
+    override val authorBooksLiveData: LiveData<List<Book>> get() = _authorBooksLiveData
+
+    private val _authorInfoLiveData = MutableLiveData<Author>()
+    override val authorInfoLiveData: LiveData<Author> get() = _authorInfoLiveData
 
     private fun getRetrofitService() = retrofit?.create(RetrofitServiceGoodreads::class.java)
         ?: Retrofit.Builder()
@@ -46,20 +58,19 @@ class GoodreadsRepository :
         ): Call<GoodreadsResponseDto>
     }
 
-    override fun getSimilarBooks(book: Book): LiveData<List<Book>> {
-        return MutableLiveData()
+    override fun loadSimilarBooks(book: Book): LiveData<List<Book>> {
+        return similarBooksLiveData
     }
 
-    override fun getAuthorBooks(author: Author): LiveData<List<Book>> {
-        val books = MutableLiveData<List<Book>>()
+    override fun loadAuthorBooks(author: Author): LiveData<List<Book>> {
         getRetrofitService()
-            .getAuthorInfo(author.id)
+            .getAuthorInfo(author?.id)
             .enqueue(object : Callback<GoodreadsResponseDto> {
                 override fun onResponse(
                     call: Call<GoodreadsResponseDto>,
                     response: Response<GoodreadsResponseDto>
                 ) {
-                    books.value = GoodreadsConverters.extractAuthorBookListFromDto(response.body())
+                    _authorBooksLiveData.value = GoodreadsConverters.extractAuthorBookListFromDto(response.body())
                 }
 
                 override fun onFailure(call: Call<GoodreadsResponseDto>, t: Throwable) {
@@ -67,11 +78,10 @@ class GoodreadsRepository :
                 }
 
             })
-        return books
+        return authorBooksLiveData
     }
 
-    override fun getSearchedBooks(query: String, page: Int): LiveData<List<Book>> {
-        val books = MutableLiveData<List<Book>>()
+    override fun loadSearchedBooks(query: String, page: Int): LiveData<List<Book>> {
         getRetrofitService()
             .getBooksBySearchString(query, page)
             .enqueue(object : Callback<GoodreadsResponseDto> {
@@ -79,7 +89,7 @@ class GoodreadsRepository :
                     call: Call<GoodreadsResponseDto>,
                     response: Response<GoodreadsResponseDto>
                 ) {
-                    books.value = GoodreadsConverters.extractBookListFromDto(response.body()!!)
+                    _searchedBooksLiveData.value = GoodreadsConverters.extractBookListFromDto(response.body())
                 }
 
                 override fun onFailure(call: Call<GoodreadsResponseDto>, t: Throwable) {
@@ -87,11 +97,10 @@ class GoodreadsRepository :
                 }
 
             })
-        return books
+        return searchedBooksLiveData
     }
 
-    override fun getAuthorInfo(author: Author): LiveData<Author> {
-        val authorResult = MutableLiveData<Author>()
+    override fun loadAuthorInfo(author: Author): LiveData<Author> {
         getRetrofitService()
             .getAuthorInfo(author.id)
             .enqueue(object : Callback<GoodreadsResponseDto> {
@@ -99,7 +108,7 @@ class GoodreadsRepository :
                     call: Call<GoodreadsResponseDto>,
                     response: Response<GoodreadsResponseDto>
                 ) {
-                    authorResult.value = GoodreadsConverters.extractAuthorFromDto(response.body()!!)
+                    _authorInfoLiveData.value = GoodreadsConverters.extractAuthorFromDto(response.body())
                 }
 
                 override fun onFailure(call: Call<GoodreadsResponseDto>, t: Throwable) {
@@ -107,6 +116,6 @@ class GoodreadsRepository :
                 }
 
             })
-        return authorResult
+        return authorInfoLiveData
     }
 }
