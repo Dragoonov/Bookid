@@ -17,9 +17,15 @@ interface ShelfDao {
     @Update
     fun updateShelf(shelf: Shelf): Completable
 
-    @Query("select * from shelf where id = :id")
+    @Query("select * from shelfs where id = :id")
     fun getShelfById(id: Int): Single<Shelf>
 
-    @Query("select * from shelf where id = :name")
+    @Query("select * from shelfs where id = :name")
     fun getShelfByName(name: String): Single<Shelf>
+
+    @Query("select * from shelfs")
+    fun getShelfs(): Single<List<Shelf>>
+
+    @Query("select * from shelfs where userId = :userId")
+    fun getUserShelfs(userId: Int): Single<List<Shelf>>
 }
