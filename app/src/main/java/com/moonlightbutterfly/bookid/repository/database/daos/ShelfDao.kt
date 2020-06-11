@@ -1,5 +1,6 @@
 package com.moonlightbutterfly.bookid.repository.database.daos
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -12,20 +13,20 @@ import io.reactivex.Single
 interface ShelfDao {
 
     @Insert
-    fun insertShelf(shelf: Shelf): Completable
+    fun insertShelf(shelf: Shelf)
 
     @Update
-    fun updateShelf(shelf: Shelf): Completable
+    fun updateShelf(shelf: Shelf)
 
     @Query("select * from shelfs where id = :id")
-    fun getShelfById(id: Int): Single<Shelf>
+    fun getShelfById(id: Int): LiveData<Shelf>
 
     @Query("select * from shelfs where id = :name")
-    fun getShelfByName(name: String): Single<Shelf>
+    fun getShelfByName(name: String): LiveData<Shelf>
 
     @Query("select * from shelfs")
-    fun getShelfs(): Single<List<Shelf>>
+    fun getShelfs(): LiveData<List<Shelf>>
 
     @Query("select * from shelfs where userId = :userId")
-    fun getUserShelfs(userId: Int): Single<List<Shelf>>
+    fun getUserShelfs(userId: Int): LiveData<List<Shelf>>
 }

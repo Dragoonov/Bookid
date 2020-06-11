@@ -1,74 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.moonlightbutterfly.bookid.viewmodels.ProfileViewModel" />
+    </data>
+
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_margin="16dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:background="@color/primaryColor">
 
-        <ImageView
-            android:id="@+id/imageView2"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:contentDescription="TODO" />
+            android:orientation="vertical"
+            android:id="@+id/layoutViewContainer">
 
-        <TextView
-            style="@style/MediumLabel"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@{viewModel.authorInfoLiveData.name, default=@string/default_author}" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_margin="16dp"
+                android:orientation="horizontal">
 
-    <com.moonlightbutterfly.bookid.customviews.LineSeparator
-        style="@style/LineSeparatorHorizontal" />
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="TODO"
+                    app:imageUrl="@{viewModel.userLiveData.avatar}" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:orientation="vertical">
+                <TextView
+                    style="@style/MediumLabel"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@{viewModel.userLiveData.nick, default=@string/default_nick}" />
+            </LinearLayout>
 
-        <TextView
-            style="@style/LargeLabel"
-            android:layout_marginTop="16dp"
-            android:text="@string/similar_books" />
+        </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:scrollbars="horizontal" />
-    </LinearLayout>
-
-    <com.moonlightbutterfly.bookid.customviews.LineSeparator
-        style="@style/LineSeparatorHorizontal" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:orientation="vertical">
-
-        <TextView
-            style="@style/LargeLabel"
-            android:layout_marginTop="16dp"
-            android:text="@string/similar_books" />
-
-        <androidx.recyclerview.widget.RecyclerView
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:scrollbars="horizontal" />
-    </LinearLayout>
-
-
-
-</LinearLayout>
+    </ScrollView>
+</layout>

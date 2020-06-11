@@ -39,9 +39,8 @@ class BookFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         (activity?.application as BookidApplication).appComponent.inject(this)
-        binding = DataBindingUtil.inflate(
+        binding = BookFragmentBinding.inflate(
             inflater,
-            R.layout.book_fragment,
             container,
             false)
 
@@ -50,37 +49,15 @@ class BookFragment : Fragment(){
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.authorBooks.apply {
-            layoutManager = LinearLayoutManager(
-                context,
-                LinearLayoutManager.HORIZONTAL,
-                false)
+        binding.similarBooksInclude.listRecycler.apply {
+            layoutManager = LinearLayoutManager(view?.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = BookAdapter()
         }
 
-        binding.similarBooks.apply {
-            layoutManager = LinearLayoutManager(
-                context,
-                LinearLayoutManager.HORIZONTAL,
-                false)
+        binding.authorBooksInclude.listRecycler.apply {
+            layoutManager = LinearLayoutManager(view?.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = BookAdapter()
         }
-
-        viewModel.authorInfoLiveData.observe(viewLifecycleOwner, Observer{
-            viewModel.updateDataLoaded()
-        })
-
-        viewModel.similarBooksLiveData.observe(viewLifecycleOwner, Observer{
-            (binding.similarBooks.adapter as BookAdapter).updateList(it)
-            viewModel.updateDataLoaded()
-        })
-
-        viewModel.authorBooksLiveData.observe(viewLifecycleOwner, Observer {
-            val list = viewModel.removeDisplayedBookFromList()
-            (binding.authorBooks.adapter as BookAdapter).updateList(list)
-            viewModel.updateDataLoaded()
-        })
-        viewModel.updateDataLoaded()
         return binding.root
     }
 

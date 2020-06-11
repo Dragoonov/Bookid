@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.moonlightbutterfly.bookid.viewmodels.BookViewModel" />
@@ -22,14 +21,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:onRefreshListener="@{viewModel::refreshData}"
-            app:refreshing="@{!viewModel.allDataLoaded.booleanValue()}">
+            app:refreshing="@{!viewModel.allDataLoaded}">
 
             <ScrollView
                 android:id="@+id/scrollView2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/primaryColor"
-                android:visibility="@{viewModel.allDataLoaded.booleanValue()}"
+                android:visibility="@{viewModel.allDataLoaded}"
                 tools:context=".fragments.BookFragment">
 
                 <LinearLayout
@@ -162,45 +161,51 @@
 
                     <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:orientation="vertical">
+                    <include
+                        android:id="@+id/author_books_include"
+                        layout="@layout/composable_book_list"
+                        app:books="@{viewModel.authorBooksLiveData}"
+                        app:title="@{@string/other_author_books}"
+                        />
 
-                        <TextView
-                            style="@style/LargeLabel"
-                            android:layout_marginTop="16dp"
-                            android:text="@string/other_author_books" />
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="300dp"-->
+<!--                        android:orientation="vertical">-->
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/authorBooks"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="8dp"
-                            android:scrollbars="horizontal" />
-                    </LinearLayout>
+<!--                        <TextView-->
+<!--                            style="@style/LargeLabel"-->
+<!--                            android:text="@string/other_author_books" />-->
 
-                    <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
+<!--                        <androidx.recyclerview.widget.RecyclerView-->
+<!--                            android:id="@+id/authorBooks"-->
+<!--                            style="@style/BooksListRecycler" />-->
+<!--                    </LinearLayout>-->
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:orientation="vertical">
+<!--                    <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />-->
 
-                        <TextView
-                            style="@style/LargeLabel"
-                            android:layout_marginTop="16dp"
-                            android:text="@string/similar_books" />
+                    <include
+                        android:id="@+id/similar_books_include"
+                        layout="@layout/composable_book_list"
+                        app:books="@{viewModel.similarBooksLiveData}"
+                        app:title="@{@string/similar_books}"
+                        />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/similarBooks"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="8dp"
-                            android:scrollbars="horizontal" />
-                    </LinearLayout>
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="300dp"-->
+<!--                        android:orientation="vertical">-->
 
-                    <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
+<!--                        <TextView-->
+<!--                            style="@style/LargeLabel"-->
+<!--                            android:text="@string/similar_books" />-->
+
+<!--                        <androidx.recyclerview.widget.RecyclerView-->
+<!--                            android:id="@+id/similarBooks"-->
+<!--                            style="@style/BooksListRecycler"/>-->
+<!--                    </LinearLayout>-->
+
+<!--                    <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />-->
 
                 </LinearLayout>
 

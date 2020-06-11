@@ -6,7 +6,11 @@ import android.widget.ProgressBar
 import android.widget.ScrollView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.moonlightbutterfly.bookid.adapters.BookAdapter
+import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 
 
@@ -25,5 +29,13 @@ fun goneUnless(view: ScrollView, data: Boolean) {
         View.VISIBLE
     } else {
         View.GONE
+    }
+}
+@BindingAdapter("dataList")
+fun updateRecycler(view: RecyclerView, data: List<Book>?) {
+    view.adapter.apply {
+        if (data != null) {
+            (view.adapter as BookAdapter).updateList(data)
+        }
     }
 }

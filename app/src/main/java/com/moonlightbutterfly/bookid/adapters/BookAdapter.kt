@@ -14,7 +14,7 @@ import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
 class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
 
-    val books = ArrayList<Book>()
+    val books: MutableList<Book> = ArrayList()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

@@ -1,9 +1,6 @@
 package com.moonlightbutterfly.bookid.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.database.entities.User
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
@@ -14,7 +11,18 @@ class ProfileViewModel @Inject constructor(private val repository: InternalRepos
     private val _userLiveData: MutableLiveData<User> = MutableLiveData()
     val userLiveData: LiveData<User> get() = _userLiveData
 
-    private val shelfsLiveData: LiveData<List<Shelf>> = Transformations
+    val shelfsLiveData: LiveData<List<Shelf>> = Transformations
         .switchMap(_userLiveData){ user: User? -> repository.getUserShelfs(user?.id!!) }
+
+    private val userObserver = Observer<User> {_userLiveData.value = it}
+
+    init {
+        repository.getLoggedUser().observeForever { userObserver }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        repository.getLoggedUser().removeObserver(userObserver)
+    }
 
 }

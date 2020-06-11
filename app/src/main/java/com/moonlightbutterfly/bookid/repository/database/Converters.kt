@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
+import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 
 object Converters {
     @TypeConverter
@@ -28,4 +29,15 @@ object Converters {
     @TypeConverter
     @JvmStatic
     fun fromAuthorToString(author: Author) = Gson().toJson(author)
+
+    @TypeConverter
+    @JvmStatic
+    fun fromStringToShelfList(value: String): List<Shelf> {
+        val type = object : TypeToken<List<Shelf>>() {}.type
+        return Gson().fromJson(value, type)
+    }
+
+    @TypeConverter
+    @JvmStatic
+    fun fromShelfListToString(shelfList: List<Shelf>) = Gson().toJson(shelfList)
 }

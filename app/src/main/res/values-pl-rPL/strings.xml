@@ -11,4 +11,6 @@
     <string name="similar_books">Podobne książki</string>
     <string name="add_to_shelf">Dodaj do półki</string>
     <string name="remove_from_shelf">Usuń z półki</string>
+    <string name="default_nick">Domyslny Nick</string>
+    <string name="support_and_settings">Pomoc &amp; Ustawienia</string>
 </resources>

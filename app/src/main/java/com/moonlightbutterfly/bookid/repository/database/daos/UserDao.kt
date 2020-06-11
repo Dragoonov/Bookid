@@ -1,5 +1,6 @@
 package com.moonlightbutterfly.bookid.repository.database.daos
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -11,11 +12,11 @@ import io.reactivex.Single
 @Dao
 interface UserDao {
     @Insert
-    fun insertLoggedUser(): Completable
+    fun insertLoggedUser(user: User)
 
     @Update
-    fun updateLoggedUser(): Completable
+    fun updateLoggedUser(user: User)
 
     @Query("select * from users")
-    fun getLoggedUser(): Single<User>
+    fun getLoggedUser(): LiveData<User>
 }
