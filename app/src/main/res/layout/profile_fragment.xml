@@ -10,41 +10,55 @@
             type="com.moonlightbutterfly.bookid.viewmodels.ProfileViewModel" />
     </data>
 
-
-    <ScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primaryColor">
+        app:onRefreshListener="@{viewModel::refreshData}"
+        app:refreshing="@{!viewModel.allDataLoaded}">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/layoutViewContainer">
+            android:background="@color/primaryColor"
+            android:visibility="@{viewModel.allDataLoaded}">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_margin="16dp"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/imageView2"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_margin="16dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:contentDescription="TODO"
+                        app:imageUrl="@{viewModel.userLiveData.avatar}" />
+
+                    <TextView
+                        style="@style/MediumLabel"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@{viewModel.userLiveData.nick, default=@string/default_nick}" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutViewContainer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:contentDescription="TODO"
-                    app:imageUrl="@{viewModel.userLiveData.avatar}" />
+                    android:orientation="vertical" />
 
-                <TextView
-                    style="@style/MediumLabel"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@{viewModel.userLiveData.nick, default=@string/default_nick}" />
             </LinearLayout>
 
-        </LinearLayout>
+        </ScrollView>
 
-    </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

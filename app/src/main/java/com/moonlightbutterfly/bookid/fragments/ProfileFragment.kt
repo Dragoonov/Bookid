@@ -40,52 +40,6 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val booksList = ArrayList<Book>().apply {
-            add(
-                Book(
-                    1,
-                    "title1", Author(1, "author", "imageurl"), "pubdate", 1.2, "image"
-                )
-            )
-            add(
-                Book(
-                    1,
-                    "title1", Author(1, "author", "imageurl"), "pubdate", 1.2, "image"
-                )
-            )
-            add(
-                Book(
-                    1,
-                    "title1", Author(1, "author", "imageurl"), "pubdate", 1.2, "image"
-                )
-            )
-        }
-        val shelfListMock = ArrayList<Shelf>().apply {
-            add(
-                Shelf(
-                    1,
-                    "Polka1",
-                    booksList,
-                    1
-                )
-            )
-            add(
-                Shelf(
-                    1,
-                    "Polka2",
-                    booksList,
-                    1
-                )
-            )
-            add(
-                Shelf(
-                    1,
-                    "Polka3",
-                    booksList,
-                    1
-                )
-            )
-        }
         (activity?.application as BookidApplication).appComponent.inject(this)
         viewModel = ViewModelProvider(this, viewModelFactory)[ProfileViewModel::class.java]
         viewModel.shelfsLiveData.observe(viewLifecycleOwner, Observer {
@@ -99,8 +53,6 @@ class ProfileFragment : Fragment() {
             )
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        createBookShelfs(shelfListMock)
-        addFooter()
         return binding.root
     }
 
@@ -109,6 +61,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun createBookShelfs(shelfsList: List<Shelf>) {
+        binding.layoutViewContainer.removeAllViews()
         for (shelf in shelfsList) {
             ComposableBookListBinding.inflate(
                 layoutInflater,

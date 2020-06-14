@@ -8,21 +8,35 @@ import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(private val repository: InternalRepository): ViewModel() {
 
-    private val _userLiveData: MutableLiveData<User> = MutableLiveData()
+    private val _userLiveData: MutableLiveData<User> = Transformations.switchMap(repository.getLoggedUser())
+    { MutableLiveData(it) } as MutableLiveData<User>
     val userLiveData: LiveData<User> get() = _userLiveData
 
     val shelfsLiveData: LiveData<List<Shelf>> = Transformations
-        .switchMap(_userLiveData){ user: User? -> repository.getUserShelfs(user?.id!!) }
+        //TODO Wywalić Elvisa
+        .switchMap(_userLiveData){ user: User? -> repository.getUserShelfs(user?.id ?: 1) }
 
-    private val userObserver = Observer<User> {_userLiveData.value = it}
+    private val _allDataLoaded: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+        addSource(_userLiveData) { value = updateDataLoaded() }
+        addSource(shelfsLiveData) { value = updateDataLoaded() }
+    }
+    val allDataLoaded: LiveData<Boolean> get() = _allDataLoaded
 
     init {
-        repository.getLoggedUser().observeForever { userObserver }
+        refreshData()
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        repository.getLoggedUser().removeObserver(userObserver)
+    private fun updateDataLoaded(): Boolean =
+    //TODO odkomentować _userLiveData.value != null &&
+            shelfsLiveData.value != null
+
+    fun refreshData() {
+        clearCurrentData()
+        repository.getLoggedUser()
+    }
+
+    private fun clearCurrentData() {
+        _userLiveData.value = null
     }
 
 }

@@ -6,12 +6,12 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "shelfs",
-    foreignKeys = [ForeignKey(
-        entity = User::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("userId")
-    )]
+    tableName = "shelfs"
+//    foreignKeys = [ForeignKey(
+//        entity = User::class,
+//        parentColumns = arrayOf("id"),
+//        childColumns = arrayOf("userId")
+//    )]
 )
 data class Shelf(
     @PrimaryKey val id: Int,

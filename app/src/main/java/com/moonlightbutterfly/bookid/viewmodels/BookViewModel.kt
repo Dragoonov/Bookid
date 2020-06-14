@@ -13,7 +13,7 @@ class BookViewModel @Inject constructor(val repository: ExternalRepository) : Vi
     val similarBooksLiveData: LiveData<List<Book>> get() = _similarBooksLiveData
 
     private val _authorBooksLiveData = Transformations.switchMap(repository.authorBooksLiveData)
-    { MutableLiveData(removeDisplayedBookFromList(it)!!) } as MutableLiveData<List<Book>>
+    { MutableLiveData(removeDisplayedBookFromList(it)) } as MutableLiveData<List<Book>>
     val authorBooksLiveData: LiveData<List<Book>> get() = _authorBooksLiveData
 
     private val _authorInfoLiveData = Transformations.switchMap(repository.authorInfoLiveData)
@@ -41,9 +41,9 @@ class BookViewModel @Inject constructor(val repository: ExternalRepository) : Vi
         authorInfoLiveData.value != null && authorBooksLiveData.value != null
 
 
-    private fun removeDisplayedBookFromList(books: List<Book>): List<Book>? = books
-        .toMutableList()
-        .filter { it.id != _bookLiveData.value?.id }
+    private fun removeDisplayedBookFromList(books: List<Book>?): List<Book>? = books
+        ?.toMutableList()
+        ?.filter { it.id != _bookLiveData.value?.id }
 
     fun refreshData() {
         clearCurrentData()
