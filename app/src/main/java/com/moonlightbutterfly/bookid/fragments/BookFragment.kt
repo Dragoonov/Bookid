@@ -14,6 +14,7 @@ import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.Utils
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.databinding.BookFragmentBinding
+import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 import javax.inject.Inject
 
@@ -23,9 +24,9 @@ class BookFragment : Fragment(){
     private lateinit var binding: BookFragmentBinding
 
     companion object {
-        fun newInstance(book: String): BookFragment =
+        fun newInstance(book: Book): BookFragment =
              BookFragment().apply {
-                 arguments = Bundle().apply { putString("book", book) }
+                 arguments = Bundle().apply { putString("book", Utils.convertToJSONString(book)) }
              }
 
     }
@@ -45,7 +46,7 @@ class BookFragment : Fragment(){
             false)
 
         viewModel = ViewModelProvider(this,viewModelFactory)[BookViewModel::class.java]
-        viewModel.setBook(Utils.convertToObject(arguments?.getString("book")))
+        viewModel.setBook(Utils.convertToObject<Book>(arguments?.getString("book")) as Book)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 

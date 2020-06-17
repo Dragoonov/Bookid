@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="java.util.List"/>
+        <import type="com.moonlightbutterfly.bookid.repository.database.entities.Book" />
+        <variable
+            name="booksList"
+            type="List&lt;Book>" />
+    </data>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_recycler"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:orientation="vertical">
-
-        <TextView
-            style="@style/LargeLabel"
-            android:layout_marginTop="16dp"
-            android:text="@string/similar_books" />
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_margin="8dp"-->
-<!--            android:scrollbars="horizontal" />-->
-    </LinearLayout>
+        app:dataList="@{booksList}"/>
+</layout>

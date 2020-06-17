@@ -12,11 +12,13 @@ import com.moonlightbutterfly.bookid.databinding.BookContainerBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
 
-class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
+class BookAdapter(private val layoutType: LAYOUT = LAYOUT.HORIZONTAL) : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
 
     val books: MutableList<Book> = ArrayList()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private lateinit var layoutType: LAYOUT
 
         init {
             itemView.setOnClickListener {
@@ -24,7 +26,7 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
                     .beginTransaction()
                     .replace(
                         R.id.fragment_container,
-                        BookFragment.newInstance(Utils.convertToJSONString(books[adapterPosition])))
+                        BookFragment.newInstance(books[adapterPosition]))
                     .addToBackStack(null)
                     .commit()
             }
@@ -32,8 +34,9 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
 
         private var binding: BookContainerBinding? = null
 
-        constructor(binding: BookContainerBinding) : this(binding.root) {
+        constructor(binding: BookContainerBinding, layoutType: LAYOUT) : this(binding.root) {
             this.binding = binding
+            this.binding?.layoutType = layoutType
         }
 
         fun bind(book:Book) {
@@ -50,7 +53,7 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val itemBinding = BookContainerBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder(itemBinding)
+        return ViewHolder(itemBinding, layoutType)
     }
 
     override fun getItemCount(): Int = books.size
@@ -58,4 +61,8 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(books[position])
     }
+}
+
+enum class LAYOUT {
+    HORIZONTAL, VERTICAL
 }

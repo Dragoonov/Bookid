@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.moonlightbutterfly.bookid.fragments.BookFragment
 import com.moonlightbutterfly.bookid.fragments.ProfileFragment
+import com.moonlightbutterfly.bookid.fragments.ShelfFragment
 import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
@@ -17,13 +18,13 @@ class MainActivity : AppCompatActivity() {
     val booksList = ArrayList<Book>().apply {
         add(
             Book(
-                1,
+                3,
                 "title1", Author(1, "author1", "imageurl"), "pubdate", 1.2, "image"
             )
         )
         add(
             Book(
-                2,
+                3,
                 "title2", Author(2, "author2", "imageurl"), "pubdate", 1.2, "image"
             )
         )
@@ -65,10 +66,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+//        if (savedInstanceState == null) {
+//            supportFragmentManager
+//                .beginTransaction()
+//                .replace(R.id.fragment_container, ProfileFragment.newInstance())
+//                .commit()
+//        }
+//
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fragment_container, ProfileFragment.newInstance())
+                .replace(R.id.fragment_container, ShelfFragment.newInstance())
                 .commit()
         }
 
@@ -77,15 +85,13 @@ class MainActivity : AppCompatActivity() {
 //                .beginTransaction()
 //                .replace(
 //                    R.id.fragment_container, BookFragment.newInstance(
-//                        Utils.convertToJSONString(
-//                            Book(
-//                                1,
-//                                "Title 1",
-//                                Author(18541, "pupa", "il"),
-//                                "33",
-//                                4.5,
-//                                "345"
-//                            )
+//                        Book(
+//                            1,
+//                            "Title 1",
+//                            Author(18541, "pupa", "il"),
+//                            "33",
+//                            4.5,
+//                            "345"
 //                        )
 //                    )
 //                )

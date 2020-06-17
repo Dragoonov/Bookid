@@ -3,39 +3,117 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="com.moonlightbutterfly.bookid.adapters.LAYOUT" />
+        <import type="android.view.View" />
+        <import type="android.widget.LinearLayout.LayoutParams" />
+
         <variable
             name="book"
             type="com.moonlightbutterfly.bookid.repository.database.entities.Book" />
+
+        <variable
+            name="layoutType"
+            type="LAYOUT" />
     </data>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="200dp">
+        app:override_width="@{layoutType}"
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="120dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{layoutType == LAYOUT.HORIZONTAL}">
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center_horizontal"
-                android:contentDescription="image"
-                app:imageUrl="@{book.imageUrl}" />
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="200dp"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@{book.title, default = Tekst}" />
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="image"
+                    app:imageUrl="@{book.imageUrl}" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@{book.title, default = Tekst}" />
+            </LinearLayout>
+
+            <com.moonlightbutterfly.bookid.customviews.LineSeparator
+                style="@style/LineSeparatorVertical"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp" />
         </LinearLayout>
 
-        <com.moonlightbutterfly.bookid.customviews.LineSeparator
-            style="@style/LineSeparatorVertical"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="@{layoutType == LAYOUT.VERTICAL}">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/MediumLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{book.title, default = @string/default_title}" />
+
+                    <TextView
+                        style="@style/MediumLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{book.author.name, default = @string/default_author}" />
+
+                    <TextView
+                        style="@style/MediumLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{book.publicationDate, default = @string/publication_date_default}" />
+
+                    <TextView
+                        style="@style/MediumLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{book.rating.toString(), default = @string/rating_default}" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_weight="1"
+                    android:contentDescription="image"
+                    app:imageUrl="@{book.imageUrl}" />
+            </LinearLayout>
+
+            <com.moonlightbutterfly.bookid.customviews.LineSeparator
+                style="@style/LineSeparatorHorizontal"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </layout>

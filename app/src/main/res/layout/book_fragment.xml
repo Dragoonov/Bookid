@@ -166,45 +166,12 @@
                         app:books="@{viewModel.authorBooksLiveData}"
                         app:title="@{@string/other_author_books}"
                         />
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="300dp"-->
-<!--                        android:orientation="vertical">-->
-
-<!--                        <TextView-->
-<!--                            style="@style/LargeLabel"-->
-<!--                            android:text="@string/other_author_books" />-->
-
-<!--                        <androidx.recyclerview.widget.RecyclerView-->
-<!--                            android:id="@+id/authorBooks"-->
-<!--                            style="@style/BooksListRecycler" />-->
-<!--                    </LinearLayout>-->
-
-<!--                    <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />-->
-
                     <include
                         android:id="@+id/similar_books_include"
                         layout="@layout/composable_book_list"
                         app:books="@{viewModel.similarBooksLiveData}"
                         app:title="@{@string/similar_books}"
                         />
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="300dp"-->
-<!--                        android:orientation="vertical">-->
-
-<!--                        <TextView-->
-<!--                            style="@style/LargeLabel"-->
-<!--                            android:text="@string/similar_books" />-->
-
-<!--                        <androidx.recyclerview.widget.RecyclerView-->
-<!--                            android:id="@+id/similarBooks"-->
-<!--                            style="@style/BooksListRecycler"/>-->
-<!--                    </LinearLayout>-->
-
-<!--                    <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />-->
 
                 </LinearLayout>
 
