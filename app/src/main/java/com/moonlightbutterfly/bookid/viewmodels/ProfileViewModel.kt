@@ -15,28 +15,4 @@ class ProfileViewModel @Inject constructor(private val repository: InternalRepos
     val shelfsLiveData: LiveData<List<Shelf>> = Transformations
         //TODO Wywalić Elvisa
         .switchMap(_userLiveData){ user: User? -> repository.getUserShelfs(user?.id ?: 1) }
-
-    private val _allDataLoaded: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
-        addSource(_userLiveData) { value = updateDataLoaded() }
-        addSource(shelfsLiveData) { value = updateDataLoaded() }
-    }
-    val allDataLoaded: LiveData<Boolean> get() = _allDataLoaded
-
-    init {
-        refreshData()
-    }
-
-    private fun updateDataLoaded(): Boolean =
-    //TODO odkomentować _userLiveData.value != null &&
-            shelfsLiveData.value != null
-
-    fun refreshData() {
-        clearCurrentData()
-        repository.getLoggedUser()
-    }
-
-    private fun clearCurrentData() {
-        _userLiveData.value = null
-    }
-
 }

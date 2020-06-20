@@ -5,15 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moonlightbutterfly.bookid.BookidApplication
-import com.moonlightbutterfly.bookid.R
-import com.moonlightbutterfly.bookid.Utils
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.databinding.BookFragmentBinding
+import com.moonlightbutterfly.bookid.Converters
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 import javax.inject.Inject
@@ -26,7 +23,7 @@ class BookFragment : Fragment(){
     companion object {
         fun newInstance(book: Book): BookFragment =
              BookFragment().apply {
-                 arguments = Bundle().apply { putString("book", Utils.convertToJSONString(book)) }
+                 arguments = Bundle().apply { putString("book", Converters.convertToJSONString(book)) }
              }
 
     }
@@ -46,7 +43,7 @@ class BookFragment : Fragment(){
             false)
 
         viewModel = ViewModelProvider(this,viewModelFactory)[BookViewModel::class.java]
-        viewModel.setBook(Utils.convertToObject<Book>(arguments?.getString("book")) as Book)
+        viewModel.setBook(Converters.convertToObject<Book>(arguments?.getString("book")) as Book)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 

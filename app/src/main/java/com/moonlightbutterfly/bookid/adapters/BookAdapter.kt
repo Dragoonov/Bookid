@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.fragments.BookFragment
 import com.moonlightbutterfly.bookid.R
-import com.moonlightbutterfly.bookid.Utils
 import com.moonlightbutterfly.bookid.databinding.BookContainerBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
@@ -47,6 +46,11 @@ class BookAdapter(private val layoutType: LAYOUT = LAYOUT.HORIZONTAL) : Recycler
 
     fun updateList(list: List<Book>?) {
         books.addAll(list ?: ArrayList())
+        notifyDataSetChanged()
+    }
+
+    fun clearList() {
+        books.clear()
         notifyDataSetChanged()
     }
 

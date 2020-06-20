@@ -8,6 +8,6 @@ import org.simpleframework.xml.Root
 data class AuthorDto @JvmOverloads constructor(
     @field:Element(name = "id") var id: Int? = null,
     @field:Element(name = "name") var name: String? = null,
-    @field:Element(name = "image_url") var imageUrl: String? = null,
+    @field:Element(name = "image_url", required = false) var imageUrl: String? = null,
     @field:Element(name = "books", required = false) var books: BooksDto? = null
 )

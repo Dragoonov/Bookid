@@ -45,7 +45,7 @@ class GoodreadsRepository @Inject constructor() : ExternalRepository {
 
         @GET("/search/index.xml")
         fun getBooksBySearchString(
-            @Query("q") query: String,
+            @Query("q") query: String?,
             @Query("page") page: Int = 1,
             @Query("key") developerKey: String = "RxcevZGjLRZAdWYapNJBBg",
             @Query("search[field]") searchField: String = "all"
@@ -81,7 +81,7 @@ class GoodreadsRepository @Inject constructor() : ExternalRepository {
         return authorBooksLiveData
     }
 
-    override fun loadSearchedBooks(query: String, page: Int): LiveData<List<Book>> {
+    override fun loadSearchedBooks(query: String?, page: Int): LiveData<List<Book>> {
         getRetrofitService()
             .getBooksBySearchString(query, page)
             .enqueue(object : Callback<GoodreadsResponseDto> {

@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.moonlightbutterfly.bookid.Utils
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
 import com.moonlightbutterfly.bookid.databinding.RecyclerViewLayoutBinding
-import com.moonlightbutterfly.bookid.repository.database.Converters
+import com.moonlightbutterfly.bookid.Converters
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
 class RecyclerFragment: Fragment() {
@@ -19,7 +18,7 @@ class RecyclerFragment: Fragment() {
     companion object {
         fun newInstance(books: List<Book>): RecyclerFragment =
             RecyclerFragment().apply {
-                arguments = Bundle().apply { putString("booksList", Utils.convertToJSONString(books)) }
+                arguments = Bundle().apply { putString("booksList", Converters.convertToJSONString(books)) }
             }
 
     }

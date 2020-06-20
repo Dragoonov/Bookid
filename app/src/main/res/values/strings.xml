@@ -13,5 +13,6 @@
     <string name="remove_from_shelf">Remove from shelf</string>
     <string name="default_nick">Default Nick</string>
     <string name="support_and_settings" >Support &amp; Settings</string>
+    <string name="search_for_book">Search for a book...</string>
 
 </resources>

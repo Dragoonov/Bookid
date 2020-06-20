@@ -1,4 +1,4 @@
-package com.moonlightbutterfly.bookid.repository.database
+package com.moonlightbutterfly.bookid
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
@@ -40,4 +40,10 @@ object Converters {
     @TypeConverter
     @JvmStatic
     fun fromShelfListToString(shelfList: List<Shelf>) = Gson().toJson(shelfList)
+
+    val gson: Gson = Gson()
+
+    fun <T> convertToJSONString(obj: T?) = gson.toJson(obj)
+
+    inline fun <reified T> convertToObject(string: String?): T = gson.fromJson(string, T::class.java)
 }

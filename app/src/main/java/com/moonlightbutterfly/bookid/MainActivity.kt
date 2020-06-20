@@ -5,12 +5,17 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.moonlightbutterfly.bookid.fragments.BookFragment
 import com.moonlightbutterfly.bookid.fragments.ProfileFragment
+import com.moonlightbutterfly.bookid.fragments.SearchFragment
 import com.moonlightbutterfly.bookid.fragments.ShelfFragment
 import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
 import com.moonlightbutterfly.bookid.repository.internalrepo.RoomRepository
+
+enum class TEMP {
+    PROFILE, SHELF, BOOK, SEARCH
+}
 
 
 class MainActivity : AppCompatActivity() {
@@ -66,37 +71,45 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        if (savedInstanceState == null) {
-//            supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.fragment_container, ProfileFragment.newInstance())
-//                .commit()
-//        }
-//
-        if (savedInstanceState == null) {
+        val temp = TEMP.SEARCH
+
+        if (savedInstanceState == null && temp == TEMP.PROFILE) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, ProfileFragment.newInstance())
+                .commit()
+        }
+
+        if (savedInstanceState == null && temp == TEMP.SHELF) {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, ShelfFragment.newInstance())
                 .commit()
         }
+        if (savedInstanceState == null && temp == TEMP.SEARCH) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, SearchFragment.newInstance())
+                .commit()
+        }
 
-//        if (savedInstanceState == null) {
-//            supportFragmentManager
-//                .beginTransaction()
-//                .replace(
-//                    R.id.fragment_container, BookFragment.newInstance(
-//                        Book(
-//                            1,
-//                            "Title 1",
-//                            Author(18541, "pupa", "il"),
-//                            "33",
-//                            4.5,
-//                            "345"
-//                        )
-//                    )
-//                )
-//                .commit()
-//        }
+        if (savedInstanceState == null && temp == TEMP.BOOK) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.fragment_container, BookFragment.newInstance(
+                        Book(
+                            1,
+                            "Title 1",
+                            Author(18541, "pupa", "il"),
+                            "33",
+                            4.5,
+                            "345"
+                        )
+                    )
+                )
+                .commit()
+        }
 
 
     }
