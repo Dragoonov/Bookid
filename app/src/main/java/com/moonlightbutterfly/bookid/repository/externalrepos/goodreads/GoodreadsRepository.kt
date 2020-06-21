@@ -33,6 +33,8 @@ class GoodreadsRepository @Inject constructor() : ExternalRepository {
     private val _authorInfoLiveData = MutableLiveData<Author>()
     override val authorInfoLiveData: LiveData<Author> get() = _authorInfoLiveData
 
+    private var currentCall: Call<GoodreadsResponseDto>? = null
+
     private fun getRetrofitService() = retrofit?.create(RetrofitServiceGoodreads::class.java)
         ?: Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -82,14 +84,17 @@ class GoodreadsRepository @Inject constructor() : ExternalRepository {
     }
 
     override fun loadSearchedBooks(query: String?, page: Int): LiveData<List<Book>> {
+        cancelCurrentRequest()
         getRetrofitService()
-            .getBooksBySearchString(query, page)
-            .enqueue(object : Callback<GoodreadsResponseDto> {
+            .getBooksBySearchString(query, page).apply {
+                currentCall = this
+                enqueue(object : Callback<GoodreadsResponseDto> {
                 override fun onResponse(
                     call: Call<GoodreadsResponseDto>,
                     response: Response<GoodreadsResponseDto>
                 ) {
-                    _searchedBooksLiveData.value = GoodreadsConverters.extractBookListFromDto(response.body())
+                    _searchedBooksLiveData.value =
+                        GoodreadsConverters.extractBookListFromDto(response.body())
                 }
 
                 override fun onFailure(call: Call<GoodreadsResponseDto>, t: Throwable) {
@@ -97,18 +102,27 @@ class GoodreadsRepository @Inject constructor() : ExternalRepository {
                 }
 
             })
+            }
         return searchedBooksLiveData
+    }
+
+    private fun cancelCurrentRequest() {
+        if (currentCall != null && !currentCall!!.isCanceled) {
+            currentCall!!.cancel()
+        }
     }
 
     override fun loadAuthorInfo(author: Author): LiveData<Author> {
         getRetrofitService()
-            .getAuthorInfo(author.id)
-            .enqueue(object : Callback<GoodreadsResponseDto> {
+            .getAuthorInfo(author.id).apply {
+                currentCall = this
+                enqueue(object : Callback<GoodreadsResponseDto> {
                 override fun onResponse(
                     call: Call<GoodreadsResponseDto>,
                     response: Response<GoodreadsResponseDto>
                 ) {
-                    _authorInfoLiveData.value = GoodreadsConverters.extractAuthorFromDto(response.body())
+                    _authorInfoLiveData.value =
+                        GoodreadsConverters.extractAuthorFromDto(response.body())
                 }
 
                 override fun onFailure(call: Call<GoodreadsResponseDto>, t: Throwable) {
@@ -116,6 +130,7 @@ class GoodreadsRepository @Inject constructor() : ExternalRepository {
                 }
 
             })
+            }
         return authorInfoLiveData
     }
 }

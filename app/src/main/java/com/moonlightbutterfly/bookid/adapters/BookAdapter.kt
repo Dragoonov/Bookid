@@ -17,8 +17,6 @@ class BookAdapter(private val layoutType: LAYOUT = LAYOUT.HORIZONTAL) : Recycler
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private lateinit var layoutType: LAYOUT
-
         init {
             itemView.setOnClickListener {
                 (it.context as AppCompatActivity).supportFragmentManager

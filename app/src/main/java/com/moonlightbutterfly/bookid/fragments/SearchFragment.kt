@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.BookidApplication
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
@@ -48,6 +49,16 @@ class SearchFragment : Fragment() {
         binding.recyclerLayout.listRecycler.let {
             it.adapter = BookAdapter(LAYOUT.VERTICAL)
             it.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            it.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val totalItemCount = (it.layoutManager as LinearLayoutManager).itemCount
+                    val lastVisibleItem = (it.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    if (lastVisibleItem+1 >= totalItemCount && viewModel.allDataLoaded.value!!) {
+                        viewModel.loadMore()
+                    }
+                }
+            })
         }
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 

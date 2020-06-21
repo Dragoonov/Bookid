@@ -3,7 +3,6 @@ package com.moonlightbutterfly.bookid.viewmodels
 import androidx.lifecycle.*
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
-import org.simpleframework.xml.transform.Transform
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(private val externalRepository: ExternalRepository) : ViewModel() {
@@ -15,10 +14,12 @@ class SearchViewModel @Inject constructor(private val externalRepository: Extern
         it.value = ArrayList()
     }
 
+    private var currentQuery: String? = ""
+
     private var page = 1
 
     val allDataLoaded: LiveData<Boolean> = Transformations.map(searchedBooks) {
-        it != null
+        searchedBooks.value != null
     }
 
     fun clearData() {
@@ -28,12 +29,16 @@ class SearchViewModel @Inject constructor(private val externalRepository: Extern
     }
 
     fun requestSearch(query: String?) {
+        page = 1
         if(!query.isNullOrEmpty()) {
             externalRepository.loadSearchedBooks(query, page)
         }
+        currentQuery = query
     }
 
-    fun clearPage() {
-        page = 1
+    fun loadMore() {
+        clearData()
+        page = page.inc()
+        externalRepository.loadSearchedBooks(currentQuery, page)
     }
 }
