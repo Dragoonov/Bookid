@@ -1,8 +1,6 @@
 package com.moonlightbutterfly.bookid.fragments
 
-import android.content.Context
 import android.os.Bundle
-import android.os.SystemClock
 import android.view.*
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
@@ -11,11 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.BookidApplication
-import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
 import com.moonlightbutterfly.bookid.databinding.SearchFragmentBinding
-import com.moonlightbutterfly.bookid.di.AppComponent
 import com.moonlightbutterfly.bookid.viewmodels.SearchViewModel
 import javax.inject.Inject
 
@@ -66,7 +62,7 @@ class SearchFragment : Fragment() {
 
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if(newText.isNullOrEmpty()) {
+                if(newText.isNullOrEmpty() || newText == viewModel.currentQuery) {
                     return false
                 }
                 viewModel.clearData()
@@ -80,13 +76,14 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+
+    override fun onStart() {
+        super.onStart()
         (activity as AppCompatActivity).supportActionBar?.hide()
     }
 
-    override fun onDetach() {
-        super.onDetach()
+    override fun onStop() {
+        super.onStop()
         (activity as AppCompatActivity).supportActionBar?.show()
     }
 

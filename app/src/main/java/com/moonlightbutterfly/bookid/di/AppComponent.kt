@@ -1,10 +1,7 @@
 package com.moonlightbutterfly.bookid.di
 
 import android.content.Context
-import com.moonlightbutterfly.bookid.fragments.BookFragment
-import com.moonlightbutterfly.bookid.fragments.ProfileFragment
-import com.moonlightbutterfly.bookid.fragments.SearchFragment
-import com.moonlightbutterfly.bookid.fragments.ShelfFragment
+import com.moonlightbutterfly.bookid.fragments.*
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -21,4 +18,5 @@ interface AppComponent {
     fun inject(fragment: ProfileFragment)
     fun inject(fragment: ShelfFragment)
     fun inject(fragment: SearchFragment)
+    fun inject(fragment: EditShelfsFragment)
 }

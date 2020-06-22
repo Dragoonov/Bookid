@@ -26,6 +26,8 @@ class RoomRepository @Inject constructor(context: Context): InternalRepository {
 
     override fun updateShelf(shelf: Shelf): Unit = shelfDao.updateShelf(shelf)
 
+    override fun deleteShelf(shelf: Shelf): Unit = shelfDao.deleteShelf(shelf)
+
     override fun getShelfById(id: Int): LiveData<Shelf> = shelfDao.getShelfById(id)
 
     override fun getShelfByName(name: String): LiveData<Shelf> = shelfDao.getShelfByName(name)

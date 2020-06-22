@@ -7,14 +7,27 @@ import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(private val externalRepository: ExternalRepository) : ViewModel() {
 
-    val searchedBooks: LiveData<List<Book>> get() = _searchedBooks
-    private var _searchedBooks: MutableLiveData<List<Book>> = (Transformations
-        .switchMap(externalRepository.searchedBooksLiveData) {MutableLiveData(it)}
+    private var searchedBooks: MutableLiveData<List<Book>> = (Transformations
+        .switchMap(externalRepository.searchedBooksLiveData) {
+            MutableLiveData(it)
+        }
             as MutableLiveData<List<Book>>).also {
         it.value = ArrayList()
     }
+    val allBooks = MediatorLiveData<MutableList<Book>>().apply {
+        value = ArrayList()
+        addSource(searchedBooks) {
+            if (it != null) {
+                value = ArrayList<Book>().apply {
+                    addAll(value as ArrayList<Book>)
+                    addAll((it))
+                }
+            }
+        }
+    }
 
-    private var currentQuery: String? = ""
+
+    var currentQuery: String? = ""
 
     private var page = 1
 
@@ -23,12 +36,13 @@ class SearchViewModel @Inject constructor(private val externalRepository: Extern
     }
 
     fun clearData() {
-        if(_searchedBooks.value != null) {
-            _searchedBooks.value = null
+        if(searchedBooks.value != null) {
+            searchedBooks.value = null
         }
     }
 
     fun requestSearch(query: String?) {
+        allBooks.value?.clear()
         page = 1
         if(!query.isNullOrEmpty()) {
             externalRepository.loadSearchedBooks(query, page)

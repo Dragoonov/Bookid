@@ -1,10 +1,7 @@
 package com.moonlightbutterfly.bookid.repository.database.daos
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -17,6 +14,9 @@ interface ShelfDao {
 
     @Update
     fun updateShelf(shelf: Shelf)
+
+    @Delete
+    fun deleteShelf(shelf: Shelf)
 
     @Query("select * from shelfs where id = :id")
     fun getShelfById(id: Int): LiveData<Shelf>

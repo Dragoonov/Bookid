@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey
 )
 data class Shelf(
     @PrimaryKey val id: Int,
-    @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "books") val books: List<Book>,
+    @ColumnInfo(name = "name") var name: String,
+    @ColumnInfo(name = "books") var books: List<Book>,
     @ColumnInfo(name = "userId") val userId: Int
 )

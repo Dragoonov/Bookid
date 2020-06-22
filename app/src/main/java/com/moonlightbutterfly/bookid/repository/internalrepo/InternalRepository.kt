@@ -10,6 +10,7 @@ interface InternalRepository {
 
     fun insertShelf(shelf: Shelf)
     fun updateShelf(shelf: Shelf)
+    fun deleteShelf(shelf: Shelf)
     fun getShelfById(id: Int): LiveData<Shelf>
     fun getShelfByName(name: String): LiveData<Shelf>
     fun getShelfes(): LiveData<List<Shelf>>
