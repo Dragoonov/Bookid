@@ -7,9 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.moonlightbutterfly.bookid.BookidApplication
+import com.moonlightbutterfly.bookid.adapters.EditShelfsShelfAdapter
 import com.moonlightbutterfly.bookid.adapters.ViewPager2Adapter
 import com.moonlightbutterfly.bookid.databinding.EditShelfsFragmentBinding
+import com.moonlightbutterfly.bookid.repository.database.entities.Book
+import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 
@@ -40,9 +44,25 @@ class EditShelfsFragment: Fragment() {
         viewModel = ViewModelProvider(this,viewModelFactory)[ShelfViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+        binding.shelfsRecycler.let {
+            it.adapter = EditShelfsShelfAdapter(this)
+            it.layoutManager = LinearLayoutManager(context)
+        }
+        binding.createShelf.setOnClickListener { onShelfCreate("Tescik") }
         viewModel.shelfsLiveData.observe(viewLifecycleOwner, Observer {
-            // Uzupelnic
+            (binding.shelfsRecycler.adapter as EditShelfsShelfAdapter).updateList(it)
         })
         return binding.root
     }
+
+    fun onShelfCreate(name: String) = viewModel.insertShelf(name)
+
+    fun onShelfEditClick(shelf: Shelf) = viewModel.updateShelfName(shelf, "Test")
+
+
+    fun onShelfDeleteClick(shelf: Shelf) = viewModel.deleteShelf(shelf)
+
+
+    fun onBookDeleteClick(book: Book, shelf: Shelf) = viewModel.deleteBookFromShelf(book, shelf)
+
 }

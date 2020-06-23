@@ -31,4 +31,13 @@ class ShelfViewModel @Inject constructor(val repository: InternalRepository): Vi
         shelf.name = name
         repository.updateShelf(shelf)
     }
+
+    fun insertShelf(name: String) {
+        repository.insertShelf(Shelf(
+            1,
+            name,
+            ArrayList(),
+            1
+        ))
+    }
 }

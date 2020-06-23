@@ -18,6 +18,15 @@ import com.moonlightbutterfly.bookid.adapters.LAYOUT
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 
+fun changeVisibility(view: View, secondView: View, recyclerView: RecyclerView) {
+    view.visibility = View.INVISIBLE
+    secondView.visibility = View.VISIBLE
+    if (view.id == R.id.downArrow) {
+        recyclerView.visibility = View.VISIBLE
+    } else {
+        recyclerView.visibility = View.GONE
+    }
+}
 
 @BindingAdapter("imageUrl")
 fun loadImage(view: ImageView, url: String?) {
@@ -36,6 +45,7 @@ fun goneUnless(view: View, data: Boolean) {
         View.GONE
     }
 }
+
 @BindingAdapter("dataList")
 fun updateRecycler(view: RecyclerView, data: List<Book>?) {
     view.adapter.apply {

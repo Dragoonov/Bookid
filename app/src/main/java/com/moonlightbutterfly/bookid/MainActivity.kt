@@ -3,10 +3,7 @@ package com.moonlightbutterfly.bookid
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.moonlightbutterfly.bookid.fragments.BookFragment
-import com.moonlightbutterfly.bookid.fragments.ProfileFragment
-import com.moonlightbutterfly.bookid.fragments.SearchFragment
-import com.moonlightbutterfly.bookid.fragments.ShelfFragment
+import com.moonlightbutterfly.bookid.fragments.*
 import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
@@ -14,7 +11,7 @@ import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
 import com.moonlightbutterfly.bookid.repository.internalrepo.RoomRepository
 
 enum class TEMP {
-    PROFILE, SHELF, BOOK, SEARCH
+    PROFILE, SHELF, BOOK, SEARCH, EDIT
 }
 
 
@@ -71,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val temp = TEMP.SEARCH
+        val temp = TEMP.EDIT
 
         if (savedInstanceState == null && temp == TEMP.PROFILE) {
             supportFragmentManager
@@ -90,6 +87,13 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, SearchFragment.newInstance())
+                .commit()
+        }
+
+        if (savedInstanceState == null && temp == TEMP.EDIT) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, EditShelfsFragment.newInstance())
                 .commit()
         }
 

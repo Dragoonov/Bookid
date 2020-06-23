@@ -4,6 +4,9 @@ import android.content.Context
 import com.moonlightbutterfly.bookid.fragments.*
 import dagger.BindsInstance
 import dagger.Component
+import dagger.Provides
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 @Singleton
@@ -19,4 +22,5 @@ interface AppComponent {
     fun inject(fragment: ShelfFragment)
     fun inject(fragment: SearchFragment)
     fun inject(fragment: EditShelfsFragment)
+
 }
