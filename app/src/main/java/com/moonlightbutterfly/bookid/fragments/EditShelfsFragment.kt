@@ -4,17 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.BookidApplication
+import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.adapters.EditShelfsShelfAdapter
 import com.moonlightbutterfly.bookid.adapters.ViewPager2Adapter
 import com.moonlightbutterfly.bookid.databinding.EditShelfsFragmentBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
+import kotlinx.android.synthetic.main.recycler_shelf_layout.*
 import javax.inject.Inject
 
 class EditShelfsFragment: Fragment() {
@@ -42,13 +46,15 @@ class EditShelfsFragment: Fragment() {
             false)
 
         viewModel = ViewModelProvider(this,viewModelFactory)[ShelfViewModel::class.java]
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.shelfsRecycler.let {
-            it.adapter = EditShelfsShelfAdapter(this)
-            it.layoutManager = LinearLayoutManager(context)
+        binding.apply {
+            viewModel = viewModel
+            lifecycleOwner = viewLifecycleOwner
+            shelfsRecycler.let {
+                it.adapter = EditShelfsShelfAdapter(this@EditShelfsFragment)
+                it.layoutManager = LinearLayoutManager(context)
+            }
+            createShelf.setOnClickListener { onShelfCreate("Tescik") }
         }
-        binding.createShelf.setOnClickListener { onShelfCreate("Tescik") }
         viewModel.shelfsLiveData.observe(viewLifecycleOwner, Observer {
             (binding.shelfsRecycler.adapter as EditShelfsShelfAdapter).updateList(it)
         })

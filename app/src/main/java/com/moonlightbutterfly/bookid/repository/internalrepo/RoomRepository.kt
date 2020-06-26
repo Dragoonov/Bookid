@@ -35,9 +35,13 @@ class RoomRepository @Inject constructor(context: Context, executor: Executor): 
 
     override fun getShelfes(): LiveData<List<Shelf>> = shelfDao.getShelfs()
 
-    override fun getUserShelfs(userId: Int): LiveData<List<Shelf>> = shelfDao.getUserShelfs(userId)
+    override fun getUserShelfs(userId: String): LiveData<List<Shelf>> = shelfDao.getUserShelfs(userId)
 
     override fun getLoggedUser(): LiveData<User> = userDao.getLoggedUser()
+
+    override fun insertLoggedUser(user: User) = executor.execute{userDao.insertLoggedUser(user)}
+
+    override fun deleteLoggedUser(user: User) = userDao.deleteLoggedUser(user)
 
 
 }

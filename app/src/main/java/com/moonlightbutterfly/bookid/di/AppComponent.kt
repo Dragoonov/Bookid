@@ -1,6 +1,7 @@
 package com.moonlightbutterfly.bookid.di
 
 import android.content.Context
+import com.moonlightbutterfly.bookid.MainActivity
 import com.moonlightbutterfly.bookid.fragments.*
 import dagger.BindsInstance
 import dagger.Component
@@ -22,5 +23,6 @@ interface AppComponent {
     fun inject(fragment: ShelfFragment)
     fun inject(fragment: SearchFragment)
     fun inject(fragment: EditShelfsFragment)
-
+    fun inject(fragment: LoginFragment)
+    fun inject(activity: MainActivity)
 }

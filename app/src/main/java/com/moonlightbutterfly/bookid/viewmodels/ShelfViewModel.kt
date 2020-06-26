@@ -18,7 +18,7 @@ class ShelfViewModel @Inject constructor(val repository: InternalRepository): Vi
 
     val shelfsLiveData: LiveData<List<Shelf>> = Transformations
         //TODO Wywalić Elvisa, dodac UserManager
-        .switchMap(_userLiveData){ user: User? -> repository.getUserShelfs(user?.id ?: 1) }
+        .switchMap(_userLiveData){ user: User? -> repository.getUserShelfs(user?.id ?: "1") }
 
     fun deleteShelf(shelf: Shelf) = repository.deleteShelf(shelf)
 

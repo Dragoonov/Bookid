@@ -13,5 +13,6 @@
     <string name="remove_from_shelf">Usuń z półki</string>
     <string name="default_nick">Domyslny Nick</string>
     <string name="support_and_settings">Pomoc &amp; Ustawienia</string>
-    <string name="search_for_book">Szukaj książki...</string>
+    <string name="search_for_book">Szukaj książek…</string>
+    <string name="login_fail">Błąd logowania!</string>
 </resources>

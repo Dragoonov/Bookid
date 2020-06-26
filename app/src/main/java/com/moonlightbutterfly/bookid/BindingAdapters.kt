@@ -18,16 +18,6 @@ import com.moonlightbutterfly.bookid.adapters.LAYOUT
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 
-fun changeVisibility(view: View, secondView: View, recyclerView: RecyclerView) {
-    view.visibility = View.INVISIBLE
-    secondView.visibility = View.VISIBLE
-    if (view.id == R.id.downArrow) {
-        recyclerView.visibility = View.VISIBLE
-    } else {
-        recyclerView.visibility = View.GONE
-    }
-}
-
 @BindingAdapter("imageUrl")
 fun loadImage(view: ImageView, url: String?) {
     Glide.with(view.context)

@@ -14,6 +14,8 @@ interface InternalRepository {
     fun getShelfById(id: Int): LiveData<Shelf>
     fun getShelfByName(name: String): LiveData<Shelf>
     fun getShelfes(): LiveData<List<Shelf>>
-    fun getUserShelfs(userId: Int): LiveData<List<Shelf>>
+    fun getUserShelfs(userId: String): LiveData<List<Shelf>>
     fun getLoggedUser(): LiveData<User>
+    fun insertLoggedUser(user: User)
+    fun deleteLoggedUser(user: User)
 }

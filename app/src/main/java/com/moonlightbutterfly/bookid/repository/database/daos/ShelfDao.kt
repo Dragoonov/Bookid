@@ -28,5 +28,5 @@ interface ShelfDao {
     fun getShelfs(): LiveData<List<Shelf>>
 
     @Query("select * from shelfs where userId = :userId")
-    fun getUserShelfs(userId: Int): LiveData<List<Shelf>>
+    fun getUserShelfs(userId: String): LiveData<List<Shelf>>
 }

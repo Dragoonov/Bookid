@@ -25,6 +25,7 @@ class SearchViewModel @Inject constructor(private val externalRepository: Extern
             }
         }
     }
+    var showHint = true
 
 
     var currentQuery: String? = ""

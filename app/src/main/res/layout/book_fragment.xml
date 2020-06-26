@@ -86,48 +86,25 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <Button
                             style="@style/BookidButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="16dp"
-                            android:text="@string/add_to_shelf"
-                            android:layout_marginEnd="16dp" />
+                            android:text="@string/add_to_shelf" />
 
                         <Button
                             style="@style/BookidButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:text="@string/buy_book"
-                            android:layout_marginStart="16dp" />
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="horizontal">
+                            android:text="@string/buy_book" />
 
                         <Button
                             style="@style/BookidButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="16dp"
-                            android:text="@string/remove_from_shelf"
-                            android:layout_marginEnd="16dp" />
-
-                        <Button
-                            style="@style/BookidButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:text="@string/borrow_book"
-                            android:layout_marginStart="16dp" />
-
+                            android:text="@string/borrow_book" />
                     </LinearLayout>
 
 

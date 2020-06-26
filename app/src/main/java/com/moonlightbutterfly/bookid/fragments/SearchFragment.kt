@@ -62,12 +62,17 @@ class SearchFragment : Fragment() {
 
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                if (!viewModel.showHint) {
+                    binding.booksSearchHint.visibility = View.GONE
+                }
                 if(newText.isNullOrEmpty() || newText == viewModel.currentQuery) {
                     return false
                 }
+                binding.booksSearchHint.visibility = View.GONE
                 viewModel.clearData()
                 (binding.recyclerLayout.listRecycler.adapter as BookAdapter).clearList()
                 viewModel.requestSearch(newText)
+                viewModel.showHint = false
                 return false
             }
 

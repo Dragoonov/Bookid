@@ -5,17 +5,10 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(
-    tableName = "shelfs"
-//    foreignKeys = [ForeignKey(
-//        entity = User::class,
-//        parentColumns = arrayOf("id"),
-//        childColumns = arrayOf("userId")
-//    )]
-)
+@Entity(tableName = "shelfs")
 data class Shelf(
     @PrimaryKey val id: Int,
     @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "books") var books: List<Book>,
-    @ColumnInfo(name = "userId") val userId: Int
+    @ColumnInfo(name = "userId") val userId: String
 )

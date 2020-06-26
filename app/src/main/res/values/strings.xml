@@ -12,7 +12,8 @@
     <string name="add_to_shelf">Add to Shelf</string>
     <string name="remove_from_shelf">Remove from shelf</string>
     <string name="default_nick">Default Nick</string>
-    <string name="support_and_settings" >Support &amp; Settings</string>
-    <string name="search_for_book">Search for a book...</string>
+    <string name="support_and_settings">Support &amp; Settings</string>
+    <string name="search_for_book">Search for books…</string>
+    <string name="login_fail">Failed to sign in!</string>
 
 </resources>

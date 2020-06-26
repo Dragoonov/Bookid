@@ -3,6 +3,7 @@ package com.moonlightbutterfly.bookid.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +31,22 @@ class EditShelfsShelfAdapter(private val fragment: EditShelfsFragment) : Recycle
             this.clicksListener = clicksListener
         }
 
+        fun changeVisibility(view: View) {
+            val secondView =
+                if (view.id == binding?.downArrow?.id) {
+                    binding?.upArrow
+                } else {
+                    binding?.downArrow
+                }
+            view.visibility = View.INVISIBLE
+            secondView?.visibility = View.VISIBLE
+            if (view.id == R.id.downArrow) {
+                binding?.booksRecycler?.visibility = View.VISIBLE
+            } else {
+                binding?.booksRecycler?.visibility = View.GONE
+            }
+        }
+
         fun bind(shelf: Shelf) {
             binding?.shelf = shelf
             binding?.editShelf?.setOnClickListener {
@@ -38,6 +55,8 @@ class EditShelfsShelfAdapter(private val fragment: EditShelfsFragment) : Recycle
             binding?.deleteShelf?.setOnClickListener {
                 clicksListener.onShelfDeleteClick(shelf)
             }
+            binding?.upArrow?.setOnClickListener { changeVisibility(it) }
+            binding?.downArrow?.setOnClickListener { changeVisibility(it) }
             (binding?.booksRecycler?.adapter as EditShelfsBookAdapter).updateList(shelfs[adapterPosition])
             binding?.executePendingBindings()
         }

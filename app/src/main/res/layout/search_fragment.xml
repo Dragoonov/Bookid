@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="com.moonlightbutterfly.bookid.viewmodels.SearchViewModel" />
@@ -75,13 +76,24 @@
             android:layout_height="match_parent">
 
             <ProgressBar
+                android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="@{!viewModel.allDataLoaded}"
                 app:layout_constraintBottom_toBottomOf="@+id/recycler_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/recycler_layout"
-                app:layout_constraintTop_toTopOf="@+id/recycler_layout"
-                android:visibility="@{!viewModel.allDataLoaded}"/>
+                app:layout_constraintTop_toTopOf="@+id/recycler_layout" />
+
+            <TextView
+                android:id="@+id/booksSearchHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_for_book"
+                app:layout_constraintBottom_toBottomOf="@+id/recycler_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/recycler_layout" />
 
             <include
                 android:id="@+id/recycler_layout"
