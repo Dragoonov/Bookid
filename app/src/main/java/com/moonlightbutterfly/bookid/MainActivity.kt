@@ -85,64 +85,63 @@ class MainActivity : AppCompatActivity() {
         (application as BookidApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val temp = TEMP.PROFILE
 
         userManager.getUserFromDatabase().observe(this, Observer {
             userManager.loggedUser = it
-        })
 
-        val temp = TEMP.SEARCH
+            if (savedInstanceState == null && temp == TEMP.PROFILE) {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, ProfileFragment.newInstance())
+                    .commit()
+            }
 
-        if (savedInstanceState == null && temp == TEMP.PROFILE) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, ProfileFragment.newInstance())
-                .commit()
-        }
+            if (savedInstanceState == null && temp == TEMP.SHELF) {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, ShelfFragment.newInstance())
+                    .commit()
+            }
+            if (savedInstanceState == null && temp == TEMP.SEARCH) {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, SearchFragment.newInstance())
+                    .commit()
+            }
 
-        if (savedInstanceState == null && temp == TEMP.SHELF) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, ShelfFragment.newInstance())
-                .commit()
-        }
-        if (savedInstanceState == null && temp == TEMP.SEARCH) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, SearchFragment.newInstance())
-                .commit()
-        }
+            if (savedInstanceState == null && temp == TEMP.EDIT) {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, EditShelfsFragment.newInstance())
+                    .commit()
+            }
 
-        if (savedInstanceState == null && temp == TEMP.EDIT) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, EditShelfsFragment.newInstance())
-                .commit()
-        }
+            if (savedInstanceState == null && temp == TEMP.LOGIN) {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, LoginFragment.newInstance())
+                    .commit()
+            }
 
-        if (savedInstanceState == null && temp == TEMP.LOGIN) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, LoginFragment.newInstance())
-                .commit()
-        }
-
-        if (savedInstanceState == null && temp == TEMP.BOOK) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(
-                    R.id.fragment_container, BookFragment.newInstance(
-                        Book(
-                            1,
-                            "Title 1",
-                            Author(18541, "pupa", "il"),
-                            "33",
-                            4.5,
-                            "345"
+            if (savedInstanceState == null && temp == TEMP.BOOK) {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(
+                        R.id.fragment_container, BookFragment.newInstance(
+                            Book(
+                                1,
+                                "Title 1",
+                                Author(18541, "pupa", "il"),
+                                "33",
+                                4.5,
+                                "345"
+                            )
                         )
                     )
-                )
-                .commit()
-        }
+                    .commit()
+            }
+        })
 
 
     }
