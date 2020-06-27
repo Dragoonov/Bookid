@@ -15,6 +15,8 @@ import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.adapters.EditShelfsShelfAdapter
 import com.moonlightbutterfly.bookid.adapters.ViewPager2Adapter
 import com.moonlightbutterfly.bookid.databinding.EditShelfsFragmentBinding
+import com.moonlightbutterfly.bookid.dialogs.AddShelfDialog
+import com.moonlightbutterfly.bookid.dialogs.RenameShelfDialog
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
@@ -53,7 +55,8 @@ class EditShelfsFragment: Fragment() {
                 it.adapter = EditShelfsShelfAdapter(this@EditShelfsFragment)
                 it.layoutManager = LinearLayoutManager(context)
             }
-            createShelf.setOnClickListener { onShelfCreate("Tescik") }
+            createShelf.setOnClickListener { AddShelfDialog.newInstance()
+                .show(activity?.supportFragmentManager!!, "AddShelfDialog") }
         }
         viewModel.shelfsLiveData.observe(viewLifecycleOwner, Observer {
             (binding.shelfsRecycler.adapter as EditShelfsShelfAdapter).updateList(it)
@@ -61,9 +64,8 @@ class EditShelfsFragment: Fragment() {
         return binding.root
     }
 
-    fun onShelfCreate(name: String) = viewModel.insertShelf(name)
-
-    fun onShelfEditClick(shelf: Shelf) = viewModel.updateShelfName(shelf, "Test")
+    fun onShelfEditClick(shelf: Shelf) = RenameShelfDialog.newInstance(shelf)
+        .show(activity?.supportFragmentManager!!, "RenameShelfDialog")
 
 
     fun onShelfDeleteClick(shelf: Shelf) = viewModel.deleteShelf(shelf)

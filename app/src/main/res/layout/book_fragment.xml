@@ -89,18 +89,21 @@
                         android:orientation="vertical">
 
                         <Button
+                            android:id="@+id/add_to_shelf"
                             style="@style/BookidButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/add_to_shelf" />
 
                         <Button
+                            android:id="@+id/buy_book"
                             style="@style/BookidButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/buy_book" />
 
                         <Button
+                            android:id="@+id/borrow_book"
                             style="@style/BookidButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

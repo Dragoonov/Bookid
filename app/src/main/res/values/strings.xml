@@ -15,5 +15,11 @@
     <string name="support_and_settings">Support &amp; Settings</string>
     <string name="search_for_book">Search for books…</string>
     <string name="login_fail">Failed to sign in!</string>
-
+    <string name="no_shelfs">You don\'t have any shelfs.\nWould you like to create one?</string>
+    <string name="create_shelf">Create shelf</string>
+    <string name="rename_shelf">Rename shelf</string>
+    <string name="cancel">Cancel</string>
+    <string name="enter_shelf_name">Enter a shelf name</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="choose_shelf">Choose shelf</string>
 </resources>

@@ -85,10 +85,14 @@ class MainActivity : AppCompatActivity() {
         (application as BookidApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val temp = TEMP.PROFILE
+        val temp = TEMP.BOOK
 
         userManager.getUserFromDatabase().observe(this, Observer {
-            userManager.loggedUser = it
+            userManager.loggedUser = it ?: User(
+                id="105158656156171336148",
+                nick="Jakub Lipowski",
+                email="dragovonnova@gmail.com",
+                avatar="https://lh3.googleusercontent.com/a-/AOh14GiwnAPQePJ69JG078iyC11Q3pNuChevnigQ9Xy5")
 
             if (savedInstanceState == null && temp == TEMP.PROFILE) {
                 supportFragmentManager

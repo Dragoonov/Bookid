@@ -66,7 +66,7 @@ class GoodreadsRepository @Inject constructor() : ExternalRepository {
 
     override fun loadAuthorBooks(author: Author): LiveData<List<Book>> {
         getRetrofitService()
-            .getAuthorInfo(author?.id)
+            .getAuthorInfo(author.id)
             .enqueue(object : Callback<GoodreadsResponseDto> {
                 override fun onResponse(
                     call: Call<GoodreadsResponseDto>,

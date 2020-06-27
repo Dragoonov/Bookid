@@ -11,11 +11,13 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.moonlightbutterfly.bookid.BookidApplication
 import com.moonlightbutterfly.bookid.adapters.ViewPager2Adapter
 import com.moonlightbutterfly.bookid.databinding.ShelfFragmentBinding
+import com.moonlightbutterfly.bookid.dialogs.AddShelfDialog
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 
 class ShelfFragment : Fragment() {
     private lateinit var binding: ShelfFragmentBinding
+    private var mediator: TabLayoutMediator? = null
 
     companion object {
         fun newInstance(): ShelfFragment =
@@ -38,14 +40,21 @@ class ShelfFragment : Fragment() {
             false)
 
         viewModel = ViewModelProvider(this,viewModelFactory)[ShelfViewModel::class.java]
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewPager.adapter = ViewPager2Adapter(this)
+        binding.apply {
+            viewModel = viewModel
+            lifecycleOwner = viewLifecycleOwner
+            viewPager.adapter = ViewPager2Adapter(this@ShelfFragment)
+            addShelfButton.setOnClickListener { AddShelfDialog.newInstance().show(
+                activity?.supportFragmentManager!!,
+                "AddShelfDialog") }
+        }
         viewModel.shelfsLiveData.observe(viewLifecycleOwner, Observer {
+            binding.hintContener.visibility = if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
+            mediator?.detach()
             (binding.viewPager.adapter as ViewPager2Adapter).replaceShelfs(it)
-            TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            mediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
                 tab.text = it[position].name
-            }.attach()
+            }.apply { attach() }
         })
 
         return binding.root

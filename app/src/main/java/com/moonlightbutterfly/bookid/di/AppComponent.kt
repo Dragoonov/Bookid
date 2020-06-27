@@ -1,7 +1,11 @@
 package com.moonlightbutterfly.bookid.di
 
 import android.content.Context
+import androidx.fragment.app.DialogFragment
 import com.moonlightbutterfly.bookid.MainActivity
+import com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog
+import com.moonlightbutterfly.bookid.dialogs.AddShelfDialog
+import com.moonlightbutterfly.bookid.dialogs.RenameShelfDialog
 import com.moonlightbutterfly.bookid.fragments.*
 import dagger.BindsInstance
 import dagger.Component
@@ -25,4 +29,7 @@ interface AppComponent {
     fun inject(fragment: EditShelfsFragment)
     fun inject(fragment: LoginFragment)
     fun inject(activity: MainActivity)
+    fun inject(dialog: AddShelfDialog)
+    fun inject(dialog: RenameShelfDialog)
+    fun inject(dialog: AddBookToShelfDialog)
 }

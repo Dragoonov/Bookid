@@ -25,9 +25,13 @@ class ShelfViewModel @Inject constructor(private val userManager: UserManager,
         repository.updateShelf(shelf)
     }
 
+    fun insertBookToShelf(shelf: Shelf, book: Book) {
+        shelf.books = shelf.books.toMutableList().apply { add(book) }
+        repository.updateShelf(shelf)
+    }
+
     fun insertShelf(name: String) {
         repository.insertShelf(Shelf(
-            1,
             name,
             ArrayList(),
             userManager.loggedUser?.id!!

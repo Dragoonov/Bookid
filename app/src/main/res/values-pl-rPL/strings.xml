@@ -15,4 +15,11 @@
     <string name="support_and_settings">Pomoc &amp; Ustawienia</string>
     <string name="search_for_book">Szukaj książek…</string>
     <string name="login_fail">Błąd logowania!</string>
+    <string name="no_shelfs">Nie masz żadnych półek.\nChciałbyś stworzyć jakąś?</string>
+    <string name="create_shelf">Stwórz półkę</string>
+    <string name="rename_shelf">Zmień nazwę półki</string>
+    <string name="cancel">Anuluj</string>
+    <string name="enter_shelf_name">Podaj nazwę półki</string>
+    <string name="choose_shelf">Wybierz półkę</string>
+
 </resources>

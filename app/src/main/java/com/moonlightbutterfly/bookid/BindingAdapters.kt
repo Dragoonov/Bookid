@@ -1,22 +1,13 @@
 package com.moonlightbutterfly.bookid
 
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.ScrollView
+import android.widget.*
 import androidx.databinding.BindingAdapter
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
-import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 
 @BindingAdapter("imageUrl")
 fun loadImage(view: ImageView, url: String?) {
