@@ -41,6 +41,9 @@
                     android:text="@{viewModel.userLiveData.nick, default=@string/default_nick}" />
             </LinearLayout>
 
+            <com.moonlightbutterfly.bookid.customviews.LineSeparator
+                style="@style/LineSeparatorHorizontal" />
+
             <LinearLayout
                 android:id="@+id/layoutViewContainer"
                 android:layout_width="match_parent"

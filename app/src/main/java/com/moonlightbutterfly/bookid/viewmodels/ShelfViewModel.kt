@@ -26,8 +26,10 @@ class ShelfViewModel @Inject constructor(private val userManager: UserManager,
     }
 
     fun insertBookToShelf(shelf: Shelf, book: Book) {
-        shelf.books = shelf.books.toMutableList().apply { add(book) }
-        repository.updateShelf(shelf)
+        if(!shelf.books.contains(book)) {
+            shelf.books = shelf.books.toMutableList().apply { add(book) }
+            repository.updateShelf(shelf)
+        }
     }
 
     fun insertShelf(name: String) {

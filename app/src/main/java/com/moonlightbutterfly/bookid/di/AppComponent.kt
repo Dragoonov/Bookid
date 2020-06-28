@@ -32,4 +32,5 @@ interface AppComponent {
     fun inject(dialog: AddShelfDialog)
     fun inject(dialog: RenameShelfDialog)
     fun inject(dialog: AddBookToShelfDialog)
+    fun inject(fragment: SettingsFragment)
 }

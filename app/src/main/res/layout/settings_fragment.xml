@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <data>
+        <import type="android.text.method.LinkMovementMethod" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
+
+            <TextView
+                style="@style/LargeLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:gravity="center"
+                android:text="@string/privacy_policy" />
+
+            <TextView
+                style="@style/MediumLabel"
+                android:id="@+id/text_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:linksClickable="true"
+                android:textColorLink="@color/primaryTextColor"
+                android:gravity="center"
+                android:text="@string/privacy_policy_text"
+                android:layout_marginBottom="16dp"
+                android:focusable="true" />
+
+            <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
+
+            <TextView
+                style="@style/LargeLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:gravity="center"
+                android:text="@string/contact" />
+
+            <TextView
+                style="@style/MediumLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="email"
+                android:gravity="center"
+                android:text="@string/contact_text" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/MediumLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/version"
+            app:layout_constraintBottom_toTopOf="@+id/sing_out"
+            app:layout_constraintEnd_toEndOf="@+id/sing_out"
+            app:layout_constraintStart_toStartOf="@+id/sing_out" />
+
+        <Button
+            android:id="@+id/sing_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/sign_out"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/BookidButton" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

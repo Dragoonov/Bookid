@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 
 enum class TEMP {
-    PROFILE, SHELF, BOOK, SEARCH, EDIT, LOGIN
+    PROFILE, SHELF, BOOK, SEARCH, EDIT, LOGIN, SETTINGS
 }
 
 
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         (application as BookidApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val temp = TEMP.BOOK
+        val temp = TEMP.SETTINGS
 
         userManager.getUserFromDatabase().observe(this, Observer {
             userManager.loggedUser = it ?: User(
@@ -125,6 +125,13 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.fragment_container, LoginFragment.newInstance())
+                    .commit()
+            }
+
+            if (savedInstanceState == null && temp == TEMP.SETTINGS) {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, SettingsFragment.newInstance())
                     .commit()
             }
 

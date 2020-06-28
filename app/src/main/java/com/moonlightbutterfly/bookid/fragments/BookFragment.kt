@@ -45,19 +45,20 @@ class BookFragment : Fragment(){
 
         viewModel = ViewModelProvider(this,viewModelFactory)[BookViewModel::class.java]
         viewModel.setBook(Converters.convertToObject(arguments?.getString("book")) as Book)
-        binding.apply {
-            viewModel = viewModel
-            lifecycleOwner = viewLifecycleOwner
-            similarBooksInclude.listRecycler.apply {
+        binding.let {
+            it.viewModel = viewModel
+            it.lifecycleOwner = viewLifecycleOwner
+            it.similarBooksInclude.listRecycler.apply {
                 layoutManager = LinearLayoutManager(view?.context, LinearLayoutManager.HORIZONTAL, false)
                 adapter = BookAdapter()
             }
-            authorBooksInclude.listRecycler.apply {
+            it.authorBooksInclude.listRecycler.apply {
                 layoutManager = LinearLayoutManager(view?.context, LinearLayoutManager.HORIZONTAL, false)
                 adapter = BookAdapter()
             }
-//            addToShelf.setOnClickListener { viewModel?.bookLiveData?.value
-//                ?.let { AddBookToShelfDialog.newInstance(it) } }
+            it.addToShelf.setOnClickListener { viewModel.bookLiveData.value
+                ?.let { book -> AddBookToShelfDialog.newInstance(book)
+                    .show(activity?.supportFragmentManager!!, "AddBookToShelfDialog") } }
         }
         return binding.root
     }
