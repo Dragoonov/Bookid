@@ -29,8 +29,9 @@ interface AppComponent {
     fun inject(fragment: EditShelfsFragment)
     fun inject(fragment: LoginFragment)
     fun inject(activity: MainActivity)
+    fun inject(fragment: SettingsFragment)
+    fun inject(fragment: SplashFragment)
     fun inject(dialog: AddShelfDialog)
     fun inject(dialog: RenameShelfDialog)
     fun inject(dialog: AddBookToShelfDialog)
-    fun inject(fragment: SettingsFragment)
 }

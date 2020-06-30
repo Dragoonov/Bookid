@@ -20,14 +20,6 @@ import javax.inject.Inject
 class BookFragment : Fragment(){
 
     private lateinit var binding: BookFragmentBinding
-
-    companion object {
-        fun newInstance(book: Book): BookFragment =
-             BookFragment().apply {
-                 arguments = Bundle().apply { putString("book", Converters.convertToJSONString(book)) }
-             }
-
-    }
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -42,9 +34,8 @@ class BookFragment : Fragment(){
             inflater,
             container,
             false)
-
         viewModel = ViewModelProvider(this,viewModelFactory)[BookViewModel::class.java]
-        viewModel.setBook(Converters.convertToObject(arguments?.getString("book")) as Book)
+        viewModel.setBook(Converters.convertToObject(BookFragmentArgs.fromBundle(requireArguments()).book) as Book)
         binding.let {
             it.viewModel = viewModel
             it.lifecycleOwner = viewLifecycleOwner

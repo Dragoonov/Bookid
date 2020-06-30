@@ -5,10 +5,13 @@ import android.view.*
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.BookidApplication
+import com.moonlightbutterfly.bookid.UserManager
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
 import com.moonlightbutterfly.bookid.databinding.SearchFragmentBinding
@@ -26,6 +29,9 @@ class SearchFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var userManager: UserManager
 
     private lateinit var viewModel: SearchViewModel
 
@@ -91,6 +97,5 @@ class SearchFragment : Fragment() {
         super.onStop()
         (activity as AppCompatActivity).supportActionBar?.show()
     }
-
 
 }

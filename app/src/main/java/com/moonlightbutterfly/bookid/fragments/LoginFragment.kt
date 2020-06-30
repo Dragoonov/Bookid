@@ -49,20 +49,10 @@ class LoginFragment : Fragment() {
                 .build()
         googleSignInClient = GoogleSignIn.getClient(activity as AppCompatActivity, gso)
 
-        userManager.getUserFromDatabase().observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                userManager.loggedUser = it
-                //TODO Launch SearchFragment
-                Log.v("LoginFragment", "Zalogowano jako $it")
-            } else {
-                binding.signInButton.visibility = View.VISIBLE
-            }
-        })
-
         return binding.root
     }
 
-    fun signIn() {
+    private fun signIn() {
         val signInIntent = googleSignInClient.signInIntent
         activity?.startActivityForResult(signInIntent, MainActivity.SIGN_IN_CODE)
     }

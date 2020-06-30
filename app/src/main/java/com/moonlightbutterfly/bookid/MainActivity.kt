@@ -8,6 +8,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
@@ -21,7 +24,7 @@ import javax.inject.Inject
 
 
 enum class TEMP {
-    PROFILE, SHELF, BOOK, SEARCH, EDIT, LOGIN, SETTINGS
+    PROFILE, SHELF, BOOK, SEARCH, EDIT, LOGIN, SETTINGS, BLANK
 }
 
 
@@ -30,130 +33,66 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var userManager: UserManager
 
+    lateinit var navController: NavController
+
     companion object {
         const val SIGN_IN_CODE = 100
     }
 
-//    private val booksList = ArrayList<Book>().apply {
-//        add(
-//            Book(
-//                3,
-//                "title1", Author(1, "author1", "imageurl"), "pubdate", 1.2, "image"
-//            )
-//        )
-//        add(
-//            Book(
-//                3,
-//                "title2", Author(2, "author2", "imageurl"), "pubdate", 1.2, "image"
-//            )
-//        )
-//        add(
-//            Book(
-//                3,
-//                "title3", Author(3, "author3", "imageurl"), "pubdate", 1.2, "image"
-//            )
-//        )
-//    }
-//    val shelfListMock = ArrayList<Shelf>().apply {
-//        add(
-//            Shelf(
-//                1,
-//                "Polka1",
-//                booksList,
-//                1
-//            )
-//        )
-//        add(
-//            Shelf(
-//                2,
-//                "Polka2",
-//                booksList,
-//                1
-//            )
-//        )
-//        add(
-//            Shelf(
-//                3,
-//                "Polka3",
-//                booksList,
-//                1
-//            )
-//        )
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as BookidApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val temp = TEMP.SETTINGS
+        navController = findNavController(R.id.nav_host_fragment)
 
-        userManager.getUserFromDatabase().observe(this, Observer {
-            userManager.loggedUser = it ?: User(
-                id="105158656156171336148",
-                nick="Jakub Lipowski",
-                email="dragovonnova@gmail.com",
-                avatar="https://lh3.googleusercontent.com/a-/AOh14GiwnAPQePJ69JG078iyC11Q3pNuChevnigQ9Xy5")
-
-            if (savedInstanceState == null && temp == TEMP.PROFILE) {
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, ProfileFragment.newInstance())
-                    .commit()
-            }
-
-            if (savedInstanceState == null && temp == TEMP.SHELF) {
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, ShelfFragment.newInstance())
-                    .commit()
-            }
-            if (savedInstanceState == null && temp == TEMP.SEARCH) {
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, SearchFragment.newInstance())
-                    .commit()
-            }
-
-            if (savedInstanceState == null && temp == TEMP.EDIT) {
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, EditShelfsFragment.newInstance())
-                    .commit()
-            }
-
-            if (savedInstanceState == null && temp == TEMP.LOGIN) {
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, LoginFragment.newInstance())
-                    .commit()
-            }
-
-            if (savedInstanceState == null && temp == TEMP.SETTINGS) {
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, SettingsFragment.newInstance())
-                    .commit()
-            }
-
-            if (savedInstanceState == null && temp == TEMP.BOOK) {
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(
-                        R.id.fragment_container, BookFragment.newInstance(
-                            Book(
-                                1,
-                                "Title 1",
-                                Author(18541, "pupa", "il"),
-                                "33",
-                                4.5,
-                                "345"
-                            )
-                        )
-                    )
-                    .commit()
-            }
-        })
-
+//        val temp = TEMP.BLANK
+//
+//        userManager.getUserFromDatabase().observe(this, Observer {
+//            userManager.loggedUser = it ?: User(
+//                id="105158656156171336148",
+//                nick="Jakub Lipowski",
+//                email="dragovonnova@gmail.com",
+//                avatar="https://lh3.googleusercontent.com/a-/AOh14GiwnAPQePJ69JG078iyC11Q3pNuChevnigQ9Xy5")
+//
+//            if (savedInstanceState == null && temp == TEMP.PROFILE) {
+//                navController.navigate(R.id.action_global_profileFragment)
+//            }
+//
+//            if (savedInstanceState == null && temp == TEMP.SHELF) {
+//                navController.navigate(R.id.action_global_shelfFragment)
+//            }
+//
+//            if (savedInstanceState == null && temp == TEMP.SEARCH) {
+//                navController.navigate(R.id.action_global_searchFragment)
+//            }
+//
+//            if (savedInstanceState == null && temp == TEMP.EDIT) {
+//                navController.navigate(R.id.action_global_editShelfsFragment)
+//            }
+//
+//            if (savedInstanceState == null && temp == TEMP.LOGIN) {
+//                navController.navigate(R.id.login_graph)
+//            }
+//
+//            if (savedInstanceState == null && temp == TEMP.SETTINGS) {
+//                navController.navigate(R.id.action_global_settingsFragment)
+//            }
+//
+//            if (savedInstanceState == null && temp == TEMP.BOOK) {
+//                val book = Book(
+//                    1,
+//                    "Title 1",
+//                    Author(18541, "pupa", "il"),
+//                    "33",
+//                    4.5,
+//                    "345"
+//                )
+//                val action = NavGraphDirections.actionGlobalBookFragment(Converters.convertToJSONString(book))
+//                navController.navigate(action)
+//            }
+//        })
+//
 
     }
 
@@ -177,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                     account.photoUrl.toString())
                 userManager.loggedUser = loggedUser
                 userManager.saveUserToDatabase(loggedUser)
-                //TODO Launch SearchFragment
+                navController.navigate(R.id.action_global_searchFragment)
                 Log.v("MainActivity", "Zalogowano jako $loggedUser")
             } else {
                 Toast.makeText(this, R.string.login_fail, Toast.LENGTH_LONG).show()
