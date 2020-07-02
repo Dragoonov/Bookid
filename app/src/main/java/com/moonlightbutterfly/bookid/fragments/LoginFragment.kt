@@ -48,7 +48,7 @@ class LoginFragment : Fragment() {
                 .requestEmail()
                 .build()
         googleSignInClient = GoogleSignIn.getClient(activity as AppCompatActivity, gso)
-
+        activity?.supportFragmentManager
         return binding.root
     }
 

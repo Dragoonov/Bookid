@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="com.moonlightbutterfly.bookid.R" />
+        <variable
+            name="navController"
+            type="androidx.navigation.NavController" />
+        <variable
+            name="user"
+            type="com.moonlightbutterfly.bookid.repository.database.entities.User" />
+    </data>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:imageUrl="@{user.avatar}"
+                android:onClick="@{() -> navController.navigate(R.id.action_global_profileFragment)}"/>
+
+            <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
+
+            <TextView
+                android:text="@string/search_for_book"
+                style="@style/MenuItemMedium"
+                android:onClick="@{() -> navController.navigate(R.id.action_global_searchFragment)}"/>
+
+            <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
+
+            <TextView
+                android:text="@string/shelfs"
+                style="@style/MenuItemMedium"
+                android:onClick="@{() -> navController.navigate(R.id.action_global_shelfFragment)}"/>
+
+            <TextView
+                android:text="@string/manage_shelfs"
+                style="@style/MenuItemSmall"
+                android:onClick="@{() -> navController.navigate(R.id.action_global_editShelfsFragment)}"/>
+
+            <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
+
+            <TextView
+                android:text="@string/support_and_settings"
+                style="@style/MenuItemMedium"
+                android:onClick="@{() -> navController.navigate(R.id.action_global_settingsFragment)}"/>
+
+
+        </LinearLayout>
+    </com.google.android.material.navigation.NavigationView>
+</layout>

@@ -1,20 +1,29 @@
 package com.moonlightbutterfly.bookid
 
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.android.material.navigation.NavigationView
+import com.moonlightbutterfly.bookid.databinding.ActivityMainBinding
 import com.moonlightbutterfly.bookid.fragments.*
 import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
@@ -39,13 +48,19 @@ class MainActivity : AppCompatActivity() {
         const val SIGN_IN_CODE = 100
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as BookidApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        navController = findNavController(R.id.nav_host_fragment)
-
+        val binding: ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+        binding.apply {
+            lifecycleOwner = this@MainActivity
+            user = userManager.loggedUser
+            navController = navController
+        }
+        setSupportActionBar(findViewById(R.id.my_toolbar))
 //        val temp = TEMP.BLANK
 //
 //        userManager.getUserFromDatabase().observe(this, Observer {
@@ -116,7 +131,7 @@ class MainActivity : AppCompatActivity() {
                     account.photoUrl.toString())
                 userManager.loggedUser = loggedUser
                 userManager.saveUserToDatabase(loggedUser)
-                navController.navigate(R.id.action_global_searchFragment)
+                navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
                 Log.v("MainActivity", "Zalogowano jako $loggedUser")
             } else {
                 Toast.makeText(this, R.string.login_fail, Toast.LENGTH_LONG).show()

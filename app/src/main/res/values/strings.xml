@@ -28,5 +28,7 @@
     <string name="contact_text">Send an email to dragovonnova@gmail.com</string>
     <string name="version">Version 1.0</string>
     <string name="sign_out">Sign out</string>
-
+    <string name="see_profile">See Profile</string>
+    <string name="shelfs">Shelfs</string>
+    <string name="manage_shelfs">Manage shelfs</string>
 </resources>

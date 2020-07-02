@@ -32,17 +32,18 @@ class SplashFragment : Fragment() {
     }
 
     private fun authenticateUser() {
+        val navController = findNavController()
         if (userManager.loggedUser == null) {
             userManager.getUserFromDatabase().observe(viewLifecycleOwner, Observer {
                 if (it == null) {
-                    findNavController().navigate(R.id.action_global_loginFragment)
+                    navController.navigate(SplashFragmentDirections.actionSplashFragmentToLoginGraph())
                 } else {
                     userManager.loggedUser = it
-                    findNavController().navigate(R.id.action_global_searchFragment)
+                    navController.navigate(SplashFragmentDirections.actionSplashFragmentToAppGraph())
                 }
             })
         } else {
-            findNavController().navigate(R.id.action_global_searchFragment)
+            navController.navigate(SplashFragmentDirections.actionSplashFragmentToAppGraph())
         }
     }
 }

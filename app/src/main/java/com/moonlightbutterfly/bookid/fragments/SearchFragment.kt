@@ -48,6 +48,8 @@ class SearchFragment : Fragment() {
         viewModel = ViewModelProvider(this,viewModelFactory)[SearchViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+        binding.user = userManager.loggedUser
+        binding.navController = findNavController()
         binding.recyclerLayout.listRecycler.let {
             it.adapter = BookAdapter(LAYOUT.VERTICAL)
             it.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

@@ -27,4 +27,7 @@
     <string name="contact_text">Wyślij maila na dragovonnova@gmail.com</string>
     <string name="version">Wersja 1.0</string>
     <string name="sign_out">Wyloguj się</string>
+    <string name="see_profile">Zobacz profil</string>
+    <string name="shelfs">Półki</string>
+    <string name="manage_shelfs">Zarządzaj półkami</string>
 </resources>

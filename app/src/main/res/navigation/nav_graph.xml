@@ -6,100 +6,113 @@
     app:startDestination="@id/splashFragment">
 
     <fragment
-        android:id="@+id/bookFragment"
-        android:name="com.moonlightbutterfly.bookid.fragments.BookFragment"
-        android:label="BookFragment">
-        <action
-            android:id="@+id/action_bookFragment_to_addBookToShelfDialog"
-            app:destination="@id/addBookToShelfDialog" />
-
-        <argument
-            android:name="book"
-            android:defaultValue=""
-            app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/editShelfsFragment"
-        android:name="com.moonlightbutterfly.bookid.fragments.EditShelfsFragment"
-        android:label="EditShelfsFragment">
-        <action
-            android:id="@+id/action_editShelfsFragment_to_renameShelfDialog"
-            app:destination="@id/renameShelfDialog" />
-        <action
-            android:id="@+id/action_editShelfsFragment_to_addShelfDialog"
-            app:destination="@id/addShelfDialog" />
-    </fragment>
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.moonlightbutterfly.bookid.fragments.ProfileFragment"
-        android:label="ProfileFragment" />
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.moonlightbutterfly.bookid.fragments.SearchFragment"
-        android:label="SearchFragment" />
-    <fragment
-        android:id="@+id/shelfFragment"
-        android:name="com.moonlightbutterfly.bookid.fragments.ShelfFragment"
-        android:label="ShelfFragment">
-        <action
-            android:id="@+id/action_shelfFragment_to_addShelfDialog2"
-            app:destination="@id/addShelfDialog" />
-    </fragment>
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.moonlightbutterfly.bookid.fragments.SettingsFragment"
-        android:label="SettingsFragment" />
-    <fragment
-        android:id="@+id/renameShelfDialog"
-        android:name="com.moonlightbutterfly.bookid.dialogs.RenameShelfDialog"
-        android:label="RenameShelfDialog" />
-    <fragment
-        android:id="@+id/addBookToShelfDialog"
-        android:name="com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog"
-        android:label="AddBookToShelfDialog" />
-    <fragment
-        android:id="@+id/addShelfDialog"
-        android:name="com.moonlightbutterfly.bookid.dialogs.AddShelfDialog"
-        android:label="AddShelfDialog" />
-
-    <action
-        android:id="@+id/action_global_bookFragment"
-        app:destination="@id/bookFragment">
-        <argument
-            android:name="book"
-            app:argType="string" />
-    </action>
-
-
-    <action
-        android:id="@+id/action_global_editShelfsFragment"
-        app:destination="@id/editShelfsFragment" />
-    <action
-        android:id="@+id/action_global_profileFragment"
-        app:destination="@id/profileFragment" />
-    <action
-        android:id="@+id/action_global_searchFragment"
-        app:destination="@id/searchFragment"
-        app:popUpTo="@id/searchFragment" />
-    <action
-        android:id="@+id/action_global_shelfFragment"
-        app:destination="@id/shelfFragment" />
-    <action
-        android:id="@+id/action_global_settingsFragment"
-        app:destination="@id/settingsFragment" />
-    <action
-        android:id="@+id/action_global_loginFragment"
-        app:destination="@id/loginFragment"
-        app:popUpTo="@id/loginFragment"
-        app:popUpToInclusive="true" />
-
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.moonlightbutterfly.bookid.fragments.LoginFragment"
-        android:label="LoginFragment" />
-    <fragment
         android:id="@+id/splashFragment"
         android:name="com.moonlightbutterfly.bookid.fragments.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" />
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_login_graph"
+            app:destination="@id/login_graph"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_app_graph"
+            app:destination="@id/app_graph"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <navigation
+        android:id="@+id/app_graph"
+        app:startDestination="@id/searchFragment">
+        <fragment
+            android:id="@+id/searchFragment"
+            android:name="com.moonlightbutterfly.bookid.fragments.SearchFragment"
+            android:label="SearchFragment" />
+        <fragment
+            android:id="@+id/addBookToShelfDialog"
+            android:name="com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog"
+            android:label="AddBookToShelfDialog" />
+        <fragment
+            android:id="@+id/addShelfDialog"
+            android:name="com.moonlightbutterfly.bookid.dialogs.AddShelfDialog"
+            android:label="AddShelfDialog" />
+        <fragment
+            android:id="@+id/bookFragment"
+            android:name="com.moonlightbutterfly.bookid.fragments.BookFragment"
+            android:label="BookFragment">
+            <argument
+                android:name="book"
+                android:defaultValue=""
+                app:argType="string" />
+        </fragment>
+        <fragment
+            android:id="@+id/editShelfsFragment"
+            android:name="com.moonlightbutterfly.bookid.fragments.EditShelfsFragment"
+            android:label="EditShelfsFragment">
+            <action
+                android:id="@+id/action_editShelfsFragment_to_renameShelfDialog"
+                app:destination="@id/renameShelfDialog" />
+            <action
+                android:id="@+id/action_editShelfsFragment_to_addShelfDialog"
+                app:destination="@id/addShelfDialog" />
+        </fragment>
+        <fragment
+            android:id="@+id/profileFragment"
+            android:name="com.moonlightbutterfly.bookid.fragments.ProfileFragment"
+            android:label="ProfileFragment" />
+        <fragment
+            android:id="@+id/shelfFragment"
+            android:name="com.moonlightbutterfly.bookid.fragments.ShelfFragment"
+            android:label="ShelfFragment">
+            <action
+                android:id="@+id/action_shelfFragment_to_addBookToShelfDialog"
+                app:destination="@id/addBookToShelfDialog" />
+        </fragment>
+        <fragment
+            android:id="@+id/renameShelfDialog"
+            android:name="com.moonlightbutterfly.bookid.dialogs.RenameShelfDialog"
+            android:label="RenameShelfDialog" />
+        <fragment
+            android:id="@+id/settingsFragment"
+            android:name="com.moonlightbutterfly.bookid.fragments.SettingsFragment"
+            android:label="SettingsFragment" />
+        <action
+            android:id="@+id/action_global_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_global_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_global_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_global_editShelfsFragment"
+            app:destination="@id/editShelfsFragment" />
+        <action
+            android:id="@+id/action_global_bookFragment"
+            app:destination="@id/bookFragment">
+            <argument
+                android:name="book"
+                app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_global_shelfFragment"
+            app:destination="@id/shelfFragment" />
+    </navigation>
+    <navigation
+        android:id="@+id/login_graph"
+        app:startDestination="@id/loginFragment">
+        <fragment
+            android:id="@+id/loginFragment"
+            android:name="com.moonlightbutterfly.bookid.fragments.LoginFragment"
+            android:label="LoginFragment" />
+        <action
+            android:id="@+id/action_global_app_graph"
+            app:destination="@id/app_graph"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
+    </navigation>
 </navigation>

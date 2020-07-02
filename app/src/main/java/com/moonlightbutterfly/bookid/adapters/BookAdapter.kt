@@ -3,13 +3,10 @@ package com.moonlightbutterfly.bookid.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.moonlightbutterfly.bookid.AppGraphDirections
 import com.moonlightbutterfly.bookid.Converters
-import com.moonlightbutterfly.bookid.NavGraphDirections
-import com.moonlightbutterfly.bookid.fragments.BookFragment
-import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.databinding.BookContainerBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
@@ -22,7 +19,7 @@ class BookAdapter(private val layoutType: LAYOUT = LAYOUT.HORIZONTAL) : Recycler
 
         init {
             itemView.setOnClickListener {
-                val action = NavGraphDirections.actionGlobalBookFragment(Converters.convertToJSONString(books[adapterPosition]))
+                val action = AppGraphDirections.actionGlobalBookFragment(Converters.convertToJSONString(books[adapterPosition]))
                     it.findNavController().navigate(action)
             }
         }
