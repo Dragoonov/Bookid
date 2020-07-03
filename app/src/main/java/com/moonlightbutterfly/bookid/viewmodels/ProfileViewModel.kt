@@ -10,7 +10,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(userManager: UserManager,
                                            repository: InternalRepository): ViewModel() {
 
-    val userLiveData: LiveData<User> = MutableLiveData(userManager.loggedUser)
+    val userLiveData: LiveData<User> = MutableLiveData(userManager.loggedUser.value)
 
-    val shelfsLiveData: LiveData<List<Shelf>> = repository.getUserShelfs(userManager.loggedUser?.id!!)
+    val shelfsLiveData: LiveData<List<Shelf>> = repository.getUserShelfs(userManager.loggedUser.value?.id!!)
 }

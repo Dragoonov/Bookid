@@ -1,20 +1,16 @@
 package com.moonlightbutterfly.bookid.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
-import com.moonlightbutterfly.bookid.BookidApplication
-import com.moonlightbutterfly.bookid.MainActivity
-import com.moonlightbutterfly.bookid.UserManager
+import com.moonlightbutterfly.bookid.*
 import com.moonlightbutterfly.bookid.databinding.FragmentLoginBinding
 import javax.inject.Inject
 
@@ -48,7 +44,8 @@ class LoginFragment : Fragment() {
                 .requestEmail()
                 .build()
         googleSignInClient = GoogleSignIn.getClient(activity as AppCompatActivity, gso)
-        activity?.supportFragmentManager
+        (activity as ToolbarManager).hideToolbar()
+        (activity as DrawerLocker).lockDrawer()
         return binding.root
     }
 

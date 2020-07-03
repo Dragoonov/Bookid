@@ -11,7 +11,7 @@ import javax.inject.Inject
 class ShelfViewModel @Inject constructor(private val userManager: UserManager,
                                          private val repository: InternalRepository): ViewModel() {
 
-    val shelfsLiveData: LiveData<List<Shelf>> = repository.getUserShelfs(userManager.loggedUser?.id!!)
+    val shelfsLiveData: LiveData<List<Shelf>> = repository.getUserShelfs(userManager.loggedUser.value?.id!!)
 
     fun deleteShelf(shelf: Shelf) = repository.deleteShelf(shelf)
 
@@ -36,7 +36,7 @@ class ShelfViewModel @Inject constructor(private val userManager: UserManager,
         repository.insertShelf(Shelf(
             name,
             ArrayList(),
-            userManager.loggedUser?.id!!
+            userManager.loggedUser.value?.id!!
         ))
     }
 }

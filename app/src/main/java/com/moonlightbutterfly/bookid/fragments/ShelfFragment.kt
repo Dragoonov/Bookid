@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
 import com.moonlightbutterfly.bookid.BookidApplication
+import com.moonlightbutterfly.bookid.ToolbarManager
 import com.moonlightbutterfly.bookid.adapters.ViewPager2Adapter
 import com.moonlightbutterfly.bookid.databinding.ShelfFragmentBinding
 import com.moonlightbutterfly.bookid.dialogs.AddShelfDialog
@@ -56,7 +57,7 @@ class ShelfFragment : Fragment() {
                 tab.text = it[position].name
             }.apply { attach() }
         })
-
+        (activity as ToolbarManager).showDefaultToolbar()
         return binding.root
     }
 }

@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.moonlightbutterfly.bookid.BookidApplication
-import com.moonlightbutterfly.bookid.R
-import com.moonlightbutterfly.bookid.UserManager
+import com.moonlightbutterfly.bookid.*
 import javax.inject.Inject
 
 /**
@@ -28,17 +26,19 @@ class SplashFragment : Fragment() {
     ): View? {
         (activity?.application as BookidApplication).appComponent.inject(this)
         authenticateUser()
+        (activity as ToolbarManager).hideToolbar()
+        (activity as DrawerLocker).lockDrawer()
         return inflater.inflate(R.layout.fragment_splash, container, false)
     }
 
     private fun authenticateUser() {
         val navController = findNavController()
-        if (userManager.loggedUser == null) {
+        if (userManager.loggedUser.value == null) {
             userManager.getUserFromDatabase().observe(viewLifecycleOwner, Observer {
                 if (it == null) {
                     navController.navigate(SplashFragmentDirections.actionSplashFragmentToLoginGraph())
                 } else {
-                    userManager.loggedUser = it
+                    userManager.saveUser(it)
                     navController.navigate(SplashFragmentDirections.actionSplashFragmentToAppGraph())
                 }
             })

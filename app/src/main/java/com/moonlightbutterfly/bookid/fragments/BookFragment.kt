@@ -11,6 +11,7 @@ import com.moonlightbutterfly.bookid.BookidApplication
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.databinding.BookFragmentBinding
 import com.moonlightbutterfly.bookid.Converters
+import com.moonlightbutterfly.bookid.ToolbarManager
 import com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
@@ -51,6 +52,7 @@ class BookFragment : Fragment(){
                 ?.let { book -> AddBookToShelfDialog.newInstance(book)
                     .show(activity?.supportFragmentManager!!, "AddBookToShelfDialog") } }
         }
+        (activity as ToolbarManager).showDefaultToolbar()
         return binding.root
     }
 

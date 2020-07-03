@@ -3,14 +3,13 @@ package com.moonlightbutterfly.bookid.fragments
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.BookidApplication
+import com.moonlightbutterfly.bookid.DrawerLocker
+import com.moonlightbutterfly.bookid.ToolbarManager
 import com.moonlightbutterfly.bookid.UserManager
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
@@ -48,8 +47,6 @@ class SearchFragment : Fragment() {
         viewModel = ViewModelProvider(this,viewModelFactory)[SearchViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.user = userManager.loggedUser
-        binding.navController = findNavController()
         binding.recyclerLayout.listRecycler.let {
             it.adapter = BookAdapter(LAYOUT.VERTICAL)
             it.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -85,19 +82,9 @@ class SearchFragment : Fragment() {
             }
 
         })
-        setHasOptionsMenu(true)
+        (activity as ToolbarManager).showCustomToolbar(binding.searchToolbar)
+        (activity as DrawerLocker).unlockDrawer()
         return binding.root
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-        (activity as AppCompatActivity).supportActionBar?.hide()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        (activity as AppCompatActivity).supportActionBar?.show()
     }
 
 }

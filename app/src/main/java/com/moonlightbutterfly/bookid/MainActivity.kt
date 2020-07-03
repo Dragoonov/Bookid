@@ -1,48 +1,34 @@
 package com.moonlightbutterfly.bookid
 
-
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Observer
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.google.android.material.navigation.NavigationView
 import com.moonlightbutterfly.bookid.databinding.ActivityMainBinding
-import com.moonlightbutterfly.bookid.fragments.*
-import com.moonlightbutterfly.bookid.repository.database.entities.Author
-import com.moonlightbutterfly.bookid.repository.database.entities.Book
-import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
+import com.moonlightbutterfly.bookid.fragments.LoginFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.User
 import javax.inject.Inject
 
 
-enum class TEMP {
-    PROFILE, SHELF, BOOK, SEARCH, EDIT, LOGIN, SETTINGS, BLANK
-}
-
-
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ToolbarManager, DrawerLocker {
 
     @Inject
     lateinit var userManager: UserManager
 
     lateinit var navController: NavController
+
+    private lateinit var binding: ActivityMainBinding
 
     companion object {
         const val SIGN_IN_CODE = 100
@@ -51,64 +37,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as BookidApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val binding: ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        binding.apply {
-            lifecycleOwner = this@MainActivity
-            user = userManager.loggedUser
-            navController = navController
+        binding.let {
+            it.lifecycleOwner = this
+            it.userManager = userManager
+            it.navController = navController
         }
-        setSupportActionBar(findViewById(R.id.my_toolbar))
-//        val temp = TEMP.BLANK
-//
-//        userManager.getUserFromDatabase().observe(this, Observer {
-//            userManager.loggedUser = it ?: User(
-//                id="105158656156171336148",
-//                nick="Jakub Lipowski",
-//                email="dragovonnova@gmail.com",
-//                avatar="https://lh3.googleusercontent.com/a-/AOh14GiwnAPQePJ69JG078iyC11Q3pNuChevnigQ9Xy5")
-//
-//            if (savedInstanceState == null && temp == TEMP.PROFILE) {
-//                navController.navigate(R.id.action_global_profileFragment)
-//            }
-//
-//            if (savedInstanceState == null && temp == TEMP.SHELF) {
-//                navController.navigate(R.id.action_global_shelfFragment)
-//            }
-//
-//            if (savedInstanceState == null && temp == TEMP.SEARCH) {
-//                navController.navigate(R.id.action_global_searchFragment)
-//            }
-//
-//            if (savedInstanceState == null && temp == TEMP.EDIT) {
-//                navController.navigate(R.id.action_global_editShelfsFragment)
-//            }
-//
-//            if (savedInstanceState == null && temp == TEMP.LOGIN) {
-//                navController.navigate(R.id.login_graph)
-//            }
-//
-//            if (savedInstanceState == null && temp == TEMP.SETTINGS) {
-//                navController.navigate(R.id.action_global_settingsFragment)
-//            }
-//
-//            if (savedInstanceState == null && temp == TEMP.BOOK) {
-//                val book = Book(
-//                    1,
-//                    "Title 1",
-//                    Author(18541, "pupa", "il"),
-//                    "33",
-//                    4.5,
-//                    "345"
-//                )
-//                val action = NavGraphDirections.actionGlobalBookFragment(Converters.convertToJSONString(book))
-//                navController.navigate(action)
-//            }
-//        })
-//
-
+        if (savedInstanceState == null) {
+            setSupportActionBar(findViewById(R.id.my_toolbar))
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -129,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                     account.displayName,
                     account.email,
                     account.photoUrl.toString())
-                userManager.loggedUser = loggedUser
+                userManager.saveUser(loggedUser)
                 userManager.saveUserToDatabase(loggedUser)
                 navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
                 Log.v("MainActivity", "Zalogowano jako $loggedUser")
@@ -143,5 +82,30 @@ class MainActivity : AppCompatActivity() {
             Log.w("MainActivity", "signInResult:failed code=" + e.statusCode)
             Toast.makeText(this, R.string.login_fail, Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun showDefaultToolbar() {
+        binding.myToolbar.visibility = View.VISIBLE
+        setSupportActionBar(binding.myToolbar)
+        supportActionBar?.show()
+    }
+
+    override fun showCustomToolbar(toolbar: Toolbar) {
+        binding.myToolbar.visibility = View.GONE
+        setSupportActionBar(toolbar)
+        supportActionBar?.show()
+    }
+
+    override fun hideToolbar() {
+        binding.myToolbar.visibility = View.GONE
+        supportActionBar?.hide()
+    }
+
+    override fun lockDrawer() {
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+    }
+
+    override fun unlockDrawer() {
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
     }
 }
