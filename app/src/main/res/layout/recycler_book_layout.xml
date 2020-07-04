@@ -33,6 +33,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView2"
-            app:srcCompat="@android:drawable/ic_delete" />
+            android:background="@drawable/delete_24px" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

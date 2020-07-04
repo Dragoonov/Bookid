@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.BookidApplication
-import com.moonlightbutterfly.bookid.DrawerLocker
+import com.moonlightbutterfly.bookid.DrawerManager
 import com.moonlightbutterfly.bookid.ToolbarManager
 import com.moonlightbutterfly.bookid.UserManager
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
@@ -82,8 +82,9 @@ class SearchFragment : Fragment() {
             }
 
         })
+        binding.hamburger.setOnClickListener { (activity as DrawerManager).openDrawer() }
         (activity as ToolbarManager).showCustomToolbar(binding.searchToolbar)
-        (activity as DrawerLocker).unlockDrawer()
+        (activity as DrawerManager).unlockDrawer()
         return binding.root
     }
 

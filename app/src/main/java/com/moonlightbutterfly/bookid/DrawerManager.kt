@@ -1,6 +1,8 @@
 package com.moonlightbutterfly.bookid
 
-interface DrawerLocker {
+interface DrawerManager {
     fun lockDrawer()
     fun unlockDrawer()
+    fun openDrawer()
+    fun closeDrawer()
 }

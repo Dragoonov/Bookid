@@ -27,11 +27,12 @@
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
             android:layout_marginBottom="32dp"
+            android:background="@drawable/add_24px"
             android:clickable="true"
             android:focusable="true"
+            app:backgroundTint="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/shelfsRecycler"
-            tools:srcCompat="@drawable/ic_search_black_24dp" />
+            app:layout_constraintEnd_toEndOf="@+id/shelfsRecycler" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

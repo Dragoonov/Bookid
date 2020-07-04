@@ -27,7 +27,7 @@ class SplashFragment : Fragment() {
         (activity?.application as BookidApplication).appComponent.inject(this)
         authenticateUser()
         (activity as ToolbarManager).hideToolbar()
-        (activity as DrawerLocker).lockDrawer()
+        (activity as DrawerManager).lockDrawer()
         return inflater.inflate(R.layout.fragment_splash, container, false)
     }
 

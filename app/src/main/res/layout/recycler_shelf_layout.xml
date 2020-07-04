@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -45,7 +45,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/deleteShelf"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/ic_menu_edit" />
+                android:background="@drawable/create_24px" />
 
             <ImageButton
                 android:id="@+id/deleteShelf"
@@ -56,7 +56,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/editShelf"
                 app:layout_constraintEnd_toStartOf="@+id/downArrow"
                 app:layout_constraintTop_toTopOf="@+id/editShelf"
-                app:srcCompat="@android:drawable/ic_delete" />
+                android:background="@drawable/delete_24px" />
 
             <ImageButton
                 android:id="@+id/upArrow"
@@ -67,7 +67,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/deleteShelf"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/deleteShelf"
-                app:srcCompat="@android:drawable/arrow_up_float" />
+                android:background="@drawable/expand_less_24px" />
 
             <ImageButton
                 android:id="@+id/downArrow"
@@ -78,7 +78,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/deleteShelf"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/deleteShelf"
-                app:srcCompat="@android:drawable/arrow_down_float" />
+                android:background="@drawable/expand_more_24px" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

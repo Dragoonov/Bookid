@@ -21,7 +21,7 @@ import com.moonlightbutterfly.bookid.repository.database.entities.User
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity(), ToolbarManager, DrawerLocker {
+class MainActivity : AppCompatActivity(), ToolbarManager, DrawerManager {
 
     @Inject
     lateinit var userManager: UserManager
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), ToolbarManager, DrawerLocker {
         binding.let {
             it.lifecycleOwner = this
             it.userManager = userManager
-            it.navController = navController
+            it.drawerNavigator = DrawerNavigator(this, navController)
         }
         if (savedInstanceState == null) {
             setSupportActionBar(findViewById(R.id.my_toolbar))
@@ -107,5 +107,13 @@ class MainActivity : AppCompatActivity(), ToolbarManager, DrawerLocker {
 
     override fun unlockDrawer() {
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+    }
+
+    override fun openDrawer() {
+        binding.drawerLayout.open()
+    }
+
+    override fun closeDrawer() {
+        binding.drawerLayout.close()
     }
 }

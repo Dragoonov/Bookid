@@ -7,8 +7,8 @@
     <data>
         <import type="com.moonlightbutterfly.bookid.R" />
         <variable
-            name="navController"
-            type="androidx.navigation.NavController" />
+            name="drawerNavigator"
+            type="com.moonlightbutterfly.bookid.DrawerNavigator" />
         <variable
             name="userManager"
             type="com.moonlightbutterfly.bookid.UserManager" />
@@ -45,7 +45,7 @@
                         android:layout_height="32dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginRight="16dp"
-                        android:background="@drawable/ic_search_black_24dp"
+                        android:background="@drawable/menu_24px"
                         android:onClick="@{() -> drawerLayout.open()}"
                         />
 
@@ -89,7 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     app:imageUrl="@{userManager.loggedUser.avatar}"
-                    android:onClick="@{() -> navController.navigate(R.id.action_global_profileFragment)}"/>
+                    android:onClick="@{() -> drawerNavigator.goToProfile()}"/>
 
                 <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
 
@@ -97,7 +97,7 @@
                     android:id="@+id/searchButton"
                     android:text="@string/search_for_book"
                     style="@style/MenuItemMedium"
-                    android:onClick="@{() -> navController.navigate(R.id.action_global_searchFragment)}"
+                    android:onClick="@{() -> drawerNavigator.goToSearchBooks()}"
                     />
 
                 <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
@@ -105,19 +105,19 @@
                 <TextView
                     android:text="@string/shelfs"
                     style="@style/MenuItemMedium"
-                    android:onClick="@{() -> navController.navigate(R.id.action_global_shelfFragment)}"/>
+                    android:onClick="@{() -> drawerNavigator.goToShelfs()}"/>
 
                 <TextView
                     android:text="@string/manage_shelfs"
                     style="@style/MenuItemSmall"
-                    android:onClick="@{() -> navController.navigate(R.id.action_global_editShelfsFragment)}"/>
+                    android:onClick="@{() -> drawerNavigator.goToEditShelfs()}"/>
 
                 <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
 
                 <TextView
                     android:text="@string/support_and_settings"
                     style="@style/MenuItemMedium"
-                    android:onClick="@{() -> navController.navigate(R.id.action_global_settingsFragment)}"/>
+                    android:onClick="@{() -> drawerNavigator.goToSettings()}"/>
 
 
             </LinearLayout>

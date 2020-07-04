@@ -45,7 +45,7 @@ class LoginFragment : Fragment() {
                 .build()
         googleSignInClient = GoogleSignIn.getClient(activity as AppCompatActivity, gso)
         (activity as ToolbarManager).hideToolbar()
-        (activity as DrawerLocker).lockDrawer()
+        (activity as DrawerManager).lockDrawer()
         return binding.root
     }
 
