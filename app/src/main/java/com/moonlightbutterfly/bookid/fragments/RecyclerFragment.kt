@@ -15,6 +15,8 @@ import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
 class RecyclerFragment: Fragment() {
 
+    private var binding: RecyclerViewLayoutBinding? = null
+
     companion object {
         fun newInstance(books: List<Book>): RecyclerFragment =
             RecyclerFragment().apply {
@@ -27,21 +29,25 @@ class RecyclerFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = RecyclerViewLayoutBinding.inflate(
+        binding = RecyclerViewLayoutBinding.inflate(
             inflater,
             container,
             false)
         LinearLayout.LayoutParams.WRAP_CONTENT
 
-        binding.booksList = Converters.fromStringToBookList(arguments?.getString("booksList")!!)
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding?.booksList = Converters.fromStringToBookList(arguments?.getString("booksList")!!)
+        binding?.lifecycleOwner = viewLifecycleOwner
 
-        binding.listRecycler.let {
+        binding?.listRecycler?.let {
             it.adapter = BookAdapter(LAYOUT.VERTICAL)
             it.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         }
+        return binding?.root
+    }
 
-        return binding.root
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

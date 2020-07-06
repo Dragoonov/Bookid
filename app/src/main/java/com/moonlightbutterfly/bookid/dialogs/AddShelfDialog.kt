@@ -18,7 +18,7 @@ import com.moonlightbutterfly.bookid.databinding.ShelfDialogBinding
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 
-class AddShelfDialog : DialogFragment() {
+class AddShelfDialog private constructor(): DialogFragment() {
 
     companion object {
         fun newInstance(): AddShelfDialog = AddShelfDialog()
@@ -29,19 +29,13 @@ class AddShelfDialog : DialogFragment() {
 
     private lateinit var viewModel: ShelfViewModel
 
-    private lateinit var binding: ShelfDialogBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         (activity?.application as BookidApplication).appComponent.inject(this)
-//        binding = DataBindingUtil.inflate<ShelfDialogBinding>(LayoutInflater.from(context),
-//            R.layout.shelf_dialog, null, false).apply {
-//            lifecycleOwner = viewLifecycleOwner
-//            titleText.text = getString(R.string.create_shelf)
-//        }
         val layout = requireActivity().layoutInflater.inflate(R.layout.shelf_dialog, null)
         layout.findViewById<TextView>(R.id.title_text).text = getString(R.string.create_shelf)
         viewModel = ViewModelProvider(this,viewModelFactory)[ShelfViewModel::class.java]
-            val builder = AlertDialog.Builder(activity!!)
+            val builder = AlertDialog.Builder(requireActivity())
                 .setView(layout)
                 .setPositiveButton(R.string.ok) { _, _ ->
                     val name = layout.findViewById<EditText>(R.id.shelf_name).text.toString()

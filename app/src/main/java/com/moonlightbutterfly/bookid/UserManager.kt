@@ -19,7 +19,7 @@ class UserManager @Inject constructor(private val internalRepository: InternalRe
 
     fun deleteUserFromDatabase(user: User) = internalRepository.deleteLoggedUser(user)
 
-    fun saveUser(user: User) {
+    fun saveUser(user: User?) {
         _loggedUser.value = user
     }
 

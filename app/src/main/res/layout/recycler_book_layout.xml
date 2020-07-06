@@ -15,12 +15,15 @@
         <TextView
             android:id="@+id/textView2"
             style="@style/MediumLabel"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:text="@{book.title, default=Book}"
+            app:layout_constraintEnd_toStartOf="@+id/deleteBook"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

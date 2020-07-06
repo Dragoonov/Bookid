@@ -4,29 +4,38 @@ import androidx.navigation.NavController
 
 class DrawerNavigator(private val drawerManager: DrawerManager, private val navController: NavController) {
 
+    var id: Int = 0
+
+    fun navigate() {
+        if (id != 0) {
+            navController.navigate(id)
+        }
+        id = 0
+    }
+
     fun goToSearchBooks() {
         drawerManager.closeDrawer()
-        navController.navigate(R.id.action_global_searchFragment)
+        id = R.id.action_global_searchFragment
     }
 
     fun goToShelfs() {
         drawerManager.closeDrawer()
-        navController.navigate(R.id.action_global_shelfFragment)
+        id = R.id.action_global_shelfFragment
     }
 
     fun goToEditShelfs() {
         drawerManager.closeDrawer()
-        navController.navigate(R.id.action_global_editShelfsFragment)
+        id = R.id.action_global_editShelfsFragment
     }
 
     fun goToProfile() {
         drawerManager.closeDrawer()
-        navController.navigate(R.id.action_global_profileFragment)
+        id = R.id.action_global_profileFragment
     }
 
     fun goToSettings() {
         drawerManager.closeDrawer()
-        navController.navigate(R.id.action_global_settingsFragment)
+        id = R.id.action_global_settingsFragment
     }
 
 }

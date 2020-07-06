@@ -18,11 +18,9 @@
             android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
+            <include
+                layout="@layout/default_toolbar"
+                android:id="@+id/toolbar"/>
 
             <TextView
                 style="@style/LargeLabel"

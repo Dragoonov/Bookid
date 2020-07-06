@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moonlightbutterfly.bookid.BookidApplication
@@ -20,7 +21,7 @@ import javax.inject.Inject
 
 class BookFragment : Fragment(){
 
-    private lateinit var binding: BookFragmentBinding
+    private var binding: BookFragmentBinding? = null
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -37,7 +38,7 @@ class BookFragment : Fragment(){
             false)
         viewModel = ViewModelProvider(this,viewModelFactory)[BookViewModel::class.java]
         viewModel.setBook(Converters.convertToObject(BookFragmentArgs.fromBundle(requireArguments()).book) as Book)
-        binding.let {
+        binding?.let {
             it.viewModel = viewModel
             it.lifecycleOwner = viewLifecycleOwner
             it.similarBooksInclude.listRecycler.apply {
@@ -52,8 +53,12 @@ class BookFragment : Fragment(){
                 ?.let { book -> AddBookToShelfDialog.newInstance(book)
                     .show(activity?.supportFragmentManager!!, "AddBookToShelfDialog") } }
         }
-        (activity as ToolbarManager).showDefaultToolbar()
-        return binding.root
+        (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
+        return binding?.root
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
 }

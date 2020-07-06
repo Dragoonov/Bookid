@@ -31,4 +31,7 @@
     <string name="see_profile">See Profile</string>
     <string name="shelfs">Shelfs</string>
     <string name="manage_shelfs">Manage shelfs</string>
+    <string name="quit_question">Do you want to quit Bookid?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

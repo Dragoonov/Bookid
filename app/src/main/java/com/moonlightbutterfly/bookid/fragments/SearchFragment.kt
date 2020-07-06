@@ -3,6 +3,7 @@ package com.moonlightbutterfly.bookid.fragments
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +21,7 @@ import javax.inject.Inject
 
 class SearchFragment : Fragment() {
 
-    private lateinit var binding: SearchFragmentBinding
+    private var binding: SearchFragmentBinding? = null
 
     companion object {
         fun newInstance() = SearchFragment()
@@ -45,9 +46,9 @@ class SearchFragment : Fragment() {
             false)
 
         viewModel = ViewModelProvider(this,viewModelFactory)[SearchViewModel::class.java]
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.recyclerLayout.listRecycler.let {
+        binding?.viewModel = viewModel
+        binding?.lifecycleOwner = viewLifecycleOwner
+        binding?.recyclerLayout?.listRecycler?.let {
             it.adapter = BookAdapter(LAYOUT.VERTICAL)
             it.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             it.addOnScrollListener(object: RecyclerView.OnScrollListener() {
@@ -61,31 +62,36 @@ class SearchFragment : Fragment() {
                 }
             })
         }
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding?.toolbar?.searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean = true
 
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (!viewModel.showHint) {
-                    binding.booksSearchHint.visibility = View.GONE
+                    binding?.booksSearchHint?.visibility = View.GONE
                 }
                 if(newText.isNullOrEmpty() || newText == viewModel.currentQuery) {
                     return false
                 }
-                binding.booksSearchHint.visibility = View.GONE
+                binding?.booksSearchHint?.visibility = View.GONE
                 viewModel.clearData()
-                (binding.recyclerLayout.listRecycler.adapter as BookAdapter).clearList()
+                (binding?.recyclerLayout?.listRecycler?.adapter as BookAdapter).clearList()
                 viewModel.requestSearch(newText)
                 viewModel.showHint = false
                 return false
             }
 
         })
-        binding.hamburger.setOnClickListener { (activity as DrawerManager).openDrawer() }
-        (activity as ToolbarManager).showCustomToolbar(binding.searchToolbar)
+        binding?.toolbar?.hamburger?.setOnClickListener { (activity as DrawerManager).openDrawer() }
+        (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.searchToolbar)
         (activity as DrawerManager).unlockDrawer()
-        return binding.root
+        return binding?.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
 }

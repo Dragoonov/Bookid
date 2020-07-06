@@ -23,14 +23,18 @@
             <TextView
                 android:id="@+id/textView"
                 style="@style/LargeLabel"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
+                android:gravity="start"
                 android:text="@{shelf.name, default=Shelf}"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/editShelf"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,7 +71,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/deleteShelf"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/deleteShelf"
-                android:background="@drawable/expand_less_24px" />
+                android:background="@drawable/expand_less_24px"
+                android:visibility="invisible"/>
 
             <ImageButton
                 android:id="@+id/downArrow"

@@ -41,7 +41,7 @@ class RoomRepository @Inject constructor(context: Context, executor: Executor): 
 
     override fun insertLoggedUser(user: User) = executor.execute{userDao.insertLoggedUser(user)}
 
-    override fun deleteLoggedUser(user: User) = userDao.deleteLoggedUser(user)
+    override fun deleteLoggedUser(user: User) = executor.execute{userDao.deleteLoggedUser(user)}
 
 
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,9 +20,9 @@ import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 
-class EditShelfsFragment: Fragment() {
+class EditShelfsFragment : Fragment() {
 
-    private lateinit var binding: EditShelfsFragmentBinding
+    private var binding: EditShelfsFragmentBinding? = null
 
     companion object {
         fun newInstance(): EditShelfsFragment =
@@ -44,7 +45,7 @@ class EditShelfsFragment: Fragment() {
             false)
 
         viewModel = ViewModelProvider(this,viewModelFactory)[ShelfViewModel::class.java]
-        binding.apply {
+        binding?.apply {
             viewModel = viewModel
             lifecycleOwner = viewLifecycleOwner
             shelfsRecycler.let {
@@ -55,10 +56,10 @@ class EditShelfsFragment: Fragment() {
                 .show(activity?.supportFragmentManager!!, "AddShelfDialog") }
         }
         viewModel.shelfsLiveData.observe(viewLifecycleOwner, Observer {
-            (binding.shelfsRecycler.adapter as EditShelfsShelfAdapter).updateList(it)
+            (binding?.shelfsRecycler?.adapter as EditShelfsShelfAdapter).updateList(it)
         })
-        (activity as ToolbarManager).showDefaultToolbar()
-        return binding.root
+        (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
+        return binding?.root
     }
 
     fun onShelfEditClick(shelf: Shelf) = RenameShelfDialog.newInstance(shelf)
@@ -69,5 +70,10 @@ class EditShelfsFragment: Fragment() {
 
 
     fun onBookDeleteClick(book: Book, shelf: Shelf) = viewModel.deleteBookFromShelf(book, shelf)
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
 
 }

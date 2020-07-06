@@ -31,9 +31,6 @@ class AddBookToShelfDialog(private val book: Book): DialogFragment() {
             val builder = AlertDialog.Builder(fragment)
 
             val layout = requireActivity().layoutInflater.inflate(R.layout.add_book_to_shelf_dialog, null)
-//            val binding = AddBookToShelfDialogBinding.inflate(layoutInflater).apply {
-//                lifecycleOwner = viewLifecycleOwner
-//            }
             viewModel = ViewModelProvider(this,viewModelFactory)[ShelfViewModel::class.java]
             val radioGroup = layout.findViewById<RadioGroup>(R.id.radio_group)
             viewModel.shelfsLiveData.observe(this, Observer {

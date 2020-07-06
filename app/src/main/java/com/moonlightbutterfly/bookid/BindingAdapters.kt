@@ -44,3 +44,5 @@ fun overrideWidth(view: LinearLayout, type: LAYOUT) {
         view.layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT
     }
 }
+
+fun onClickListener(view: View) = (view.context as DrawerManager).openDrawer()

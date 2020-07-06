@@ -16,12 +16,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.moonlightbutterfly.bookid.databinding.ActivityMainBinding
+import com.moonlightbutterfly.bookid.dialogs.QuitAppDialog
 import com.moonlightbutterfly.bookid.fragments.LoginFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.User
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity(), ToolbarManager, DrawerManager {
+class MainActivity : AppCompatActivity(), DrawerManager {
 
     @Inject
     lateinit var userManager: UserManager
@@ -44,6 +45,12 @@ class MainActivity : AppCompatActivity(), ToolbarManager, DrawerManager {
             it.lifecycleOwner = this
             it.userManager = userManager
             it.drawerNavigator = DrawerNavigator(this, navController)
+            it.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
+                override fun onDrawerStateChanged(newState: Int) {}
+                override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+                override fun onDrawerOpened(drawerView: View) {}
+                override fun onDrawerClosed(drawerView: View) = (it.drawerNavigator as DrawerNavigator).navigate()
+            })
         }
         if (savedInstanceState == null) {
             setSupportActionBar(findViewById(R.id.my_toolbar))
@@ -84,23 +91,6 @@ class MainActivity : AppCompatActivity(), ToolbarManager, DrawerManager {
         }
     }
 
-    override fun showDefaultToolbar() {
-        binding.myToolbar.visibility = View.VISIBLE
-        setSupportActionBar(binding.myToolbar)
-        supportActionBar?.show()
-    }
-
-    override fun showCustomToolbar(toolbar: Toolbar) {
-        binding.myToolbar.visibility = View.GONE
-        setSupportActionBar(toolbar)
-        supportActionBar?.show()
-    }
-
-    override fun hideToolbar() {
-        binding.myToolbar.visibility = View.GONE
-        supportActionBar?.hide()
-    }
-
     override fun lockDrawer() {
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
     }
@@ -115,5 +105,15 @@ class MainActivity : AppCompatActivity(), ToolbarManager, DrawerManager {
 
     override fun closeDrawer() {
         binding.drawerLayout.close()
+    }
+
+    override fun onBackPressed() {
+        if (navController.currentDestination?.id != R.id.loginFragment
+            && navController.currentDestination?.id != R.id.splashFragment
+            && navController.currentDestination?.id != R.id.searchFragment) {
+            super.onBackPressed()
+        } else {
+            QuitAppDialog.newInstance().show(supportFragmentManager,"QuitAppDialog")
+        }
     }
 }

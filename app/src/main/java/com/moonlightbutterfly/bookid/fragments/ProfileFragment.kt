@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -31,7 +32,7 @@ class ProfileFragment : Fragment() {
 
     private lateinit var viewModel: ProfileViewModel
 
-    private lateinit var binding: ProfileFragmentBinding
+    private var binding: ProfileFragmentBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,29 +43,28 @@ class ProfileFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[ProfileViewModel::class.java]
         viewModel.shelfsLiveData.observe(viewLifecycleOwner, Observer {
             createBookShelfs(it)
-            addFooter()
         })
         binding = ProfileFragmentBinding
             .inflate(
                 inflater,
                 container, false
             )
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-        (activity as ToolbarManager).showDefaultToolbar()
-        return binding.root
+        binding?.viewModel = viewModel
+        binding?.lifecycleOwner = viewLifecycleOwner
+        (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
+        return binding?.root
     }
 
     private fun addFooter() {
-        layoutInflater.inflate(R.layout.footer,binding.layoutViewContainer,true)
+        layoutInflater.inflate(R.layout.footer,binding?.layoutViewContainer,true)
     }
 
     private fun createBookShelfs(shelfsList: List<Shelf>) {
-        binding.layoutViewContainer.removeAllViews()
+        binding?.layoutViewContainer?.removeAllViews()
         for (shelf in shelfsList) {
             ComposableBookListBinding.inflate(
                 layoutInflater,
-                binding.layoutViewContainer,
+                binding?.layoutViewContainer,
                 true).also {
                 it.listRecycler.apply {
                     layoutManager = LinearLayoutManager(view?.context, LinearLayoutManager.HORIZONTAL, false)
@@ -75,5 +75,10 @@ class ProfileFragment : Fragment() {
                 it.lifecycleOwner = viewLifecycleOwner
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

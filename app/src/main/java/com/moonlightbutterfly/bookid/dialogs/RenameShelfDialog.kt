@@ -14,7 +14,7 @@ import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 
-class RenameShelfDialog(private val shelf: Shelf) : DialogFragment() {
+class RenameShelfDialog private constructor(private val shelf: Shelf) : DialogFragment() {
 
     companion object {
         fun newInstance(shelf: Shelf): RenameShelfDialog = RenameShelfDialog(shelf)

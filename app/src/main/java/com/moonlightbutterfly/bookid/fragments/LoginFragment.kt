@@ -22,6 +22,8 @@ class LoginFragment : Fragment() {
             LoginFragment()
     }
 
+    private var binding: FragmentLoginBinding? = null
+
     @Inject
     lateinit var userManager: UserManager
 
@@ -32,10 +34,9 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         (activity?.application as BookidApplication).appComponent.inject(this)
-        val binding: FragmentLoginBinding =
-            FragmentLoginBinding.inflate(layoutInflater, container, false)
-        binding.fragment = this
-        binding.signInButton.apply {
+        binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
+        binding?.fragment = this
+        binding?.signInButton?.apply {
             setSize(SignInButton.SIZE_STANDARD)
             setOnClickListener { signIn() }
         }
@@ -44,9 +45,8 @@ class LoginFragment : Fragment() {
                 .requestEmail()
                 .build()
         googleSignInClient = GoogleSignIn.getClient(activity as AppCompatActivity, gso)
-        (activity as ToolbarManager).hideToolbar()
         (activity as DrawerManager).lockDrawer()
-        return binding.root
+        return binding?.root
     }
 
     private fun signIn() {
