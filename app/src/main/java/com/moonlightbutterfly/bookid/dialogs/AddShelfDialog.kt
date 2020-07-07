@@ -27,18 +27,16 @@ class AddShelfDialog private constructor(): DialogFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var viewModel: ShelfViewModel
-
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         (activity?.application as BookidApplication).appComponent.inject(this)
-        val layout = requireActivity().layoutInflater.inflate(R.layout.shelf_dialog, null)
-        layout.findViewById<TextView>(R.id.title_text).text = getString(R.string.create_shelf)
-        viewModel = ViewModelProvider(this,viewModelFactory)[ShelfViewModel::class.java]
+        val viewModel = ViewModelProvider(this,viewModelFactory)[ShelfViewModel::class.java]
+        val binding = ShelfDialogBinding.inflate(layoutInflater)
+
             val builder = AlertDialog.Builder(requireActivity())
-                .setView(layout)
+                .setView(binding.root)
                 .setPositiveButton(R.string.ok) { _, _ ->
-                    val name = layout.findViewById<EditText>(R.id.shelf_name).text.toString()
+                    val name = binding.shelfName.text.toString()
                     if (name.isNotEmpty()) {
                         viewModel.insertShelf(name)
                     }

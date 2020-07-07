@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
+import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 
 @BindingAdapter("imageUrl")
 fun loadImage(view: ImageView, url: String?) {
@@ -45,4 +46,11 @@ fun overrideWidth(view: LinearLayout, type: LAYOUT) {
     }
 }
 
-fun onClickListener(view: View) = (view.context as DrawerManager).openDrawer()
+@BindingAdapter("fillData")
+fun fillData(view: RadioGroup, list: List<Shelf>?) {
+    list?.forEach {
+        view.addView(RadioButton(view.context).apply {
+            text = it.name
+        })
+    }
+}

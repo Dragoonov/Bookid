@@ -23,23 +23,19 @@ class RenameShelfDialog private constructor(private val shelf: Shelf) : DialogFr
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var viewModel: ShelfViewModel
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         (activity?.application as BookidApplication).appComponent.inject(this)
-        return activity?.let {
-            val builder = AlertDialog.Builder(it)
+        return activity?.let { fragmentActivity ->
+            val builder = AlertDialog.Builder(fragmentActivity)
 
-//            val binding = ShelfDialogBinding.inflate(layoutInflater).apply {
-//                lifecycleOwner = viewLifecycleOwner
-//                titleText.text = getString(R.string.rename_shelf)
-//            }
-            val layout = requireActivity().layoutInflater.inflate(R.layout.shelf_dialog, null)
-            layout.findViewById<TextView>(R.id.title_text).text = getString(R.string.rename_shelf)
-            viewModel = ViewModelProvider(this,viewModelFactory)[ShelfViewModel::class.java]
-            builder.setView(layout)
+            val binding = ShelfDialogBinding.inflate(layoutInflater).also {
+                it.titleText.text = getString(R.string.rename_shelf)
+            }
+            val viewModel = ViewModelProvider(this,viewModelFactory)[ShelfViewModel::class.java]
+            builder.setView(binding.root)
                 .setPositiveButton(R.string.ok) { _, _ ->
-                    val name = layout.findViewById<EditText>(R.id.shelf_name).text.toString()
+                    val name = binding.shelfName.text.toString()
                     if (name.isNotEmpty()) {
                         viewModel.updateShelfName(shelf, name)
                     }
