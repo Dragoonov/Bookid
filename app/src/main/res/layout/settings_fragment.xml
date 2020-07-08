@@ -5,6 +5,10 @@
     
     <data>
         <import type="android.text.method.LinkMovementMethod" />
+        <import type="com.moonlightbutterfly.bookid.HandlersKt" />
+        <variable
+            name="userManager"
+            type="com.moonlightbutterfly.bookid.UserManager" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -81,6 +85,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            style="@style/BookidButton" />
+            style="@style/BookidButton"
+            android:onClick="@{(view) -> HandlersKt.signOutClick(view, userManager)}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

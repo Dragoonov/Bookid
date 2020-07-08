@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
@@ -29,19 +28,13 @@ class RecyclerFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = RecyclerViewLayoutBinding.inflate(
-            inflater,
-            container,
-            false)
-        LinearLayout.LayoutParams.WRAP_CONTENT
-
-        binding?.booksList = Converters.fromStringToBookList(arguments?.getString("booksList")!!)
-        binding?.lifecycleOwner = viewLifecycleOwner
-
-        binding?.listRecycler?.let {
-            it.adapter = BookAdapter(LAYOUT.VERTICAL)
-            it.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
+        binding = RecyclerViewLayoutBinding.inflate(inflater, container, false).also {
+            it.booksList = Converters.fromStringToBookList(arguments?.getString("booksList")!!)
+            it.lifecycleOwner = viewLifecycleOwner
+            it.listRecycler.let { recycler ->
+                recycler.adapter = BookAdapter(LAYOUT.VERTICAL)
+                recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            }
         }
         return binding?.root
     }

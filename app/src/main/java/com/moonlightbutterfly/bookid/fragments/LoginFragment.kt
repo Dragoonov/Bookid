@@ -17,11 +17,6 @@ import javax.inject.Inject
 
 class LoginFragment : Fragment() {
 
-    companion object {
-        fun newInstance(): LoginFragment =
-            LoginFragment()
-    }
-
     private var binding: FragmentLoginBinding? = null
 
     @Inject
@@ -34,11 +29,12 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         (activity?.application as BookidApplication).appComponent.inject(this)
-        binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
-        binding?.fragment = this
-        binding?.signInButton?.apply {
-            setSize(SignInButton.SIZE_STANDARD)
-            setOnClickListener { signIn() }
+        binding = FragmentLoginBinding.inflate(layoutInflater, container, false).also {
+            it.fragment = this
+            it.signInButton.apply {
+                setSize(SignInButton.SIZE_STANDARD)
+                setOnClickListener { signIn() }
+            }
         }
         val gso: GoogleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -49,9 +45,7 @@ class LoginFragment : Fragment() {
         return binding?.root
     }
 
-    private fun signIn() {
-        val signInIntent = googleSignInClient.signInIntent
-        activity?.startActivityForResult(signInIntent, MainActivity.SIGN_IN_CODE)
-    }
+    private fun signIn() = activity
+        ?.startActivityForResult(googleSignInClient.signInIntent, MainActivity.SIGN_IN_CODE)
 
 }

@@ -5,7 +5,7 @@
 
     <data>
         <import type="android.view.View" />
-        <import type="com.moonlightbutterfly.bookid.dialogs.AddShelfDialog" />
+        <import type="com.moonlightbutterfly.bookid.HandlersKt" />
         <variable
             name="viewModel"
             type="com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel" />
@@ -65,7 +65,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/create_shelf"
-                style="@style/BookidButton" />
+                style="@style/BookidButton"
+                android:onClick="@{(view) -> HandlersKt.addShelfClick(view)}"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -10,8 +10,7 @@ class SearchViewModel @Inject constructor(private val externalRepository: Extern
     private var searchedBooks: MutableLiveData<List<Book>> = (Transformations
         .switchMap(externalRepository.searchedBooksLiveData) {
             MutableLiveData(it)
-        }
-            as MutableLiveData<List<Book>>).also {
+        } as MutableLiveData<List<Book>>).also {
         it.value = ArrayList()
     }
     val allBooks = MediatorLiveData<MutableList<Book>>().apply {
@@ -27,7 +26,6 @@ class SearchViewModel @Inject constructor(private val externalRepository: Extern
     }
     var showHint = true
 
-
     var currentQuery: String? = ""
 
     private var page = 1
@@ -37,9 +35,7 @@ class SearchViewModel @Inject constructor(private val externalRepository: Extern
     }
 
     fun clearData() {
-        if(searchedBooks.value != null) {
-            searchedBooks.value = null
-        }
+        searchedBooks.value = null
     }
 
     fun requestSearch(query: String?) {

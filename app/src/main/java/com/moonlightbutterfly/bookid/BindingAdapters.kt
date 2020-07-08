@@ -1,12 +1,17 @@
 package com.moonlightbutterfly.bookid
 
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
+import com.moonlightbutterfly.bookid.adapters.EditShelfsShelfAdapter
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
+import com.moonlightbutterfly.bookid.databinding.ComposableBookListBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 
@@ -33,6 +38,36 @@ fun updateRecycler(view: RecyclerView, data: List<Book>?) {
     view.adapter.apply {
         if (data != null) {
             (view.adapter as BookAdapter).updateList(data)
+        }
+    }
+}
+
+@BindingAdapter("shelfDataList")
+fun updateRecyclerShelf(view: RecyclerView, data: List<Shelf>?) {
+    view.adapter.apply {
+        if (data != null) {
+            (view.adapter as EditShelfsShelfAdapter).updateList(data)
+        }
+    }
+}
+
+@BindingAdapter("createBookShelfs", "lifecycleOwner")
+fun createBookShelfs(view: LinearLayout, shelfsList: List<Shelf>?) {
+    view.removeAllViews()
+    if (shelfsList != null) {
+        for (shelf in shelfsList) {
+            ComposableBookListBinding.inflate(
+                LayoutInflater.from(view.context),
+                view,
+                true).also {
+                it.listRecycler.apply {
+                    layoutManager =
+                        LinearLayoutManager(view.context, LinearLayoutManager.HORIZONTAL, false)
+                    adapter = BookAdapter()
+                }
+                it.books = shelf.books
+                it.title = shelf.name
+            }
         }
     }
 }

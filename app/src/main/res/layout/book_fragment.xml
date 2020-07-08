@@ -145,12 +145,6 @@
                         app:books="@{viewModel.authorBooksLiveData}"
                         app:title="@{@string/other_author_books}"
                         />
-                    <include
-                        android:id="@+id/similar_books_include"
-                        layout="@layout/composable_book_list"
-                        app:books="@{viewModel.similarBooksLiveData}"
-                        app:title="@{@string/similar_books}"
-                        />
 
                 </LinearLayout>
 

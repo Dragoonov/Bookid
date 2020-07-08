@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.BookidApplication
 import com.moonlightbutterfly.bookid.DrawerManager
-import com.moonlightbutterfly.bookid.ToolbarManager
 import com.moonlightbutterfly.bookid.UserManager
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
@@ -22,10 +21,6 @@ import javax.inject.Inject
 class SearchFragment : Fragment() {
 
     private var binding: SearchFragmentBinding? = null
-
-    companion object {
-        fun newInstance() = SearchFragment()
-    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -40,50 +35,48 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         (activity?.application as BookidApplication).appComponent.inject(this)
-        binding = SearchFragmentBinding.inflate(
-            inflater,
-            container,
-            false)
-
         viewModel = ViewModelProvider(this,viewModelFactory)[SearchViewModel::class.java]
-        binding?.viewModel = viewModel
-        binding?.lifecycleOwner = viewLifecycleOwner
-        binding?.recyclerLayout?.listRecycler?.let {
-            it.adapter = BookAdapter(LAYOUT.VERTICAL)
-            it.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            it.addOnScrollListener(object: RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    val totalItemCount = (it.layoutManager as LinearLayoutManager).itemCount
-                    val lastVisibleItem = (it.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                    if (lastVisibleItem+1 >= totalItemCount && viewModel.allDataLoaded.value!!) {
-                        viewModel.loadMore()
+        binding = SearchFragmentBinding.inflate(inflater, container, false).also {
+            it.viewModel = viewModel
+            it.lifecycleOwner = viewLifecycleOwner
+            it.recyclerLayout.listRecycler.apply {
+                adapter = BookAdapter(LAYOUT.VERTICAL)
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        val totalItemCount = (layoutManager as LinearLayoutManager).itemCount
+                        val lastVisibleItem =
+                            (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                        if (lastVisibleItem + 1 >= totalItemCount && viewModel.allDataLoaded.value!!) {
+                            viewModel.loadMore()
+                        }
                     }
-                }
-            })
-        }
-        binding?.toolbar?.searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                })
+            }
+            it.toolbar.searchView.setOnQueryTextListener(object :
+                SearchView.OnQueryTextListener {
 
-            override fun onQueryTextSubmit(query: String?): Boolean = true
+                override fun onQueryTextSubmit(query: String?): Boolean = true
 
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (!viewModel.showHint) {
-                    binding?.booksSearchHint?.visibility = View.GONE
-                }
-                if(newText.isNullOrEmpty() || newText == viewModel.currentQuery) {
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (!viewModel.showHint) {
+                        it.booksSearchHint.visibility = View.GONE
+                    }
+                    if (newText.isNullOrEmpty() || newText == viewModel.currentQuery) {
+                        return false
+                    }
+                    it.booksSearchHint.visibility = View.GONE
+                    viewModel.clearData()
+                    (it.recyclerLayout.listRecycler.adapter as BookAdapter).clearList()
+                    viewModel.requestSearch(newText)
+                    viewModel.showHint = false
                     return false
                 }
-                binding?.booksSearchHint?.visibility = View.GONE
-                viewModel.clearData()
-                (binding?.recyclerLayout?.listRecycler?.adapter as BookAdapter).clearList()
-                viewModel.requestSearch(newText)
-                viewModel.showHint = false
-                return false
-            }
 
-        })
-        binding?.toolbar?.hamburger?.setOnClickListener { (activity as DrawerManager).openDrawer() }
+            })
+        }
         (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.searchToolbar)
         (activity as DrawerManager).unlockDrawer()
         return binding?.root

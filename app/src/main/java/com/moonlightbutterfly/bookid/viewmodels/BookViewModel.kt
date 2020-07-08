@@ -8,13 +8,9 @@ import javax.inject.Inject
 
 class BookViewModel @Inject constructor(val repository: ExternalRepository) : ViewModel() {
 
-    private val _similarBooksLiveData = Transformations.switchMap(repository.similarBooksLiveData)
-    { MutableLiveData(it) } as MutableLiveData<List<Book>>
-    val similarBooksLiveData: LiveData<List<Book>> get() = _similarBooksLiveData
-
     private val _authorBooksLiveData = Transformations.switchMap(repository.authorBooksLiveData)
-    { MutableLiveData(removeDisplayedBookFromList(it)) } as MutableLiveData<List<Book>>
-    val authorBooksLiveData: LiveData<List<Book>> get() = _authorBooksLiveData
+    { MutableLiveData(removeDisplayedBookFromList(it)) } as MutableLiveData<List<Book>?>
+    val authorBooksLiveData: LiveData<List<Book>?> get() = _authorBooksLiveData
 
     private val _authorInfoLiveData = Transformations.switchMap(repository.authorInfoLiveData)
     { MutableLiveData(it) } as MutableLiveData<Author>
@@ -33,7 +29,7 @@ class BookViewModel @Inject constructor(val repository: ExternalRepository) : Vi
         if (_bookLiveData.value?.id == book.id) {
             return
         }
-        this._bookLiveData = MutableLiveData(book)
+        this._bookLiveData.value = book
         refreshData()
     }
 
@@ -47,13 +43,11 @@ class BookViewModel @Inject constructor(val repository: ExternalRepository) : Vi
 
     fun refreshData() {
         clearCurrentData()
-        repository.loadSimilarBooks(_bookLiveData.value!!)
         repository.loadAuthorBooks(_bookLiveData.value?.author!!)
         repository.loadAuthorInfo(_bookLiveData.value?.author!!)
     }
 
     private fun clearCurrentData() {
-        _similarBooksLiveData.value = null
         _authorBooksLiveData.value = null
         _authorInfoLiveData.value = null
     }

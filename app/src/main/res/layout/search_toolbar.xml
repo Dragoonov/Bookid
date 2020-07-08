@@ -3,6 +3,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <import type="com.moonlightbutterfly.bookid.HandlersKt" />
+    </data>
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/search_toolbar"
         android:layout_width="match_parent"
@@ -22,7 +26,8 @@
                 android:background="@drawable/menu_24px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="@{(view) -> HandlersKt.onClickListener(view)}"/>
 
             <SearchView
                 android:id="@+id/searchView"

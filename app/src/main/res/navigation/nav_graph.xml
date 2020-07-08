@@ -39,14 +39,6 @@
             android:name="com.moonlightbutterfly.bookid.fragments.SearchFragment"
             android:label="SearchFragment" />
         <fragment
-            android:id="@+id/addBookToShelfDialog"
-            android:name="com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog"
-            android:label="AddBookToShelfDialog" />
-        <fragment
-            android:id="@+id/addShelfDialog"
-            android:name="com.moonlightbutterfly.bookid.dialogs.AddShelfDialog"
-            android:label="AddShelfDialog" />
-        <fragment
             android:id="@+id/bookFragment"
             android:name="com.moonlightbutterfly.bookid.fragments.BookFragment"
             android:label="BookFragment">
@@ -59,12 +51,6 @@
             android:id="@+id/editShelfsFragment"
             android:name="com.moonlightbutterfly.bookid.fragments.EditShelfsFragment"
             android:label="EditShelfsFragment">
-            <action
-                android:id="@+id/action_editShelfsFragment_to_renameShelfDialog"
-                app:destination="@id/renameShelfDialog" />
-            <action
-                android:id="@+id/action_editShelfsFragment_to_addShelfDialog"
-                app:destination="@id/addShelfDialog" />
         </fragment>
         <fragment
             android:id="@+id/profileFragment"
@@ -74,14 +60,7 @@
             android:id="@+id/shelfFragment"
             android:name="com.moonlightbutterfly.bookid.fragments.ShelfFragment"
             android:label="ShelfFragment">
-            <action
-                android:id="@+id/action_shelfFragment_to_addBookToShelfDialog"
-                app:destination="@id/addBookToShelfDialog" />
         </fragment>
-        <fragment
-            android:id="@+id/renameShelfDialog"
-            android:name="com.moonlightbutterfly.bookid.dialogs.RenameShelfDialog"
-            android:label="RenameShelfDialog" />
         <fragment
             android:id="@+id/settingsFragment"
             android:name="com.moonlightbutterfly.bookid.fragments.SettingsFragment"
