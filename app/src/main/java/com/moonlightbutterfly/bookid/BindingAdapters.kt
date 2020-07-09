@@ -3,6 +3,7 @@ package com.moonlightbutterfly.bookid
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,7 +38,10 @@ fun goneUnless(view: View, data: Boolean) {
 fun updateRecycler(view: RecyclerView, data: List<Book>?) {
     view.adapter.apply {
         if (data != null) {
-            (view.adapter as BookAdapter).updateList(data)
+            (view.adapter as BookAdapter).let {
+                it.clearList()
+                it.updateList(data)
+            }
         }
     }
 }
@@ -73,7 +77,7 @@ fun createBookShelfs(view: LinearLayout, shelfsList: List<Shelf>?) {
 }
 
 @BindingAdapter("override_width")
-fun overrideWidth(view: LinearLayout, type: LAYOUT) {
+fun overrideWidth(view: ConstraintLayout, type: LAYOUT) {
     if (type == LAYOUT.VERTICAL) {
         view.layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT
     } else {
