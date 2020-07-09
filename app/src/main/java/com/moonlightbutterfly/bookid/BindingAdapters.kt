@@ -51,7 +51,7 @@ fun updateRecyclerShelf(view: RecyclerView, data: List<Shelf>?) {
     }
 }
 
-@BindingAdapter("createBookShelfs", "lifecycleOwner")
+@BindingAdapter("createBookShelfs")
 fun createBookShelfs(view: LinearLayout, shelfsList: List<Shelf>?) {
     view.removeAllViews()
     if (shelfsList != null) {

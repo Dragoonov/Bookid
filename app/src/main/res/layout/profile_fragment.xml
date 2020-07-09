@@ -6,7 +6,10 @@
 
         <variable
             name="viewModel"
-            type="com.moonlightbutterfly.bookid.viewmodels.ProfileViewModel" />
+            type="com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel" />
+        <variable
+            name="userManager"
+            type="com.moonlightbutterfly.bookid.UserManager" />
     </data>
 
     <LinearLayout
@@ -38,15 +41,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:contentDescription="TODO"
-                        app:imageUrl="@{viewModel.userLiveData.avatar}" />
+                        app:imageUrl="@{userManager.loggedUser.avatar}" />
 
                     <TextView
                         style="@style/MediumLabel"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@{viewModel.userLiveData.nick, default=@string/default_nick}" />
+                        android:text="@{userManager.loggedUser.nick, default=@string/default_nick}" />
                 </LinearLayout>
 
                 <com.moonlightbutterfly.bookid.customviews.LineSeparator

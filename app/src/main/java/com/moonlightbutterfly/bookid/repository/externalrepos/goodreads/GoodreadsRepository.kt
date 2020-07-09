@@ -21,9 +21,6 @@ class GoodreadsRepository @Inject constructor() : ExternalRepository {
     private var retrofit: Retrofit? = null
     private val BASE_URL = "https://www.goodreads.com"
 
-    private val _similarBooksLiveData = MutableLiveData<List<Book>>()
-    override val similarBooksLiveData: LiveData<List<Book>> get() = _similarBooksLiveData
-
     private val _searchedBooksLiveData = MutableLiveData<List<Book>>()
     override val searchedBooksLiveData: LiveData<List<Book>> get() = _searchedBooksLiveData
 
@@ -58,10 +55,6 @@ class GoodreadsRepository @Inject constructor() : ExternalRepository {
             @Query("id") id: Int,
             @Query("key") developerKey: String = "RxcevZGjLRZAdWYapNJBBg"
         ): Call<GoodreadsResponseDto>
-    }
-
-    override fun loadSimilarBooks(book: Book): LiveData<List<Book>> {
-        return similarBooksLiveData
     }
 
     override fun loadAuthorBooks(author: Author): LiveData<List<Book>> {

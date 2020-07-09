@@ -52,9 +52,6 @@ class MainActivity : AppCompatActivity(), DrawerManager {
                 override fun onDrawerClosed(drawerView: View) = (it.drawerNavigator as DrawerNavigator).navigate()
             })
         }
-        if (savedInstanceState == null) {
-            setSupportActionBar(findViewById(R.id.my_toolbar))
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -8,8 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.moonlightbutterfly.bookid.BookidApplication
+import com.moonlightbutterfly.bookid.UserManager
 import com.moonlightbutterfly.bookid.databinding.ProfileFragmentBinding
-import com.moonlightbutterfly.bookid.viewmodels.ProfileViewModel
+import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 
 class ProfileFragment : Fragment() {
@@ -17,7 +18,10 @@ class ProfileFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var viewModel: ProfileViewModel
+    @Inject
+    lateinit var userManager: UserManager
+
+    private lateinit var viewModel: ShelfViewModel
 
     private var binding: ProfileFragmentBinding? = null
 
@@ -26,9 +30,10 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         (activity?.application as BookidApplication).appComponent.inject(this)
-        viewModel = ViewModelProvider(this, viewModelFactory)[ProfileViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[ShelfViewModel::class.java]
         binding = ProfileFragmentBinding.inflate(inflater, container, false).also {
             it.viewModel = viewModel
+            it.userManager = userManager
             it.lifecycleOwner = viewLifecycleOwner
         }
         (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)

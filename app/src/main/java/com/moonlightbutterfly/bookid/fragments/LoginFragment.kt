@@ -22,7 +22,7 @@ class LoginFragment : Fragment() {
     @Inject
     lateinit var userManager: UserManager
 
-    lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
