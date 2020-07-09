@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -72,8 +71,7 @@ class MainActivity : AppCompatActivity(), DrawerManager {
                     account.displayName,
                     account.email,
                     account.photoUrl.toString())
-                userManager.saveUser(loggedUser)
-                userManager.saveUserToDatabase(loggedUser)
+                userManager.signInUser(loggedUser)
                 navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
                 Log.v("MainActivity", "Zalogowano jako $loggedUser")
             } else {
