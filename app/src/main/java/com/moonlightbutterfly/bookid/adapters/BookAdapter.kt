@@ -27,13 +27,16 @@ class BookAdapter(private val layoutType: LAYOUT = LAYOUT.HORIZONTAL) : Recycler
         private var binding: BookContainerBinding? = null
 
         constructor(binding: BookContainerBinding, layoutType: LAYOUT) : this(binding.root) {
-            this.binding = binding
-            this.binding?.layoutType = layoutType
+            this.binding = binding.also {
+                it.layoutType = layoutType
+            }
         }
 
         fun bind(book:Book) {
-            binding?.book = book
-            binding?.executePendingBindings()
+            with(binding) {
+                this?.book = book
+                this?.executePendingBindings()
+            }
         }
     }
 

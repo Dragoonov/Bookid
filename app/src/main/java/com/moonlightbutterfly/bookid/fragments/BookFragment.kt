@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moonlightbutterfly.bookid.BookidApplication
@@ -45,7 +46,7 @@ class BookFragment : Fragment(){
                 ?.let { book -> AddBookToShelfDialog.newInstance(book)
                     .show(activity?.supportFragmentManager!!, "AddBookToShelfDialog") } }
         }
-        (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
+        (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar as Toolbar)
         return binding?.root
     }
     override fun onDestroyView() {

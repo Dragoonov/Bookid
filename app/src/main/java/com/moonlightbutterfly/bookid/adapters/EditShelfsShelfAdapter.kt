@@ -31,7 +31,7 @@ class EditShelfsShelfAdapter(private val fragment: EditShelfsFragment) : Recycle
             this.clicksListener = clicksListener
         }
 
-        fun changeVisibility(view: View) {
+        private fun changeVisibility(view: View) {
             val secondView =
                 if (view.id == binding?.downArrow?.id) {
                     binding?.upArrow
@@ -48,17 +48,20 @@ class EditShelfsShelfAdapter(private val fragment: EditShelfsFragment) : Recycle
         }
 
         fun bind(shelf: Shelf) {
-            binding?.shelf = shelf
-            binding?.editShelf?.setOnClickListener {
-                clicksListener.onShelfEditClick(shelf)
+            binding?.let {
+                it.shelf = shelf
+                it.editShelf.setOnClickListener {
+                    clicksListener.onShelfEditClick(shelf)
+                }
+                it.deleteShelf.setOnClickListener {
+                    clicksListener.onShelfDeleteClick(shelf)
+                }
+                it.upArrow.setOnClickListener { view -> changeVisibility(view) }
+                it.downArrow.setOnClickListener { view -> changeVisibility(view) }
+                (it.booksRecycler.adapter as EditShelfsBookAdapter).updateList(shelfs[adapterPosition])
+                it.executePendingBindings()
             }
-            binding?.deleteShelf?.setOnClickListener {
-                clicksListener.onShelfDeleteClick(shelf)
-            }
-            binding?.upArrow?.setOnClickListener { changeVisibility(it) }
-            binding?.downArrow?.setOnClickListener { changeVisibility(it) }
-            (binding?.booksRecycler?.adapter as EditShelfsBookAdapter).updateList(shelfs[adapterPosition])
-            binding?.executePendingBindings()
+
         }
     }
 

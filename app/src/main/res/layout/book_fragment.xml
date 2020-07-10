@@ -42,7 +42,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:layout_marginTop="16dp"
-                        app:imageUrl="@{viewModel.bookLiveData.imageUrl}"
+                        app:loadImage="@{viewModel.bookLiveData.imageUrl}"
                         android:contentDescription="TODO" />
 
 
@@ -126,7 +126,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            app:imageUrl="@{viewModel.authorInfoLiveData.imageUrl}"
+                            app:loadImage="@{viewModel.authorInfoLiveData.imageUrl}"
                             android:contentDescription="TODO" />
 
                         <TextView

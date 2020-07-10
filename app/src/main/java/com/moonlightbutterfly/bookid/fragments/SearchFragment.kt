@@ -53,6 +53,7 @@ class SearchFragment : Fragment() {
                         }
                     }
                 })
+                setHasFixedSize(true)
             }
             it.toolbar.searchView.setOnQueryTextListener(object :
                 SearchView.OnQueryTextListener {

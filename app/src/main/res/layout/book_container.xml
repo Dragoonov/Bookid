@@ -84,7 +84,7 @@
                     android:layout_height="200dp"
                     android:layout_gravity="end"
                     android:contentDescription="image"
-                    app:imageUrl="@{book.imageUrl}"
+                    app:loadImage="@{book.imageUrl}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -115,7 +115,7 @@
                     android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
                     android:contentDescription="image"
-                    app:imageUrl="@{book.imageUrl}" />
+                    app:loadImage="@{book.imageUrl}" />
 
                 <TextView
                     android:layout_width="match_parent"

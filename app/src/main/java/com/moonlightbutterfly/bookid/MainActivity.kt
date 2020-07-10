@@ -1,15 +1,21 @@
 package com.moonlightbutterfly.bookid
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.palette.graphics.Palette
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
@@ -44,6 +50,7 @@ class MainActivity : AppCompatActivity(), DrawerManager {
             it.lifecycleOwner = this
             it.userManager = userManager
             it.drawerNavigator = DrawerNavigator(this, navController)
+            it.drawerManager = this
             it.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
                 override fun onDrawerStateChanged(newState: Int) {}
                 override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
@@ -51,6 +58,11 @@ class MainActivity : AppCompatActivity(), DrawerManager {
                 override fun onDrawerClosed(drawerView: View) = (it.drawerNavigator as DrawerNavigator).navigate()
             })
         }
+//        userManager.user.observe(this, Observer {
+//            if(it != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                paintDrawer()
+//            }
+//        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -109,6 +121,15 @@ class MainActivity : AppCompatActivity(), DrawerManager {
             super.onBackPressed()
         } else {
             QuitAppDialog.newInstance().show(supportFragmentManager,"QuitAppDialog")
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun paintDrawer(bitmap: Bitmap?) {
+        if (bitmap != null) {
+            val paletteSwatch = Palette.from(bitmap).generate()
+            binding.avatarContainer.setBackgroundColor(paletteSwatch.getLightMutedColor(getColor(R.color.primaryColor)))
+            binding.avatarName.setTextColor(paletteSwatch.getDarkMutedColor(getColor(R.color.primaryTextColor)))
         }
     }
 }
