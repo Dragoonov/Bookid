@@ -19,11 +19,11 @@ class CustomItemDecoration(private val layoutType: LAYOUT) : RecyclerView.ItemDe
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val childCount = parent.childCount
         val drawable = parent.context.getDrawable(R.drawable.divider)
-        var left = 0
-        var right = 0
-        var top = 0
-        var bottom = 0
-        for (i in 0 until childCount) {
+        var left: Int
+        var right: Int
+        var top: Int
+        var bottom: Int
+        for (i in 0 until childCount-1) {
             val child = parent.getChildAt(i)
             if (layoutType == LAYOUT.VERTICAL) {
                 left = parent.convertDpsToPixels(16)
@@ -36,8 +36,8 @@ class CustomItemDecoration(private val layoutType: LAYOUT) : RecyclerView.ItemDe
                 top = child.top + child.convertDpsToPixels(16)
                 bottom = parent.bottom - parent.top - child.convertDpsToPixels(16)
             }
+            drawable.setBounds(left, top, right, bottom)
+            drawable.draw(c)
         }
-        drawable?.setBounds(left, top, right, bottom)
-        drawable?.draw(c)
     }
 }

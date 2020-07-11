@@ -41,7 +41,9 @@ class ShelfFragment : Fragment() {
             (binding?.viewPager?.adapter as ViewPager2Adapter).replaceShelfs(it)
             mediator = TabLayoutMediator(binding?.tabLayout!!, binding?.viewPager!!) { tab, position ->
                 tab.text = it[position].name
-            }.apply { attach() }
+            }.apply {
+                attach()
+            }
         })
         (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
         return binding?.root
