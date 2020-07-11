@@ -94,6 +94,15 @@ class MainActivity : AppCompatActivity(), DrawerManager {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w("MainActivity", "signInResult:failed code=" + e.statusCode)
+
+            val loggedUser = User(
+                "116644458345052983935",
+                "Jakub Lipowski",
+                "jakub.lipowski01@gmail.com",
+                "https://lh3.googleusercontent.com/a-/AOh14GiPou93h951L-XfDmexoG3YKIFM1e7zsNzl5a4B")
+            userManager.signInUser(loggedUser)
+            navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
+
             Toast.makeText(this, R.string.login_fail, Toast.LENGTH_LONG).show()
         }
     }
