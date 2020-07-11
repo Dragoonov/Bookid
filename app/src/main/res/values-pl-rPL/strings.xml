@@ -34,5 +34,6 @@
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
     <string name="my_profile">Mój profil</string>
-
+    <string name="book_added">Dodano książkę</string>
+    <string name="signed_out">Wylogowano</string>
 </resources>

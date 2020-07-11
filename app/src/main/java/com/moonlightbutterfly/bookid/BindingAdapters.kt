@@ -3,10 +3,7 @@ package com.moonlightbutterfly.bookid
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.BindingAdapter
@@ -121,4 +118,10 @@ fun fillData(view: RadioGroup, list: List<Shelf>?) {
             text = it.name
         })
     }
+}
+@BindingAdapter("verticalBias")
+fun verticalBias(view: ProgressBar, value: Float) {
+    val params = view.layoutParams as ConstraintLayout.LayoutParams
+    params.verticalBias = value
+    view.layoutParams = params
 }

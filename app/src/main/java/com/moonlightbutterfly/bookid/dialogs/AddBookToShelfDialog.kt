@@ -2,19 +2,15 @@ package com.moonlightbutterfly.bookid.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.moonlightbutterfly.bookid.BookidApplication
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.databinding.AddBookToShelfDialogBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
+import com.moonlightbutterfly.bookid.viewmodels.Communicator
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 
@@ -25,6 +21,9 @@ class AddBookToShelfDialog private constructor(private val book: Book): DialogFr
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var communicator: Communicator
 
     private lateinit var viewModel: ShelfViewModel
 
@@ -48,6 +47,7 @@ class AddBookToShelfDialog private constructor(private val book: Book): DialogFr
                         viewModel.shelfsLiveData.value?.get(idx)
                             ?.let {
                                 viewModel.insertBookToShelf(it, book)
+                                communicator.postMessage(getString(R.string.book_added))
                             }
                     }
                 }

@@ -39,7 +39,7 @@ class SearchViewModel @Inject constructor(private val externalRepository: Extern
     }
 
     fun requestSearch(query: String?) {
-        allBooks.value?.clear()
+        allBooks.value = ArrayList()
         page = 1
         if(!query.isNullOrEmpty()) {
             externalRepository.loadSearchedBooks(query, page)

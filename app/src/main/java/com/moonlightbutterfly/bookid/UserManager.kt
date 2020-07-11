@@ -9,12 +9,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.moonlightbutterfly.bookid.repository.database.entities.User
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
+import com.moonlightbutterfly.bookid.viewmodels.Communicator
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class UserManager @Inject constructor(
-    private val internalRepository: InternalRepository) {
+    private val internalRepository: InternalRepository,
+    private val communicator: Communicator) {
 
     val user: LiveData<User> get() = _user
     private val _user: MutableLiveData<User> = Transformations.switchMap(internalRepository.getLoggedUser()) {
@@ -31,6 +33,9 @@ class UserManager @Inject constructor(
             internalRepository.deleteLoggedUser(user.value!!)
             _user.value = null
         }
+        communicator.postMessage(context.getString(R.string.signed_out))
     }
-    fun signInUser(user: User) = internalRepository.insertLoggedUser(user)
+    fun signInUser(user: User) {
+        internalRepository.insertLoggedUser(user)
+    }
 }

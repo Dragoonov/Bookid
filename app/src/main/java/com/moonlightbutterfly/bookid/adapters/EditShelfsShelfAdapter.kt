@@ -56,6 +56,13 @@ class EditShelfsShelfAdapter(private val fragment: EditShelfsFragment) : Recycle
                 it.deleteShelf.setOnClickListener {
                     clicksListener.onShelfDeleteClick(shelf)
                 }
+                it.title.setOnClickListener { _ -> changeVisibility(
+                    if (it.upArrow.visibility == View.VISIBLE) {
+                        it.upArrow
+                    } else {
+                        it.downArrow
+                    })
+                }
                 it.upArrow.setOnClickListener { view -> changeVisibility(view) }
                 it.downArrow.setOnClickListener { view -> changeVisibility(view) }
                 (it.booksRecycler.adapter as EditShelfsBookAdapter).updateList(shelfs[adapterPosition])

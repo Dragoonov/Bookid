@@ -33,10 +33,8 @@ class BookAdapter(private val layoutType: LAYOUT = LAYOUT.HORIZONTAL) : Recycler
         }
 
         fun bind(book:Book) {
-            with(binding) {
-                this?.book = book
-                this?.executePendingBindings()
-            }
+            binding?.book = book
+            binding?.executePendingBindings()
         }
     }
 

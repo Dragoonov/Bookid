@@ -4,8 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="java.util.List"/>
+
+        <import type="java.util.List" />
+
         <import type="com.moonlightbutterfly.bookid.repository.database.entities.Book" />
+
         <variable
             name="booksList"
             type="List&lt;Book>" />
@@ -13,7 +16,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_recycler"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        app:dataList="@{booksList}"/>
+        android:layout_height="match_parent"
+        app:dataList="@{booksList}" />
 </layout>

@@ -4,15 +4,13 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.palette.graphics.Palette
@@ -20,21 +18,28 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
 import com.moonlightbutterfly.bookid.databinding.ActivityMainBinding
 import com.moonlightbutterfly.bookid.dialogs.QuitAppDialog
 import com.moonlightbutterfly.bookid.fragments.LoginFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.User
+import com.moonlightbutterfly.bookid.viewmodels.Communicator
 import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(), DrawerManager {
 
     @Inject
+    lateinit var communicator: Communicator
+
+    @Inject
     lateinit var userManager: UserManager
 
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
 
     private lateinit var binding: ActivityMainBinding
+
+
 
     companion object {
         const val SIGN_IN_CODE = 100
@@ -58,11 +63,9 @@ class MainActivity : AppCompatActivity(), DrawerManager {
                 override fun onDrawerClosed(drawerView: View) = (it.drawerNavigator as DrawerNavigator).navigate()
             })
         }
-//        userManager.user.observe(this, Observer {
-//            if(it != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                paintDrawer()
-//            }
-//        })
+        communicator.message.observe(this, Observer {
+            Snackbar.make(binding.root,it,Snackbar.LENGTH_SHORT).show()
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -85,16 +88,12 @@ class MainActivity : AppCompatActivity(), DrawerManager {
                     account.photoUrl.toString())
                 userManager.signInUser(loggedUser)
                 navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
-                Log.v("MainActivity", "Zalogowano jako $loggedUser")
-            } else {
-                Toast.makeText(this, R.string.login_fail, Toast.LENGTH_LONG).show()
             }
 
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w("MainActivity", "signInResult:failed code=" + e.statusCode)
-
+            communicator.postMessage(getString(R.string.login_fail))
             val loggedUser = User(
                 "116644458345052983935",
                 "Jakub Lipowski",
@@ -102,8 +101,6 @@ class MainActivity : AppCompatActivity(), DrawerManager {
                 "https://lh3.googleusercontent.com/a-/AOh14GiPou93h951L-XfDmexoG3YKIFM1e7zsNzl5a4B")
             userManager.signInUser(loggedUser)
             navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
-
-            Toast.makeText(this, R.string.login_fail, Toast.LENGTH_LONG).show()
         }
     }
 

@@ -51,6 +51,9 @@ class SearchFragment : Fragment() {
                         if (lastVisibleItem + 1 >= totalItemCount && viewModel.allDataLoaded.value!!) {
                             viewModel.loadMore()
                         }
+                        if(dy != 0) {
+                            binding?.toolbar?.searchView?.clearFocus()
+                        }
                     }
                 })
                 setHasFixedSize(true)

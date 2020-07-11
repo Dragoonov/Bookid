@@ -32,7 +32,8 @@
                     app:layout_constraintBottom_toBottomOf="@+id/recycler_layout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/recycler_layout"
-                    app:layout_constraintTop_toTopOf="@+id/recycler_layout" />
+                    app:layout_constraintTop_toTopOf="@+id/recycler_layout"
+                    app:verticalBias="@{viewModel.allBooks.empty ? 0.5f : 1f}" />
 
                 <TextView
                     android:id="@+id/booksSearchHint"
@@ -47,7 +48,8 @@
                 <include
                     android:id="@+id/recycler_layout"
                     layout="@layout/recycler_view_layout"
-                    app:booksList="@{viewModel.allBooks}" />
+                    app:booksList="@{viewModel.allBooks}"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

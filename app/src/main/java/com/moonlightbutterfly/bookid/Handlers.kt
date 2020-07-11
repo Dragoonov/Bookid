@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.moonlightbutterfly.bookid.dialogs.AddShelfDialog
 
+
 fun onClickListener(view: View) = (view.context as DrawerManager).openDrawer()
 
 fun openAddShelfDialog(view: View) = AddShelfDialog

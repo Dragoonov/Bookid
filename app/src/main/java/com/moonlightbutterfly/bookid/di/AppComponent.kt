@@ -1,7 +1,6 @@
 package com.moonlightbutterfly.bookid.di
 
 import android.content.Context
-import androidx.fragment.app.DialogFragment
 import com.moonlightbutterfly.bookid.MainActivity
 import com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog
 import com.moonlightbutterfly.bookid.dialogs.AddShelfDialog
@@ -9,13 +8,10 @@ import com.moonlightbutterfly.bookid.dialogs.RenameShelfDialog
 import com.moonlightbutterfly.bookid.fragments.*
 import dagger.BindsInstance
 import dagger.Component
-import dagger.Provides
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ViewModelModule::class, RepositoryModule::class])
+@Component(modules = [ViewModelModule::class, RepositoryModule::class, UtilsModule::class])
 interface AppComponent {
     @Component.Factory
     interface Factory {
