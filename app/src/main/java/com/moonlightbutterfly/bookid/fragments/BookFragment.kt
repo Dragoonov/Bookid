@@ -13,6 +13,8 @@ import com.moonlightbutterfly.bookid.BookidApplication
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.databinding.BookFragmentBinding
 import com.moonlightbutterfly.bookid.Converters
+import com.moonlightbutterfly.bookid.CustomItemDecoration
+import com.moonlightbutterfly.bookid.adapters.LAYOUT
 import com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
@@ -39,6 +41,7 @@ class BookFragment : Fragment(){
             it.viewModel = viewModel
             it.lifecycleOwner = viewLifecycleOwner
             it.authorBooksInclude.listRecycler.apply {
+                addItemDecoration(CustomItemDecoration(LAYOUT.HORIZONTAL))
                 layoutManager = LinearLayoutManager(view?.context, LinearLayoutManager.HORIZONTAL, false)
                 adapter = BookAdapter()
             }

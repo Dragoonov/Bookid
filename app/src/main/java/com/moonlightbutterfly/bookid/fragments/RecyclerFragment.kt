@@ -10,6 +10,7 @@ import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
 import com.moonlightbutterfly.bookid.databinding.RecyclerViewLayoutBinding
 import com.moonlightbutterfly.bookid.Converters
+import com.moonlightbutterfly.bookid.CustomItemDecoration
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
 class RecyclerFragment: Fragment() {
@@ -32,6 +33,7 @@ class RecyclerFragment: Fragment() {
             it.booksList = Converters.fromStringToBookList(arguments?.getString("booksList")!!)
             it.lifecycleOwner = viewLifecycleOwner
             it.listRecycler.let { recycler ->
+                recycler.addItemDecoration(CustomItemDecoration(LAYOUT.VERTICAL))
                 recycler.adapter = BookAdapter(LAYOUT.VERTICAL)
                 recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             }

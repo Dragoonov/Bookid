@@ -92,11 +92,6 @@
                     android:layout_marginRight="8dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.moonlightbutterfly.bookid.customviews.LineSeparator
-                style="@style/LineSeparatorHorizontal"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -110,6 +105,8 @@
             <LinearLayout
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:orientation="vertical">
 
                 <ImageView
@@ -126,10 +123,6 @@
                     android:text="@{book.title, default = Tekst}" />
             </LinearLayout>
 
-            <com.moonlightbutterfly.bookid.customviews.LineSeparator
-                style="@style/LineSeparatorVertical"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

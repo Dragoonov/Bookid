@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -20,6 +21,7 @@ import com.moonlightbutterfly.bookid.adapters.LAYOUT
 import com.moonlightbutterfly.bookid.databinding.ComposableBookListBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
+
 
 @BindingAdapter("loadImage", "drawerManager", requireAll = false)
 fun loadImage(view: ImageView, url: String?, drawerManager: DrawerManager?) {
@@ -93,7 +95,9 @@ fun createBookShelfs(view: LinearLayout, shelfsList: List<Shelf>?) {
                 it.listRecycler.apply {
                     layoutManager =
                         LinearLayoutManager(view.context, LinearLayoutManager.HORIZONTAL, false)
+                    addItemDecoration(CustomItemDecoration(LAYOUT.HORIZONTAL))
                     adapter = BookAdapter()
+                    addItemDecoration(CustomItemDecoration(LAYOUT.HORIZONTAL))
                 }
                 it.books = shelf.books
                 it.title = shelf.name

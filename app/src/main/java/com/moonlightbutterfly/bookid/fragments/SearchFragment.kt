@@ -1,14 +1,18 @@
 package com.moonlightbutterfly.bookid.fragments
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.BookidApplication
+import com.moonlightbutterfly.bookid.CustomItemDecoration
 import com.moonlightbutterfly.bookid.DrawerManager
 import com.moonlightbutterfly.bookid.UserManager
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
@@ -36,11 +40,13 @@ class SearchFragment : Fragment() {
     ): View? {
         (activity?.application as BookidApplication).appComponent.inject(this)
         viewModel = ViewModelProvider(this,viewModelFactory)[SearchViewModel::class.java]
+        val itemDecor = CustomItemDecoration(LAYOUT.VERTICAL)
         binding = SearchFragmentBinding.inflate(inflater, container, false).also {
             it.viewModel = viewModel
             it.lifecycleOwner = viewLifecycleOwner
             it.recyclerLayout.listRecycler.apply {
                 adapter = BookAdapter(LAYOUT.VERTICAL)
+                addItemDecoration(itemDecor)
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
