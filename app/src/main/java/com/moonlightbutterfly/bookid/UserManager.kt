@@ -32,8 +32,8 @@ class UserManager @Inject constructor(
         if (user.value != null) {
             internalRepository.deleteLoggedUser(user.value!!)
             _user.value = null
+            communicator.postMessage(context.getString(R.string.signed_out))
         }
-        communicator.postMessage(context.getString(R.string.signed_out))
     }
     fun signInUser(user: User) {
         internalRepository.insertLoggedUser(user)

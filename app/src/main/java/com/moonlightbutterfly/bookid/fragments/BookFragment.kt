@@ -30,7 +30,7 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
 
     override fun initializeBinding(inflater: LayoutInflater, container: ViewGroup?) {
         binding = BookFragmentBinding.inflate(inflater, container, false).also {
-            it.viewModel = viewModel
+                    it.viewModel = viewModel
             it.lifecycleOwner = viewLifecycleOwner
             it.authorBooksInclude.listRecycler.apply {
                 addItemDecoration(CustomItemDecoration(LAYOUT.HORIZONTAL))
@@ -46,6 +46,4 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
     }
 
     override fun initializeCustom() = (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
-
-
 }

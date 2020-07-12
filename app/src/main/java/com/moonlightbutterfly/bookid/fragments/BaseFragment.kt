@@ -15,7 +15,7 @@ import javax.inject.Inject
 abstract class BaseFragment<T : ViewDataBinding,K : ViewModel>(private val clas: Class<K>? = null): Fragment() {
 
     protected var binding: T? = null
-    lateinit var viewModel: K
+    protected lateinit var viewModel: K
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -47,5 +47,4 @@ abstract class BaseFragment<T : ViewDataBinding,K : ViewModel>(private val clas:
         super.onDestroyView()
         binding = null
     }
-
 }
