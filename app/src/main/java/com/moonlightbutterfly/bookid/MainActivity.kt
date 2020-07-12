@@ -126,7 +126,7 @@ class MainActivity : AppCompatActivity(), DrawerManager {
             && navController.currentDestination?.id != R.id.searchFragment) {
             super.onBackPressed()
         } else {
-            QuitAppDialog.newInstance().show(supportFragmentManager,"QuitAppDialog")
+            QuitAppDialog.newInstance().show(supportFragmentManager,QuitAppDialog.NAME)
         }
     }
 

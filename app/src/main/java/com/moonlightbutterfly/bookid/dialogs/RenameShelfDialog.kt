@@ -18,7 +18,7 @@ class RenameShelfDialog private constructor(private val shelf: Shelf) : DialogFr
 
     companion object {
         fun newInstance(shelf: Shelf): RenameShelfDialog = RenameShelfDialog(shelf)
-        const val NAME = "AddBookToShelfDialog"
+        const val NAME = "RenameShelfDialog"
     }
 
     @Inject

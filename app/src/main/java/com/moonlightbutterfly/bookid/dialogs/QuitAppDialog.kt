@@ -11,6 +11,7 @@ class QuitAppDialog private constructor(): DialogFragment() {
 
     companion object {
         fun newInstance(): QuitAppDialog = QuitAppDialog()
+        const val NAME = "QuitAppDialog"
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
