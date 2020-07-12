@@ -26,12 +26,12 @@ class EditShelfsBookAdapter(private val fragment: EditShelfsFragment) : Recycler
             this.clicksListener = clicksListener
         }
 
-        fun bind(book: Book) {
-            binding?.book = book
-            binding?.deleteBook?.setOnClickListener {
+        fun bind(book: Book) = with(binding) {
+            this?.book = book
+            this?.deleteBook?.setOnClickListener {
                 clicksListener.onBookDeleteClick(book, shelf)
             }
-            binding?.executePendingBindings()
+            this?.executePendingBindings()
         }
     }
 

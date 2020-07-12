@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
@@ -13,22 +14,16 @@ import com.moonlightbutterfly.bookid.Converters
 import com.moonlightbutterfly.bookid.CustomItemDecoration
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
-class RecyclerFragment: Fragment() {
-
-    private var binding: RecyclerViewLayoutBinding? = null
+class RecyclerFragment: BaseFragment<RecyclerViewLayoutBinding, ViewModel>() {
 
     companion object {
         fun newInstance(books: List<Book>): RecyclerFragment =
             RecyclerFragment().apply {
                 arguments = Bundle().apply { putString("booksList", Converters.convertToJSONString(books)) }
             }
-
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun initializeBinding(inflater: LayoutInflater, container: ViewGroup?) {
         binding = RecyclerViewLayoutBinding.inflate(inflater, container, false).also {
             it.booksList = Converters.fromStringToBookList(arguments?.getString("booksList")!!)
             it.lifecycleOwner = viewLifecycleOwner
@@ -38,11 +33,5 @@ class RecyclerFragment: Fragment() {
                 recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             }
         }
-        return binding?.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 }

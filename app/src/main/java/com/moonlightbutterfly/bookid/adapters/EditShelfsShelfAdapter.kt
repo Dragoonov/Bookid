@@ -50,12 +50,8 @@ class EditShelfsShelfAdapter(private val fragment: EditShelfsFragment) : Recycle
         fun bind(shelf: Shelf) {
             binding?.let {
                 it.shelf = shelf
-                it.editShelf.setOnClickListener {
-                    clicksListener.onShelfEditClick(shelf)
-                }
-                it.deleteShelf.setOnClickListener {
-                    clicksListener.onShelfDeleteClick(shelf)
-                }
+                it.editShelf.setOnClickListener { clicksListener.onShelfEditClick(shelf) }
+                it.deleteShelf.setOnClickListener { clicksListener.onShelfDeleteClick(shelf) }
                 it.title.setOnClickListener { _ -> changeVisibility(
                     if (it.upArrow.visibility == View.VISIBLE) {
                         it.upArrow

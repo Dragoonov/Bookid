@@ -2,7 +2,8 @@ package com.moonlightbutterfly.bookid.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.View
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
@@ -14,9 +15,12 @@ import com.moonlightbutterfly.bookid.viewmodels.Communicator
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 
+fun RadioGroup.returnSelectedIndex(): Int = indexOfChild(findViewById<RadioButton>(checkedRadioButtonId))
+
 class AddBookToShelfDialog private constructor(private val book: Book): DialogFragment() {
     companion object {
         fun newInstance(book: Book): AddBookToShelfDialog = AddBookToShelfDialog(book)
+        const val NAME = "AddBookToShelfDialog"
     }
 
     @Inject
@@ -33,19 +37,13 @@ class AddBookToShelfDialog private constructor(private val book: Book): DialogFr
         (activity?.application as BookidApplication).appComponent.inject(this)
         return activity?.let { fragment ->
             val builder = AlertDialog.Builder(fragment)
-            viewModel = ViewModelProvider(this,viewModelFactory)[ShelfViewModel::class.java]
-            binding = AddBookToShelfDialogBinding.inflate(layoutInflater).also {
-                it.viewModel = viewModel
-                it.lifecycleOwner = this
-            }
-            builder.setView(binding.root)
+            initializeDependencies()
+            builder
+                .setView(binding.root)
                 .setPositiveButton(R.string.ok) { _, _ ->
-                    if(binding.radioGroup.checkedRadioButtonId >= 0) {
-                        val radioButtonID: Int = binding.radioGroup.checkedRadioButtonId
-                        val radioButton: View = binding.radioGroup.findViewById(radioButtonID)
-                        val idx: Int = binding.radioGroup.indexOfChild(radioButton)
-                        viewModel.shelfsLiveData.value?.get(idx)
-                            ?.let {
+                    val idx: Int = binding.radioGroup.returnSelectedIndex()
+                    if (idx >= 0) {
+                        viewModel.shelfsLiveData.value?.get(idx)?.let {
                                 viewModel.insertBookToShelf(it, book)
                                 communicator.postMessage(getString(R.string.book_added))
                             }
@@ -54,5 +52,13 @@ class AddBookToShelfDialog private constructor(private val book: Book): DialogFr
                 .setNegativeButton(R.string.cancel) { _, _ -> dialog?.cancel() }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
+    }
+
+    private fun initializeDependencies() {
+        viewModel = ViewModelProvider(this,viewModelFactory)[ShelfViewModel::class.java]
+        binding = AddBookToShelfDialogBinding.inflate(layoutInflater).also {
+            it.viewModel = viewModel
+            it.lifecycleOwner = this
+        }
     }
 }

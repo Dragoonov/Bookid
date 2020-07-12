@@ -1,30 +1,24 @@
 package com.moonlightbutterfly.bookid.fragments
 
-import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import com.moonlightbutterfly.bookid.*
 import com.moonlightbutterfly.bookid.databinding.SettingsFragmentBinding
 import javax.inject.Inject
 
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : BaseFragment<SettingsFragmentBinding, ViewModel>() {
 
     @Inject
     lateinit var userManager: UserManager
 
-    private var binding: SettingsFragmentBinding? = null
+    override fun inject() = (activity?.application as BookidApplication).appComponent.inject(this)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        (activity?.application as BookidApplication).appComponent.inject(this)
+    override fun initializeBinding(inflater: LayoutInflater, container: ViewGroup?) {
         binding = SettingsFragmentBinding.inflate(inflater,container, false).also {
             it.userManager = userManager
             it.textLink.apply {
@@ -36,12 +30,7 @@ class SettingsFragment : Fragment() {
                 movementMethod = LinkMovementMethod.getInstance()
             }
         }
-        (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
-        return binding?.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
-    }
+    override fun initializeCustom() = (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
 }

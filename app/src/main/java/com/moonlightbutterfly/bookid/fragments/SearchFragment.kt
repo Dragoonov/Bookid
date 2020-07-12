@@ -1,14 +1,10 @@
 package com.moonlightbutterfly.bookid.fragments
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.BookidApplication
@@ -22,24 +18,52 @@ import com.moonlightbutterfly.bookid.viewmodels.SearchViewModel
 import javax.inject.Inject
 
 
-class SearchFragment : Fragment() {
-
-    private var binding: SearchFragmentBinding? = null
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(SearchViewModel::class.java) {
 
     @Inject
     lateinit var userManager: UserManager
 
-    private lateinit var viewModel: SearchViewModel
+    private val onScrollListener = object : RecyclerView.OnScrollListener() {
+        lateinit var layoutManager: LinearLayoutManager
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        (activity?.application as BookidApplication).appComponent.inject(this)
-        viewModel = ViewModelProvider(this,viewModelFactory)[SearchViewModel::class.java]
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val totalItemCount = (layoutManager).itemCount
+            val lastVisibleItem =
+                (layoutManager).findLastVisibleItemPosition()
+            if (lastVisibleItem + 1 >= totalItemCount && viewModel.allDataLoaded.value!!) {
+                viewModel.loadMore()
+            }
+            if(dy != 0) {
+                binding?.toolbar?.searchView?.clearFocus()
+            }
+        }
+    }
+
+    private val onQueryChangeListener = object : SearchView.OnQueryTextListener {
+
+        override fun onQueryTextSubmit(query: String?): Boolean = true
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            if (!viewModel.showHint) {
+                binding?.booksSearchHint?.visibility = View.GONE
+            }
+            if (newText.isNullOrEmpty() || newText == viewModel.currentQuery) {
+                return false
+            }
+            (binding?.recyclerLayout?.listRecycler?.adapter as BookAdapter).clearList()
+            viewModel.let {
+                it.clearData()
+                it.requestSearch(newText)
+                it.showHint = false
+            }
+            return false
+        }
+    }
+
+    override fun inject() = (activity?.application as BookidApplication).appComponent.inject(this)
+
+    override fun initializeBinding(inflater: LayoutInflater, container: ViewGroup?) {
         val itemDecor = CustomItemDecoration(LAYOUT.VERTICAL)
         binding = SearchFragmentBinding.inflate(inflater, container, false).also {
             it.viewModel = viewModel
@@ -47,54 +71,18 @@ class SearchFragment : Fragment() {
             it.recyclerLayout.listRecycler.apply {
                 adapter = BookAdapter(LAYOUT.VERTICAL)
                 addItemDecoration(itemDecor)
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                        super.onScrolled(recyclerView, dx, dy)
-                        val totalItemCount = (layoutManager as LinearLayoutManager).itemCount
-                        val lastVisibleItem =
-                            (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                        if (lastVisibleItem + 1 >= totalItemCount && viewModel.allDataLoaded.value!!) {
-                            viewModel.loadMore()
-                        }
-                        if(dy != 0) {
-                            binding?.toolbar?.searchView?.clearFocus()
-                        }
-                    }
-                })
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false).also { manager ->
+                    onScrollListener.layoutManager = manager
+                }
+                addOnScrollListener(onScrollListener)
                 setHasFixedSize(true)
             }
-            it.toolbar.searchView.setOnQueryTextListener(object :
-                SearchView.OnQueryTextListener {
-
-                override fun onQueryTextSubmit(query: String?): Boolean = true
-
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    if (!viewModel.showHint) {
-                        it.booksSearchHint.visibility = View.GONE
-                    }
-                    if (newText.isNullOrEmpty() || newText == viewModel.currentQuery) {
-                        return false
-                    }
-                    it.booksSearchHint.visibility = View.GONE
-                    viewModel.clearData()
-                    (it.recyclerLayout.listRecycler.adapter as BookAdapter).clearList()
-                    viewModel.requestSearch(newText)
-                    viewModel.showHint = false
-                    return false
-                }
-
-            })
+            it.toolbar.searchView.setOnQueryTextListener(onQueryChangeListener)
         }
+    }
+
+    override fun initializeCustom() {
         (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.searchToolbar)
         (activity as DrawerManager).unlockDrawer()
-        return binding?.root
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
-    }
-
 }
