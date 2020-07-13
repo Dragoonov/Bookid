@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.palette.graphics.Palette
@@ -23,9 +22,12 @@ import com.moonlightbutterfly.bookid.databinding.ActivityMainBinding
 import com.moonlightbutterfly.bookid.dialogs.QuitAppDialog
 import com.moonlightbutterfly.bookid.fragments.LoginFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.User
-import com.moonlightbutterfly.bookid.viewmodels.Communicator
 import javax.inject.Inject
 
+fun NavController.canGoBack(): Boolean =
+    currentDestination?.id != R.id.loginFragment
+    && currentDestination?.id != R.id.splashFragment
+    && currentDestination?.id != R.id.searchFragment
 
 class MainActivity : AppCompatActivity(), DrawerManager {
 
@@ -39,7 +41,12 @@ class MainActivity : AppCompatActivity(), DrawerManager {
 
     private lateinit var binding: ActivityMainBinding
 
-
+    private val drawerListener = object : DrawerLayout.DrawerListener {
+        override fun onDrawerStateChanged(newState: Int) {}
+        override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+        override fun onDrawerOpened(drawerView: View) {}
+        override fun onDrawerClosed(drawerView: View) = (binding.drawerNavigator as DrawerNavigator).navigate()
+    }
 
     companion object {
         const val SIGN_IN_CODE = 100
@@ -56,15 +63,13 @@ class MainActivity : AppCompatActivity(), DrawerManager {
             it.userManager = userManager
             it.drawerNavigator = DrawerNavigator(this, navController)
             it.drawerManager = this
-            it.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
-                override fun onDrawerStateChanged(newState: Int) {}
-                override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
-                override fun onDrawerOpened(drawerView: View) {}
-                override fun onDrawerClosed(drawerView: View) = (it.drawerNavigator as DrawerNavigator).navigate()
-            })
+            it.drawerLayout.addDrawerListener(drawerListener)
         }
         communicator.message.observe(this, Observer {
-            Snackbar.make(binding.root,it,Snackbar.LENGTH_SHORT).show()
+            if(!it.isNullOrEmpty()) {
+                Snackbar.make(binding.root,it,Snackbar.LENGTH_SHORT).show()
+                communicator.clearMessage()
+            }
         })
     }
 
@@ -104,26 +109,16 @@ class MainActivity : AppCompatActivity(), DrawerManager {
         }
     }
 
-    override fun lockDrawer() {
-        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-    }
+    override fun lockDrawer() = binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
-    override fun unlockDrawer() {
-        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-    }
+    override fun unlockDrawer() = binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 
-    override fun openDrawer() {
-        binding.drawerLayout.open()
-    }
+    override fun openDrawer() = binding.drawerLayout.open()
 
-    override fun closeDrawer() {
-        binding.drawerLayout.close()
-    }
+    override fun closeDrawer() = binding.drawerLayout.close()
 
     override fun onBackPressed() {
-        if (navController.currentDestination?.id != R.id.loginFragment
-            && navController.currentDestination?.id != R.id.splashFragment
-            && navController.currentDestination?.id != R.id.searchFragment) {
+        if (navController.canGoBack()) {
             super.onBackPressed()
         } else {
             QuitAppDialog.newInstance().show(supportFragmentManager,"QuitAppDialog")

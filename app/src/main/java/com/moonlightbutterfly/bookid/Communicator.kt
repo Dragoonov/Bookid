@@ -1,4 +1,4 @@
-package com.moonlightbutterfly.bookid.viewmodels
+package com.moonlightbutterfly.bookid
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,4 +11,7 @@ class Communicator @Inject constructor() {
     private var _message: MutableLiveData<String> = MutableLiveData()
 
     fun postMessage(message: String) = run { _message.value = message }
+    fun clearMessage() {
+        _message.value = null
+    }
 }

@@ -2,12 +2,18 @@ package com.moonlightbutterfly.bookid
 
 import androidx.navigation.NavController
 
+fun NavController.isDestinationHere(actionId: Int): Boolean {
+    val actionDestination = graph.getAction(actionId)?.destinationId
+    val currentDestination = currentDestination?.id
+    return actionDestination == currentDestination
+}
+
 class DrawerNavigator(private val drawerManager: DrawerManager, private val navController: NavController) {
 
     var id: Int = 0
 
     fun navigate() {
-        if (id != 0) {
+        if (!navController.isDestinationHere(id)) {
             navController.navigate(id)
         }
         id = 0

@@ -11,7 +11,7 @@ import com.moonlightbutterfly.bookid.BookidApplication
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.databinding.AddBookToShelfDialogBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
-import com.moonlightbutterfly.bookid.viewmodels.Communicator
+import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 
@@ -45,7 +45,6 @@ class AddBookToShelfDialog private constructor(private val book: Book): DialogFr
                     if (idx >= 0) {
                         viewModel.shelfsLiveData.value?.get(idx)?.let {
                                 viewModel.insertBookToShelf(it, book)
-                                communicator.postMessage(getString(R.string.book_added))
                             }
                     }
                 }

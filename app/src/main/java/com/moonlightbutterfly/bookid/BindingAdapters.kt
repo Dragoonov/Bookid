@@ -93,11 +93,12 @@ fun createBookShelfs(view: LinearLayout, shelfsList: List<Shelf>?) {
                 view,
                 true).also {
                 it.listRecycler.apply {
-                    layoutManager =
-                        LinearLayoutManager(view.context, LinearLayoutManager.HORIZONTAL, false)
+                    layoutManager = LinearLayoutManager(
+                        view.context,
+                        LinearLayoutManager.HORIZONTAL,
+                        false)
                     addItemDecoration(CustomItemDecoration(LAYOUT.HORIZONTAL))
                     adapter = BookAdapter()
-                    addItemDecoration(CustomItemDecoration(LAYOUT.HORIZONTAL))
                 }
                 it.books = shelf.books
                 it.title = shelf.name

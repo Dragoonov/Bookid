@@ -2,7 +2,6 @@ package com.moonlightbutterfly.bookid.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.moonlightbutterfly.bookid.viewmodels.Communicator
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 import com.moonlightbutterfly.bookid.viewmodels.SearchViewModel
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel

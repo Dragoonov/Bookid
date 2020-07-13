@@ -10,7 +10,7 @@ fun onClickListener(view: View) = (view.context as DrawerManager).openDrawer()
 
 fun openAddShelfDialog(view: View) = AddShelfDialog
     .newInstance()
-    .show((view.context as AppCompatActivity).supportFragmentManager, "AddShelfDialog")
+    .show((view.context as AppCompatActivity).supportFragmentManager, AddShelfDialog.NAME)
 
 fun signOutClick(view: View, userManager: UserManager) {
     userManager.singOutUser(view.context)
@@ -20,5 +20,5 @@ fun signOutClick(view: View, userManager: UserManager) {
 fun addShelfClick(view: View) {
     AddShelfDialog.newInstance().show(
         (view.context as AppCompatActivity).supportFragmentManager,
-        "AddShelfDialog")
+        AddShelfDialog.NAME)
 }

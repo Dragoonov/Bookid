@@ -18,8 +18,7 @@ class SearchViewModel @Inject constructor(private val externalRepository: Extern
         addSource(searchedBooks) {
             if (it != null) {
                 value = ArrayList<Book>().apply {
-                    addAll(value as ArrayList<Book>)
-                    addAll((it))
+                    addAll(value as ArrayList<Book> + it)
                 }
             }
         }
