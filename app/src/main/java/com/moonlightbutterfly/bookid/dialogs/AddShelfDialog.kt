@@ -22,7 +22,7 @@ class AddShelfDialog private constructor(): DialogFragment() {
 
     companion object {
         fun newInstance(): AddShelfDialog = AddShelfDialog()
-        const val NAME = "AddBookToShelfDialog"
+        const val NAME = "AddShelfDialog"
     }
 
     @Inject

@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity(), DrawerManager {
         if (navController.canGoBack()) {
             super.onBackPressed()
         } else {
-            QuitAppDialog.newInstance().show(supportFragmentManager,"QuitAppDialog")
+            QuitAppDialog.newInstance().show(supportFragmentManager,QuitAppDialog.NAME)
         }
     }
 
