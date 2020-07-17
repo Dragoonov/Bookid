@@ -5,17 +5,18 @@ import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.database.entities.User
 import io.reactivex.Completable
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 interface InternalRepository {
 
-    fun insertShelf(shelf: Shelf)
-    fun updateShelf(shelf: Shelf)
-    fun deleteShelf(shelf: Shelf)
-    fun getShelfById(id: Int): LiveData<Shelf>
-    fun getShelfByName(name: String): LiveData<Shelf>
-    fun getShelfes(): LiveData<List<Shelf>>
-    fun getUserShelfs(userId: String): LiveData<List<Shelf>>
-    fun getLoggedUser(): LiveData<User>
-    fun insertLoggedUser(user: User)
-    fun deleteLoggedUser(user: User)
+    suspend fun insertShelf(shelf: Shelf)
+    suspend fun updateShelf(shelf: Shelf)
+    suspend fun deleteShelf(shelf: Shelf)
+    suspend fun getShelfById(id: Int): Shelf
+    suspend fun getShelfByName(name: String): Shelf
+    suspend fun getShelfes(): List<Shelf>
+    fun getUserShelfs(userId: String): Flow<List<Shelf>>
+    fun getLoggedUser(): Flow<User>
+    suspend fun insertLoggedUser(user: User)
+    suspend fun deleteLoggedUser(user: User)
 }

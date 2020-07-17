@@ -5,28 +5,29 @@ import androidx.room.*
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import io.reactivex.Completable
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ShelfDao {
 
     @Insert
-    fun insertShelf(shelf: Shelf)
+    suspend fun insertShelf(shelf: Shelf)
 
     @Update
-    fun updateShelf(shelf: Shelf)
+    suspend fun updateShelf(shelf: Shelf)
 
     @Delete
-    fun deleteShelf(shelf: Shelf)
+    suspend fun deleteShelf(shelf: Shelf)
 
     @Query("select * from shelfs where id = :id")
-    fun getShelfById(id: Int): LiveData<Shelf>
+    suspend fun getShelfById(id: Int): Shelf
 
     @Query("select * from shelfs where id = :name")
-    fun getShelfByName(name: String): LiveData<Shelf>
+    suspend fun getShelfByName(name: String): Shelf
 
     @Query("select * from shelfs")
-    fun getShelfs(): LiveData<List<Shelf>>
+    suspend fun getShelfs(): List<Shelf>
 
     @Query("select * from shelfs where userId = :userId")
-    fun getUserShelfs(userId: String): LiveData<List<Shelf>>
+    fun getUserShelfs(userId: String): Flow<List<Shelf>>
 }

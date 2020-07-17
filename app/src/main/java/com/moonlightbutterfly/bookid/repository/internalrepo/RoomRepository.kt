@@ -7,6 +7,7 @@ import com.moonlightbutterfly.bookid.repository.database.daos.ShelfDao
 import com.moonlightbutterfly.bookid.repository.database.daos.UserDao
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.database.entities.User
+import kotlinx.coroutines.flow.Flow
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
@@ -23,25 +24,25 @@ class RoomRepository @Inject constructor(context: Context, executor: Executor): 
         this.executor = executor
     }
 
-    override fun insertShelf(shelf: Shelf): Unit = executor.execute{shelfDao.insertShelf(shelf)}
+    override suspend fun insertShelf(shelf: Shelf): Unit = shelfDao.insertShelf(shelf)
 
-    override fun updateShelf(shelf: Shelf): Unit = executor.execute{shelfDao.updateShelf(shelf)}
+    override suspend fun updateShelf(shelf: Shelf): Unit = shelfDao.updateShelf(shelf)
 
-    override fun deleteShelf(shelf: Shelf): Unit = executor.execute{shelfDao.deleteShelf(shelf)}
+    override suspend fun deleteShelf(shelf: Shelf): Unit = shelfDao.deleteShelf(shelf)
 
-    override fun getShelfById(id: Int): LiveData<Shelf> = shelfDao.getShelfById(id)
+    override suspend fun getShelfById(id: Int): Shelf = shelfDao.getShelfById(id)
 
-    override fun getShelfByName(name: String): LiveData<Shelf> = shelfDao.getShelfByName(name)
+    override suspend fun getShelfByName(name: String): Shelf = shelfDao.getShelfByName(name)
 
-    override fun getShelfes(): LiveData<List<Shelf>> = shelfDao.getShelfs()
+    override suspend fun getShelfes(): List<Shelf> = shelfDao.getShelfs()
 
-    override fun getUserShelfs(userId: String): LiveData<List<Shelf>> = shelfDao.getUserShelfs(userId)
+    override fun getUserShelfs(userId: String): Flow<List<Shelf>> = shelfDao.getUserShelfs(userId)
 
-    override fun getLoggedUser(): LiveData<User> = userDao.getLoggedUser()
+    override fun getLoggedUser(): Flow<User> = userDao.getLoggedUser()
 
-    override fun insertLoggedUser(user: User) = executor.execute{userDao.insertLoggedUser(user)}
+    override suspend fun insertLoggedUser(user: User) = userDao.insertLoggedUser(user)
 
-    override fun deleteLoggedUser(user: User) = executor.execute{userDao.deleteLoggedUser(user)}
+    override suspend fun deleteLoggedUser(user: User) = userDao.deleteLoggedUser(user)
 
 
 }

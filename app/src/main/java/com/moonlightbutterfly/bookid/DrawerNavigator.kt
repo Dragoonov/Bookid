@@ -13,7 +13,7 @@ class DrawerNavigator(private val drawerManager: DrawerManager, private val navC
     var id: Int = 0
 
     fun navigate() {
-        if (!navController.isDestinationHere(id)) {
+        if (!navController.isDestinationHere(id) && id != 0) {
             navController.navigate(id)
         }
         id = 0

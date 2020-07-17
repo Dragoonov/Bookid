@@ -1,7 +1,6 @@
 package com.moonlightbutterfly.bookid.fragments
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
@@ -45,9 +44,6 @@ class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(Sear
         override fun onQueryTextSubmit(query: String?): Boolean = true
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            if (!viewModel.showHint) {
-                binding?.booksSearchHint?.visibility = View.GONE
-            }
             if (newText.isNullOrEmpty() || newText == viewModel.currentQuery) {
                 return false
             }
@@ -55,7 +51,6 @@ class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(Sear
             viewModel.let {
                 it.clearData()
                 it.requestSearch(newText)
-                it.showHint = false
             }
             return false
         }

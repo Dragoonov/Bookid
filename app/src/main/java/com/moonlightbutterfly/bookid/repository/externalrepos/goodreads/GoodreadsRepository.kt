@@ -21,17 +21,6 @@ class GoodreadsRepository @Inject constructor() : ExternalRepository {
     private var retrofit: Retrofit? = null
     private val BASE_URL = "https://www.goodreads.com"
 
-    private val _searchedBooksLiveData = MutableLiveData<List<Book>>()
-    override val searchedBooksLiveData: LiveData<List<Book>> get() = _searchedBooksLiveData
-
-    private val _authorBooksLiveData = MutableLiveData<List<Book>>()
-    override val authorBooksLiveData: LiveData<List<Book>> get() = _authorBooksLiveData
-
-    private val _authorInfoLiveData = MutableLiveData<Author>()
-    override val authorInfoLiveData: LiveData<Author> get() = _authorInfoLiveData
-
-    private var currentCall: Call<GoodreadsResponseDto>? = null
-
     private fun getRetrofitService() = retrofit?.create(RetrofitServiceGoodreads::class.java)
         ?: Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -43,87 +32,44 @@ class GoodreadsRepository @Inject constructor() : ExternalRepository {
     interface RetrofitServiceGoodreads {
 
         @GET("/search/index.xml")
-        fun getBooksBySearchString(
+        suspend fun getBooksBySearchString(
             @Query("q") query: String?,
             @Query("page") page: Int = 1,
             @Query("key") developerKey: String = "RxcevZGjLRZAdWYapNJBBg",
             @Query("search[field]") searchField: String = "all"
-        ): Call<GoodreadsResponseDto>
+        ): Response<GoodreadsResponseDto>
 
         @GET("/author/show")
-        fun getAuthorInfo(
+        suspend fun getAuthorInfo(
             @Query("id") id: Int,
             @Query("key") developerKey: String = "RxcevZGjLRZAdWYapNJBBg"
-        ): Call<GoodreadsResponseDto>
+        ): Response<GoodreadsResponseDto>
     }
 
-    override fun loadAuthorBooks(author: Author): LiveData<List<Book>> {
-        getRetrofitService()
-            .getAuthorInfo(author.id)
-            .enqueue(object : Callback<GoodreadsResponseDto> {
-                override fun onResponse(
-                    call: Call<GoodreadsResponseDto>,
-                    response: Response<GoodreadsResponseDto>
-                ) {
-                    _authorBooksLiveData.value = GoodreadsConverters.extractAuthorBookListFromDto(response.body())
-                }
-
-                override fun onFailure(call: Call<GoodreadsResponseDto>, t: Throwable) {
-                    Log.v("Error", t.localizedMessage!!)
-                }
-
-            })
-        return authorBooksLiveData
-    }
-
-    override fun loadSearchedBooks(query: String?, page: Int): LiveData<List<Book>> {
-        cancelCurrentRequest()
-        getRetrofitService()
-            .getBooksBySearchString(query, page).apply {
-                currentCall = this
-                enqueue(object : Callback<GoodreadsResponseDto> {
-                override fun onResponse(
-                    call: Call<GoodreadsResponseDto>,
-                    response: Response<GoodreadsResponseDto>
-                ) {
-                    _searchedBooksLiveData.value =
-                        GoodreadsConverters.extractBookListFromDto(response.body())
-                }
-
-                override fun onFailure(call: Call<GoodreadsResponseDto>, t: Throwable) {
-                    Log.v("Error", t.localizedMessage!!)
-                }
-
-            })
-            }
-        return searchedBooksLiveData
-    }
-
-    private fun cancelCurrentRequest() {
-        if (currentCall != null && !currentCall!!.isCanceled) {
-            currentCall!!.cancel()
+    override suspend fun loadAuthorBooks(author: Author): List<Book> {
+        val response = getRetrofitService().getAuthorInfo(author.id)
+        return if (response.isSuccessful) {
+            GoodreadsConverters.extractAuthorBookListFromDto(response.body())!!
+        } else {
+            ArrayList()
         }
     }
 
-    override fun loadAuthorInfo(author: Author): LiveData<Author> {
-        getRetrofitService()
-            .getAuthorInfo(author.id).apply {
-                currentCall = this
-                enqueue(object : Callback<GoodreadsResponseDto> {
-                override fun onResponse(
-                    call: Call<GoodreadsResponseDto>,
-                    response: Response<GoodreadsResponseDto>
-                ) {
-                    _authorInfoLiveData.value =
-                        GoodreadsConverters.extractAuthorFromDto(response.body())
-                }
+    override suspend fun loadSearchedBooks(query: String?, page: Int): List<Book> {
+        val response = getRetrofitService().getBooksBySearchString(query, page)
+        return if (response.isSuccessful) {
+            GoodreadsConverters.extractBookListFromDto(response.body())!!
+        } else {
+            ArrayList()
+        }
+    }
 
-                override fun onFailure(call: Call<GoodreadsResponseDto>, t: Throwable) {
-                    Log.v("Error", t.localizedMessage!!)
-                }
-
-            })
-            }
-        return authorInfoLiveData
+    override suspend fun loadAuthorInfo(author: Author): Author {
+        val response = getRetrofitService().getAuthorInfo(author.id)
+        return if (response.isSuccessful) {
+            GoodreadsConverters.extractAuthorFromDto(response.body())!!
+        } else {
+            Author(0,null,null)
+        }
     }
 }

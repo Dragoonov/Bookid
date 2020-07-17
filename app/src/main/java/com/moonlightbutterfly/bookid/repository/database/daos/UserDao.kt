@@ -5,18 +5,16 @@ import androidx.room.*
 import com.moonlightbutterfly.bookid.repository.database.entities.User
 import io.reactivex.Completable
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertLoggedUser(user: User)
-
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateLoggedUser(user: User)
+    suspend fun insertLoggedUser(user: User)
 
     @Delete
-    fun deleteLoggedUser(user: User)
+    suspend fun deleteLoggedUser(user: User)
 
     @Query("select * from users")
-    fun getLoggedUser(): LiveData<User>
+    fun getLoggedUser(): Flow<User>
 }

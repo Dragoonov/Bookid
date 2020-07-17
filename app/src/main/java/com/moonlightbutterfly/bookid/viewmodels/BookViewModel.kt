@@ -4,16 +4,29 @@ import androidx.lifecycle.*
 import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+fun List<Book>.removeDisplayedBookFromList(book: Book): List<Book>? = this
+    .toMutableList()
+    .filter { it.id != book.id }
 
 class BookViewModel @Inject constructor(val repository: ExternalRepository) : ViewModel() {
 
-    private val _authorBooksLiveData = Transformations.switchMap(repository.authorBooksLiveData)
-    { MutableLiveData(removeDisplayedBookFromList(it)) } as MutableLiveData<List<Book>?>
+    private val _authorBooksLiveData = liveData {
+        val books = repository
+            .loadAuthorBooks(_bookLiveData.value?.author!!)
+            .removeDisplayedBookFromList(_bookLiveData.value as Book)
+        emit(books)
+    } as MutableLiveData
     val authorBooksLiveData: LiveData<List<Book>?> get() = _authorBooksLiveData
 
-    private val _authorInfoLiveData = Transformations.switchMap(repository.authorInfoLiveData)
-    { MutableLiveData(it) } as MutableLiveData<Author>
+    private val _authorInfoLiveData = liveData {
+        val author = repository.loadAuthorInfo(_bookLiveData.value?.author!!)
+        emit(author)
+    } as MutableLiveData
     val authorInfoLiveData: LiveData<Author> get() = _authorInfoLiveData
 
     private var _bookLiveData = MutableLiveData<Book>()
@@ -37,14 +50,15 @@ class BookViewModel @Inject constructor(val repository: ExternalRepository) : Vi
         authorInfoLiveData.value != null && authorBooksLiveData.value != null
 
 
-    private fun removeDisplayedBookFromList(books: List<Book>?): List<Book>? = books
-        ?.toMutableList()
-        ?.filter { it.id != _bookLiveData.value?.id }
-
     fun refreshData() {
         clearCurrentData()
-        repository.loadAuthorBooks(_bookLiveData.value?.author!!)
-        repository.loadAuthorInfo(_bookLiveData.value?.author!!)
+        viewModelScope.launch {
+            val books = repository
+                .loadAuthorBooks(_bookLiveData.value?.author!!)
+                .removeDisplayedBookFromList(_bookLiveData.value as Book)
+            _authorBooksLiveData.value = books
+            _authorInfoLiveData.value = repository.loadAuthorInfo(_bookLiveData.value?.author!!)
+        }
     }
 
     private fun clearCurrentData() {
