@@ -5,4 +5,5 @@ import org.simpleframework.xml.Root
 
 @Root(name = "books", strict = false)
 data class BooksDto @JvmOverloads constructor(
-    @field:ElementList(inline = true) var books: List<AuthorBookDto>? = null)
+    @field:ElementList(inline = true) var books: List<AuthorBookDto>? = null
+)

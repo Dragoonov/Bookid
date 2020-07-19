@@ -1,18 +1,21 @@
 package com.moonlightbutterfly.bookid.viewmodels
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.moonlightbutterfly.bookid.UserManager
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
-import com.moonlightbutterfly.bookid.repository.database.entities.User
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.simpleframework.xml.transform.Transform
 import javax.inject.Inject
 
-class ShelfViewModel @Inject constructor(private val userManager: UserManager,
-                                         private val repository: InternalRepository): ViewModel() {
+class ShelfViewModel @Inject constructor(
+    private val userManager: UserManager,
+    private val repository: InternalRepository
+) : ViewModel() {
 
     val shelfsLiveData: LiveData<List<Shelf>> = liveData {
         repository.getUserShelfs(userManager.user.value?.id!!).collect { data -> emit(data) }
@@ -35,17 +38,19 @@ class ShelfViewModel @Inject constructor(private val userManager: UserManager,
 
 
     fun insertBookToShelf(shelf: Shelf, book: Book) = viewModelScope.launch {
-        if(!shelf.books.contains(book)) {
+        if (!shelf.books.contains(book)) {
             shelf.books = shelf.books.toMutableList().apply { add(book) }
             repository.updateShelf(shelf)
         }
     }
 
     fun insertShelf(name: String) = viewModelScope.launch {
-        repository.insertShelf(Shelf(
-            name,
-            ArrayList(),
-            userManager.user.value?.id!!
-        ))
+        repository.insertShelf(
+            Shelf(
+                name,
+                ArrayList(),
+                userManager.user.value?.id!!
+            )
+        )
     }
 }

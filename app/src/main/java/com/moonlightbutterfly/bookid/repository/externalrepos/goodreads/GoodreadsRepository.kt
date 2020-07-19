@@ -1,14 +1,9 @@
 package com.moonlightbutterfly.bookid.repository.externalrepos.goodreads
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
 import com.moonlightbutterfly.bookid.repository.externalrepos.goodreads.dtos.GoodreadsResponseDto
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
@@ -69,7 +64,7 @@ class GoodreadsRepository @Inject constructor() : ExternalRepository {
         return if (response.isSuccessful) {
             GoodreadsConverters.extractAuthorFromDto(response.body())!!
         } else {
-            Author(0,null,null)
+            Author(0, null, null)
         }
     }
 }

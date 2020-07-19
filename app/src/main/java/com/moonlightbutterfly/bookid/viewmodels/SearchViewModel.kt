@@ -7,7 +7,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SearchViewModel @Inject constructor(private val externalRepository: ExternalRepository) : ViewModel() {
+class SearchViewModel @Inject constructor(private val externalRepository: ExternalRepository) :
+    ViewModel() {
 
     private var searchedBooks: MutableLiveData<List<Book>> = liveData<List<Book>> {
         emit(ArrayList())
@@ -24,7 +25,7 @@ class SearchViewModel @Inject constructor(private val externalRepository: Extern
     }
     val showHint: LiveData<Boolean> get() = _showHint
     private var _showHint = MutableLiveData(true)
-    
+
     var currentQuery: String? = ""
 
     private var page = 1

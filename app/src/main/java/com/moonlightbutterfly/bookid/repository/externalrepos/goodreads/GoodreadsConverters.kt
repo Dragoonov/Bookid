@@ -58,7 +58,7 @@ object GoodreadsConverters {
 
     fun extractAuthorFromDto(response: GoodreadsResponseDto?): Author? {
         val author = response?.author
-        if(author == null) return author
+        if (author == null) return author
         return Author(author?.id!!, author.name, author.imageUrl)
     }
 }

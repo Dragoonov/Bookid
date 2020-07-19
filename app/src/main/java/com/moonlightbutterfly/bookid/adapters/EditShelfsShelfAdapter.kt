@@ -3,16 +3,11 @@ package com.moonlightbutterfly.bookid.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.moonlightbutterfly.bookid.fragments.BookFragment
 import com.moonlightbutterfly.bookid.R
-import com.moonlightbutterfly.bookid.databinding.BookContainerBinding
 import com.moonlightbutterfly.bookid.databinding.RecyclerShelfLayoutBinding
 import com.moonlightbutterfly.bookid.fragments.EditShelfsFragment
-import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 
 

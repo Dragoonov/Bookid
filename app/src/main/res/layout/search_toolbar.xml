@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="com.moonlightbutterfly.bookid.HandlersKt" />
     </data>
 
@@ -24,10 +25,10 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:background="@drawable/menu_24px"
+                android:onClick="@{(view) -> HandlersKt.onClickListener(view)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:onClick="@{(view) -> HandlersKt.onClickListener(view)}"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <SearchView
                 android:id="@+id/searchView"

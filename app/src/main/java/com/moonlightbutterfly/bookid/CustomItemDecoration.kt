@@ -23,7 +23,7 @@ class CustomItemDecoration(private val layoutType: LAYOUT) : RecyclerView.ItemDe
         var right: Int
         var top: Int
         var bottom: Int
-        for (i in 0 until childCount-1) {
+        for (i in 0 until childCount - 1) {
             val child = parent.getChildAt(i)
             if (layoutType == LAYOUT.VERTICAL) {
                 left = parent.convertDpsToPixels(16)

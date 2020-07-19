@@ -90,12 +90,14 @@ fun createBookShelfs(view: LinearLayout, shelfsList: List<Shelf>?) {
             ComposableBookListBinding.inflate(
                 LayoutInflater.from(view.context),
                 view,
-                true).also {
+                true
+            ).also {
                 it.listRecycler.apply {
                     layoutManager = LinearLayoutManager(
                         view.context,
                         LinearLayoutManager.HORIZONTAL,
-                        false)
+                        false
+                    )
                     addItemDecoration(CustomItemDecoration(LAYOUT.HORIZONTAL))
                     adapter = BookAdapter()
                 }
@@ -123,6 +125,7 @@ fun fillData(view: RadioGroup, list: List<Shelf>?) {
         })
     }
 }
+
 @BindingAdapter("verticalBias")
 fun verticalBias(view: ProgressBar, value: Float) {
     val params = view.layoutParams as ConstraintLayout.LayoutParams

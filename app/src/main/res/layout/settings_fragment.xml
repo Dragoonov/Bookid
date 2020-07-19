@@ -2,10 +2,13 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    
+
     <data>
+
         <import type="android.text.method.LinkMovementMethod" />
+
         <import type="com.moonlightbutterfly.bookid.HandlersKt" />
+
         <variable
             name="userManager"
             type="com.moonlightbutterfly.bookid.UserManager" />
@@ -23,8 +26,8 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <include
-                layout="@layout/default_toolbar"
-                android:id="@+id/toolbar"/>
+                android:id="@+id/toolbar"
+                layout="@layout/default_toolbar" />
 
             <TextView
                 style="@style/LargeLabel"
@@ -35,17 +38,17 @@
                 android:text="@string/privacy_policy" />
 
             <TextView
-                style="@style/MediumLabel"
                 android:id="@+id/text_link"
+                style="@style/MediumLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:linksClickable="true"
-                android:textColorLink="@color/primaryTextColor"
-                android:gravity="center"
-                android:text="@string/privacy_policy_text"
                 android:layout_marginBottom="16dp"
-                android:focusable="true" />
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:linksClickable="true"
+                android:text="@string/privacy_policy_text"
+                android:textColorLink="@color/primaryTextColor" />
 
             <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
 
@@ -78,14 +81,14 @@
 
         <Button
             android:id="@+id/sing_out"
+            style="@style/BookidButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:onClick="@{(view) -> HandlersKt.signOutClick(view, userManager)}"
             android:text="@string/sign_out"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            style="@style/BookidButton"
-            android:onClick="@{(view) -> HandlersKt.signOutClick(view, userManager)}"/>
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

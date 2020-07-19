@@ -26,8 +26,8 @@ import javax.inject.Inject
 
 fun NavController.canGoBack(): Boolean =
     currentDestination?.id != R.id.loginFragment
-    && currentDestination?.id != R.id.splashFragment
-    && currentDestination?.id != R.id.searchFragment
+            && currentDestination?.id != R.id.splashFragment
+            && currentDestination?.id != R.id.searchFragment
 
 class MainActivity : AppCompatActivity(), DrawerManager {
 
@@ -45,7 +45,8 @@ class MainActivity : AppCompatActivity(), DrawerManager {
         override fun onDrawerStateChanged(newState: Int) {}
         override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
         override fun onDrawerOpened(drawerView: View) {}
-        override fun onDrawerClosed(drawerView: View) = (binding.drawerNavigator as DrawerNavigator).navigate()
+        override fun onDrawerClosed(drawerView: View) =
+            (binding.drawerNavigator as DrawerNavigator).navigate()
     }
 
     companion object {
@@ -56,7 +57,8 @@ class MainActivity : AppCompatActivity(), DrawerManager {
         (application as BookidApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         binding.let {
             it.lifecycleOwner = this
@@ -66,8 +68,8 @@ class MainActivity : AppCompatActivity(), DrawerManager {
             it.drawerLayout.addDrawerListener(drawerListener)
         }
         communicator.message.observe(this, Observer {
-            if(!it.isNullOrEmpty()) {
-                Snackbar.make(binding.root,it,Snackbar.LENGTH_SHORT).show()
+            if (!it.isNullOrEmpty()) {
+                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
                 communicator.clearMessage()
             }
         })
@@ -90,7 +92,8 @@ class MainActivity : AppCompatActivity(), DrawerManager {
                     account.id!!,
                     account.displayName,
                     account.email,
-                    account.photoUrl.toString())
+                    account.photoUrl.toString()
+                )
                 userManager.signInUser(loggedUser)
                 navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
             }
@@ -103,15 +106,18 @@ class MainActivity : AppCompatActivity(), DrawerManager {
                 "116644458345052983935",
                 "Jakub Lipowski",
                 "jakub.lipowski01@gmail.com",
-                "https://lh3.googleusercontent.com/a-/AOh14GiPou93h951L-XfDmexoG3YKIFM1e7zsNzl5a4B")
+                "https://lh3.googleusercontent.com/a-/AOh14GiPou93h951L-XfDmexoG3YKIFM1e7zsNzl5a4B"
+            )
             userManager.signInUser(loggedUser)
             navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
         }
     }
 
-    override fun lockDrawer() = binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+    override fun lockDrawer() =
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
-    override fun unlockDrawer() = binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+    override fun unlockDrawer() =
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 
     override fun openDrawer() = binding.drawerLayout.open()
 
@@ -121,7 +127,7 @@ class MainActivity : AppCompatActivity(), DrawerManager {
         if (navController.canGoBack()) {
             super.onBackPressed()
         } else {
-            QuitAppDialog.newInstance().show(supportFragmentManager,QuitAppDialog.NAME)
+            QuitAppDialog.newInstance().show(supportFragmentManager, QuitAppDialog.NAME)
         }
     }
 

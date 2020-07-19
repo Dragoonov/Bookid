@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="android.view.View" />
+
         <import type="com.moonlightbutterfly.bookid.BindingAdaptersKt" />
+
         <variable
             name="shelf"
             type="com.moonlightbutterfly.bookid.repository.database.entities.Shelf" />
@@ -46,10 +48,10 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="8dp"
+                android:background="@drawable/create_24px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/deleteShelf"
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="@drawable/create_24px" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/deleteShelf"
@@ -57,10 +59,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
+                android:background="@drawable/delete_24px"
                 app:layout_constraintBottom_toBottomOf="@+id/editShelf"
                 app:layout_constraintEnd_toStartOf="@+id/downArrow"
-                app:layout_constraintTop_toTopOf="@+id/editShelf"
-                android:background="@drawable/delete_24px" />
+                app:layout_constraintTop_toTopOf="@+id/editShelf" />
 
             <ImageButton
                 android:id="@+id/upArrow"
@@ -68,11 +70,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
+                android:background="@drawable/expand_less_24px"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/deleteShelf"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/deleteShelf"
-                android:background="@drawable/expand_less_24px"
-                android:visibility="invisible"/>
+                app:layout_constraintTop_toTopOf="@+id/deleteShelf" />
 
             <ImageButton
                 android:id="@+id/downArrow"
@@ -80,10 +82,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
+                android:background="@drawable/expand_more_24px"
                 app:layout_constraintBottom_toBottomOf="@+id/deleteShelf"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/deleteShelf"
-                android:background="@drawable/expand_more_24px" />
+                app:layout_constraintTop_toTopOf="@+id/deleteShelf" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -91,7 +93,7 @@
             android:id="@+id/booksRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </LinearLayout>
 

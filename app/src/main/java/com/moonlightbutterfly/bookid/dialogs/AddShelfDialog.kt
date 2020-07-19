@@ -2,14 +2,7 @@ package com.moonlightbutterfly.bookid.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
-import android.service.autofill.TextValueSanitizer
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.moonlightbutterfly.bookid.BookidApplication

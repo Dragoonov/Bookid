@@ -8,7 +8,10 @@ fun NavController.isDestinationHere(actionId: Int): Boolean {
     return actionDestination == currentDestination
 }
 
-class DrawerNavigator(private val drawerManager: DrawerManager, private val navController: NavController) {
+class DrawerNavigator(
+    private val drawerManager: DrawerManager,
+    private val navController: NavController
+) {
 
     var id: Int = 0
 

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="android.view.View" />
+
         <import type="com.moonlightbutterfly.bookid.HandlersKt" />
+
         <variable
             name="viewModel"
             type="com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel" />
@@ -26,14 +28,14 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <include
-                layout="@layout/default_toolbar"
-                android:id="@+id/toolbar"/>
+                android:id="@+id/toolbar"
+                layout="@layout/default_toolbar" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/primaryColor"/>
+                android:background="@color/primaryColor" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
@@ -63,11 +65,11 @@
 
             <Button
                 android:id="@+id/add_shelf_button"
+                style="@style/BookidButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/create_shelf"
-                style="@style/BookidButton"
-                android:onClick="@{(view) -> HandlersKt.addShelfClick(view)}"/>
+                android:onClick="@{(view) -> HandlersKt.addShelfClick(view)}"
+                android:text="@string/create_shelf" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

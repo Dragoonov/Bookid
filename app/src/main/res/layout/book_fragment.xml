@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.moonlightbutterfly.bookid.viewmodels.BookViewModel" />
@@ -42,8 +43,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:layout_marginTop="16dp"
-                        app:loadImage="@{viewModel.bookLiveData.imageUrl}"
-                        android:contentDescription="TODO" />
+                        android:contentDescription="TODO"
+                        app:loadImage="@{viewModel.bookLiveData.imageUrl}" />
 
 
                     <LinearLayout
@@ -80,8 +81,7 @@
 
                     </LinearLayout>
 
-                    <com.moonlightbutterfly.bookid.customviews.LineSeparator
-                        style="@style/LineSeparatorHorizontal" />
+                    <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
 
 
                     <LinearLayout
@@ -126,8 +126,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            app:loadImage="@{viewModel.authorInfoLiveData.imageUrl}"
-                            android:contentDescription="TODO" />
+                            android:contentDescription="TODO"
+                            app:loadImage="@{viewModel.authorInfoLiveData.imageUrl}" />
 
                         <TextView
                             style="@style/MediumLabel"
@@ -143,8 +143,7 @@
                         android:id="@+id/author_books_include"
                         layout="@layout/composable_book_list"
                         app:books="@{viewModel.authorBooksLiveData}"
-                        app:title="@{@string/other_author_books}"
-                        />
+                        app:title="@{@string/other_author_books}" />
 
                 </LinearLayout>
 

@@ -1,10 +1,7 @@
 package com.moonlightbutterfly.bookid.repository.database.daos
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.moonlightbutterfly.bookid.repository.database.entities.User
-import io.reactivex.Completable
-import io.reactivex.Single
 import kotlinx.coroutines.flow.Flow
 
 @Dao

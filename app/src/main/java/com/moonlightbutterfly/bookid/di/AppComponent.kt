@@ -1,9 +1,6 @@
 package com.moonlightbutterfly.bookid.di
 
 import android.content.Context
-import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import com.moonlightbutterfly.bookid.MainActivity
 import com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog
 import com.moonlightbutterfly.bookid.dialogs.AddShelfDialog

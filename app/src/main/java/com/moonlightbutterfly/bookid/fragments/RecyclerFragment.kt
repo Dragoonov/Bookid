@@ -2,9 +2,7 @@ package com.moonlightbutterfly.bookid.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moonlightbutterfly.bookid.adapters.BookAdapter

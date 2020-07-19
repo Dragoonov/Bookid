@@ -45,5 +45,6 @@ object Converters {
 
     fun <T> convertToJSONString(obj: T?) = gson.toJson(obj)
 
-    inline fun <reified T> convertToObject(string: String?): T = gson.fromJson(string, T::class.java)
+    inline fun <reified T> convertToObject(string: String?): T =
+        gson.fromJson(string, T::class.java)
 }

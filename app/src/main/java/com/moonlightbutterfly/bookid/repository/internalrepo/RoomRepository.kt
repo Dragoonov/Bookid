@@ -1,27 +1,23 @@
 package com.moonlightbutterfly.bookid.repository.internalrepo
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import com.moonlightbutterfly.bookid.repository.database.AppDatabase
 import com.moonlightbutterfly.bookid.repository.database.daos.ShelfDao
 import com.moonlightbutterfly.bookid.repository.database.daos.UserDao
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.database.entities.User
 import kotlinx.coroutines.flow.Flow
-import java.util.concurrent.Executor
 import javax.inject.Inject
 
-class RoomRepository @Inject constructor(context: Context, executor: Executor): InternalRepository {
+class RoomRepository @Inject constructor(context: Context) : InternalRepository {
 
     private val shelfDao: ShelfDao
     private val userDao: UserDao
-    private val executor: Executor
 
     init {
         val db = AppDatabase.getInstance(context = context)
         shelfDao = db.shelfDao()
         userDao = db.userDao()
-        this.executor = executor
     }
 
     override suspend fun insertShelf(shelf: Shelf): Unit = shelfDao.insertShelf(shelf)

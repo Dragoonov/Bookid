@@ -7,7 +7,6 @@ import android.graphics.Paint
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
 import com.moonlightbutterfly.bookid.R
 
 fun View.convertDpsToPixels(dps: Int): Int {

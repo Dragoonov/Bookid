@@ -5,16 +5,16 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/title_text"
+            style="@style/LargeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/create_shelf"
             android:layout_marginBottom="16dp"
-            style="@style/LargeLabel"/>
+            android:text="@string/create_shelf" />
 
         <EditText
             android:id="@+id/shelf_name"

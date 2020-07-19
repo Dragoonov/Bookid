@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="com.moonlightbutterfly.bookid.HandlersKt" />
+
         <variable
             name="viewModel"
             type="com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel" />
@@ -28,7 +30,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:shelfDataList="@{viewModel.shelfsLiveData}"/>
+                app:shelfDataList="@{viewModel.shelfsLiveData}" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/createShelf"
@@ -40,14 +42,13 @@
                 android:background="@drawable/add_24px"
                 android:clickable="true"
                 android:focusable="true"
+                android:onClick="@{(view) -> HandlersKt.openAddShelfDialog(view)}"
                 android:src="@drawable/add_24px"
                 app:backgroundTint="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/shelfsRecycler"
-                android:onClick="@{(view) -> HandlersKt.openAddShelfDialog(view)}"/>
+                app:layout_constraintEnd_toEndOf="@+id/shelfsRecycler" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     </LinearLayout>

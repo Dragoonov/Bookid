@@ -3,7 +3,6 @@ package com.moonlightbutterfly.bookid.fragments
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moonlightbutterfly.bookid.BookidApplication
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
