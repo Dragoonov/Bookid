@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.ViewModel
-import com.moonlightbutterfly.bookid.*
+import com.moonlightbutterfly.bookid.R
+import com.moonlightbutterfly.bookid.UserManager
 import com.moonlightbutterfly.bookid.databinding.SettingsFragmentBinding
 import javax.inject.Inject
 
@@ -16,7 +17,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding, ViewModel>() {
     @Inject
     lateinit var userManager: UserManager
 
-    override fun inject() = (activity?.application as BookidApplication).appComponent.inject(this)
+    override fun inject() = appComponent.inject(this)
 
     override fun initializeBinding(inflater: LayoutInflater, container: ViewGroup?) {
         binding = SettingsFragmentBinding.inflate(inflater,container, false).also {

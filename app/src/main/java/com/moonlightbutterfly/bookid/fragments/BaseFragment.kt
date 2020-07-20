@@ -8,12 +8,14 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.moonlightbutterfly.bookid.BookidApplication
 import javax.inject.Inject
 
 abstract class BaseFragment<T : ViewDataBinding,K : ViewModel>(private val clas: Class<K>? = null): Fragment() {
 
     protected var binding: T? = null
     protected lateinit var viewModel: K
+    protected val appComponent = (activity?.application as BookidApplication).appComponent
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory

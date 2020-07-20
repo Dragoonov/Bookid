@@ -8,7 +8,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
-import com.moonlightbutterfly.bookid.*
+import com.moonlightbutterfly.bookid.DrawerManager
+import com.moonlightbutterfly.bookid.MainActivity
+import com.moonlightbutterfly.bookid.UserManager
 import com.moonlightbutterfly.bookid.databinding.FragmentLoginBinding
 import javax.inject.Inject
 
@@ -20,7 +22,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, ViewModel>() {
 
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    override fun inject() = (activity?.application as BookidApplication).appComponent.inject(this)
+    override fun inject() = appComponent.inject(this)
 
     override fun initializeBinding(inflater: LayoutInflater, container: ViewGroup?) {
         binding = FragmentLoginBinding.inflate(inflater, container, false).also {

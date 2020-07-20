@@ -6,7 +6,6 @@ import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.moonlightbutterfly.bookid.BookidApplication
 import com.moonlightbutterfly.bookid.CustomItemDecoration
 import com.moonlightbutterfly.bookid.DrawerManager
 import com.moonlightbutterfly.bookid.UserManager
@@ -56,7 +55,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(Sear
         }
     }
 
-    override fun inject() = (activity?.application as BookidApplication).appComponent.inject(this)
+    override fun inject() = appComponent.inject(this)
 
     override fun initializeBinding(inflater: LayoutInflater, container: ViewGroup?) {
         val itemDecor = CustomItemDecoration(LAYOUT.VERTICAL)

@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.moonlightbutterfly.bookid.BookidApplication
 import com.moonlightbutterfly.bookid.adapters.EditShelfsShelfAdapter
 import com.moonlightbutterfly.bookid.databinding.EditShelfsFragmentBinding
 import com.moonlightbutterfly.bookid.dialogs.RenameShelfDialog
@@ -14,7 +13,7 @@ import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 
 class EditShelfsFragment : BaseFragment<EditShelfsFragmentBinding,ShelfViewModel>(ShelfViewModel::class.java) {
 
-    override fun inject() = (activity?.application as BookidApplication).appComponent.inject(this)
+    override fun inject() = appComponent.inject(this)
 
     override fun initializeBinding(inflater: LayoutInflater, container: ViewGroup?) {
         binding = EditShelfsFragmentBinding.inflate(inflater, container, false). also {

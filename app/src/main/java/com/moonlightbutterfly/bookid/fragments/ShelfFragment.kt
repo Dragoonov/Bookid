@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.google.android.material.tabs.TabLayoutMediator
-import com.moonlightbutterfly.bookid.BookidApplication
 import com.moonlightbutterfly.bookid.adapters.ViewPager2Adapter
 import com.moonlightbutterfly.bookid.databinding.ShelfFragmentBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
@@ -28,7 +27,7 @@ class ShelfFragment : BaseFragment<ShelfFragmentBinding, ShelfViewModel>(ShelfVi
         }
     }
 
-    override fun inject() = (activity?.application as BookidApplication).appComponent.inject(this)
+    override fun inject() = appComponent.inject(this)
 
     override fun initializeViewModel() {
         super.initializeViewModel()
