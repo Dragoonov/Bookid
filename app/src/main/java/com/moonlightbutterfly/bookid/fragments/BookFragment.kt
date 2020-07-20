@@ -21,8 +21,8 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
         super.initializeViewModel()
         viewModel.let {
             val bookString = BookFragmentArgs.fromBundle(requireArguments()).book
-            val book = Converters.convertToObject(bookString) as Book
-            it.setBook(book)
+            val book = Converters.convertToObject(bookString) as Book?
+            it.setBook(book!!)
         }
     }
 

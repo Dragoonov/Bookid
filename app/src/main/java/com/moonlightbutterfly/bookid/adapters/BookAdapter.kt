@@ -19,7 +19,7 @@ class BookAdapter(private val layoutType: LAYOUT = LAYOUT.HORIZONTAL) : Recycler
 
         init {
             itemView.setOnClickListener {
-                val action = AppGraphDirections.actionGlobalBookFragment(Converters.convertToJSONString(books[adapterPosition]))
+                val action = AppGraphDirections.actionGlobalBookFragment(Converters.convertToJSONString(books[adapterPosition])!!)
                     it.findNavController().navigate(action)
             }
         }

@@ -18,6 +18,9 @@ allprojects {
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
+    useLibrary 'android.test.runner'
+    useLibrary 'android.test.base'
+    useLibrary 'android.test.mock'
     defaultConfig {
         multiDexEnabled true
         applicationId "com.moonlightbutterfly.bookid"
@@ -48,6 +51,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
         }
     }
 }
@@ -111,4 +119,14 @@ dependencies {
 
     //Color Palette
     implementation 'androidx.palette:palette:1.0.0'
+
+    // Required -- JUnit 4 framework
+    testImplementation 'junit:junit:4.13'
+    // Optional -- Robolectric environment
+    testImplementation 'androidx.test:core:1.2.0'
+    // Optional -- Mockito framework
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+
+    //Hamcrest
+    testImplementation 'org.hamcrest:hamcrest-library:1.3'
 }
