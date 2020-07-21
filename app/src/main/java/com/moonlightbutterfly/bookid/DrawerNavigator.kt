@@ -2,12 +2,6 @@ package com.moonlightbutterfly.bookid
 
 import androidx.navigation.NavController
 
-fun NavController.isDestinationHere(actionId: Int): Boolean {
-    val actionDestination = graph.getAction(actionId)?.destinationId
-    val currentDestination = currentDestination?.id
-    return actionDestination == currentDestination
-}
-
 class DrawerNavigator(
     private val drawerManager: DrawerManager,
     private val navController: NavController
@@ -22,29 +16,35 @@ class DrawerNavigator(
         id = 0
     }
 
-    fun goToSearchBooks() {
+    fun setSearchBooksDestination() {
         drawerManager.closeDrawer()
         id = R.id.action_global_searchFragment
     }
 
-    fun goToShelfs() {
+    fun setShelfsDestination() {
         drawerManager.closeDrawer()
         id = R.id.action_global_shelfFragment
     }
 
-    fun goToEditShelfs() {
+    fun setEditShelfsDestination() {
         drawerManager.closeDrawer()
         id = R.id.action_global_editShelfsFragment
     }
 
-    fun goToProfile() {
+    fun setProfileDestination() {
         drawerManager.closeDrawer()
         id = R.id.action_global_profileFragment
     }
 
-    fun goToSettings() {
+    fun setSettingsDestination() {
         drawerManager.closeDrawer()
         id = R.id.action_global_settingsFragment
+    }
+
+    private fun NavController.isDestinationHere(actionId: Int): Boolean {
+        val actionDestination = graph.getAction(actionId)?.destinationId
+        val currentDestination = currentDestination?.id
+        return actionDestination == currentDestination
     }
 
 }
