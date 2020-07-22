@@ -1,47 +1,34 @@
 package com.moonlightbutterfly.bookid
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
 import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
-import org.hamcrest.Matchers.*
-import org.junit.After
 
 
 class CommunicatorTest {
 
-    @Rule
-    @JvmField
+    @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
     private lateinit var communicator: Communicator
-    private var observedMessage: String? = null
-    private val observer = Observer<String?> {observedMessage = it}
 
     @Before
-    fun init() {
-        communicator = Communicator().apply {
-            message.observeForever(observer)
-        }
-    }
-
-    @After
-    fun clear() {
-        communicator.message.removeObserver(observer)
+    fun initializeCommunicator() {
+        communicator = Communicator()
     }
 
     @Test
     fun `test posting single message`() {
         //Given
         val message = "message"
-        communicator.message.observeForever(observer)
         //When
         communicator.postMessage(message)
         //Then
-        assertThat(communicator.message.value, allOf(not(isEmptyString()), equalTo(observedMessage)))
+        assertThat(communicator.message.getOrAwaitValue(), allOf(not(isEmptyString())))
     }
 
     @Test
@@ -52,7 +39,7 @@ class CommunicatorTest {
         communicator.postMessage(message)
         communicator.clearMessage()
         //Then
-        assertThat(communicator.message.value, nullValue())
+        assertThat(communicator.message.getOrAwaitValue(), nullValue())
     }
 
     @Test
@@ -61,7 +48,7 @@ class CommunicatorTest {
         communicator.clearMessage()
         communicator.clearMessage()
         //Then
-        assertThat(communicator.message.value, nullValue())
+        assertThat(communicator.message.getOrAwaitValue(), nullValue())
     }
 
     @Test
@@ -75,6 +62,6 @@ class CommunicatorTest {
             postMessage(message2)
         }
         //Then
-        assertThat(observedMessage, equalTo(message2))
+        assertThat(communicator.message.getOrAwaitValue(), equalTo(message2))
     }
 }

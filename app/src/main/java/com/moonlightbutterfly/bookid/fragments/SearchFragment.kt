@@ -21,14 +21,14 @@ class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(Sear
     @Inject
     lateinit var userManager: UserManager
 
-    private val onScrollListener = object : RecyclerView.OnScrollListener() {
-        lateinit var layoutManager: LinearLayoutManager
+    private val onScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            val manager: LinearLayoutManager = binding?.recyclerLayout?.listRecycler?.layoutManager
+                    as LinearLayoutManager
             super.onScrolled(recyclerView, dx, dy)
-            val totalItemCount = (layoutManager).itemCount
-            val lastVisibleItem =
-                (layoutManager).findLastVisibleItemPosition()
+            val totalItemCount = manager.itemCount
+            val lastVisibleItem = manager.findLastVisibleItemPosition()
             if (lastVisibleItem + 1 >= totalItemCount && viewModel.allDataLoaded.value!!) {
                 viewModel.loadMore()
             }
@@ -65,9 +65,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(Sear
             it.recyclerLayout.listRecycler.apply {
                 adapter = BookAdapter(LAYOUT.VERTICAL)
                 addItemDecoration(itemDecor)
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false).also { manager ->
-                    onScrollListener.layoutManager = manager
-                }
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 addOnScrollListener(onScrollListener)
                 setHasFixedSize(true)
             }

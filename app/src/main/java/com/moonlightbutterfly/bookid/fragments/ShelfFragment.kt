@@ -18,7 +18,6 @@ class ShelfFragment : BaseFragment<ShelfFragmentBinding, ShelfViewModel>(ShelfVi
     private val shelfsObserver: Observer<List<Shelf>> = Observer {
         binding?.hintContener?.visibility = if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
         mediator?.detach()
-        mediator = null
         (binding?.viewPager?.adapter as ViewPager2Adapter).replaceShelfs(it)
         mediator = TabLayoutMediator(binding?.tabLayout!!, binding?.viewPager!!) { tab, position ->
             tab.text = it[position].name
@@ -43,5 +42,12 @@ class ShelfFragment : BaseFragment<ShelfFragmentBinding, ShelfViewModel>(ShelfVi
     }
 
     override fun initializeCustom() = (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
+
+    override fun onDestroyView() {
+        binding?.viewPager?.adapter = null
+        mediator?.detach()
+        mediator = null
+        super.onDestroyView()
+    }
 
 }
