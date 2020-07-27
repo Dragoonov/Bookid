@@ -12,7 +12,7 @@ fun openAddShelfDialog(view: View) = AddShelfDialog
     .newInstance()
     .show((view.context as AppCompatActivity).supportFragmentManager, AddShelfDialog.NAME)
 
-fun signOutClick(view: View, userManager: UserManager) {
+fun signOutClick(view: View, userManager: Manager) {
     userManager.singOutUser(view.context)
     view.findNavController().navigate(R.id.action_settingsFragment_to_nav_graph)
 }

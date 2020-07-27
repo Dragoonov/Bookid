@@ -19,14 +19,14 @@ import javax.inject.Singleton
 class UserManager @Inject constructor(
     private val internalRepository: InternalRepository,
     private val communicator: Communicator
-) {
-    val user: LiveData<User> get() = _user
-    private val _user: MutableLiveData<User> = liveData {
-        internalRepository.getLoggedUser().collect { data -> emit(data) }
-    } as MutableLiveData<User>
+) : Manager {
+    override val user: LiveData<User?> get() = _user
+    private val _user: MutableLiveData<User?> = liveData {
+        internalRepository.getUser().collect { data -> emit(data) }
+    } as MutableLiveData<User?>
 
 
-    fun singOutUser(context: Context) {
+    override fun singOutUser(context: Context) {
         val gso: GoogleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -34,13 +34,15 @@ class UserManager @Inject constructor(
         GoogleSignIn.getClient(context as AppCompatActivity, gso).signOut()
         if (user.value != null) {
             GlobalScope.launch {
-                internalRepository.deleteLoggedUser(user.value!!)
+                internalRepository.deleteUser(user.value!!)
             }
         }
         communicator.postMessage(context.getString(R.string.signed_out))
     }
 
-    fun signInUser(user: User) = GlobalScope.launch {
-        internalRepository.insertLoggedUser(user)
+    override fun signInUser(user: User): Unit = run {
+        GlobalScope.launch {
+            internalRepository.insertUser(user)
+        }
     }
 }

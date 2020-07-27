@@ -8,10 +8,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.moonlightbutterfly.bookid.BookidApplication
+import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.databinding.AddBookToShelfDialogBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
-import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 

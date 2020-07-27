@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertLoggedUser(user: User)
+    suspend fun insertUser(user: User)
 
     @Delete
-    suspend fun deleteLoggedUser(user: User)
+    suspend fun deleteUser(user: User)
 
     @Query("select * from users")
-    fun getLoggedUser(): Flow<User>
+    fun getUser(): Flow<User?>
 }

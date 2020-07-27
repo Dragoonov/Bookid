@@ -23,8 +23,8 @@ interface ShelfDao {
     suspend fun getShelfByName(name: String): Shelf
 
     @Query("select * from shelfs")
-    suspend fun getShelfs(): List<Shelf>
+    suspend fun getShelfs(): List<Shelf>?
 
     @Query("select * from shelfs where userId = :userId")
-    fun getUserShelfs(userId: String): Flow<List<Shelf>>
+    fun getUserShelfs(userId: String): Flow<List<Shelf>?>
 }

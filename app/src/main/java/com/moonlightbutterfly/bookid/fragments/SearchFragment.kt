@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.CustomItemDecoration
 import com.moonlightbutterfly.bookid.DrawerManager
-import com.moonlightbutterfly.bookid.UserManager
+import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
 import com.moonlightbutterfly.bookid.databinding.SearchFragmentBinding
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(SearchViewModel::class.java) {
 
     @Inject
-    lateinit var userManager: UserManager
+    lateinit var userManager: Manager
 
     private val onScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
 

@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), DrawerManager {
     lateinit var communicator: Communicator
 
     @Inject
-    lateinit var userManager: UserManager
+    lateinit var userManager: Manager
 
     private lateinit var navController: NavController
 

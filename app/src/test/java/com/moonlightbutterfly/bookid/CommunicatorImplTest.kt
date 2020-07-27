@@ -9,16 +9,16 @@ import org.junit.Test
 import org.junit.rules.TestRule
 
 
-class CommunicatorTest {
+class CommunicatorImplTest {
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
-    private lateinit var communicator: Communicator
+    private lateinit var communicatorImpl: CommunicatorImpl
 
     @Before
     fun initializeCommunicator() {
-        communicator = Communicator()
+        communicatorImpl = CommunicatorImpl()
     }
 
     @Test
@@ -26,9 +26,9 @@ class CommunicatorTest {
         //Given
         val message = "message"
         //When
-        communicator.postMessage(message)
+        communicatorImpl.postMessage(message)
         //Then
-        assertThat(communicator.message.getOrAwaitValue(), allOf(not(isEmptyString())))
+        assertThat(communicatorImpl.message.getOrAwaitValue(), allOf(not(isEmptyString())))
     }
 
     @Test
@@ -36,19 +36,19 @@ class CommunicatorTest {
         //Given
         val message = "message"
         //When
-        communicator.postMessage(message)
-        communicator.clearMessage()
+        communicatorImpl.postMessage(message)
+        communicatorImpl.clearMessage()
         //Then
-        assertThat(communicator.message.getOrAwaitValue(), nullValue())
+        assertThat(communicatorImpl.message.getOrAwaitValue(), nullValue())
     }
 
     @Test
     fun `test clearing empty communicator`() {
         //When
-        communicator.clearMessage()
-        communicator.clearMessage()
+        communicatorImpl.clearMessage()
+        communicatorImpl.clearMessage()
         //Then
-        assertThat(communicator.message.getOrAwaitValue(), nullValue())
+        assertThat(communicatorImpl.message.getOrAwaitValue(), nullValue())
     }
 
     @Test
@@ -57,11 +57,11 @@ class CommunicatorTest {
         val message1 = "message1"
         val message2 = "message2"
         //When
-        communicator.run {
+        communicatorImpl.run {
             postMessage(message1)
             postMessage(message2)
         }
         //Then
-        assertThat(communicator.message.getOrAwaitValue(), equalTo(message2))
+        assertThat(communicatorImpl.message.getOrAwaitValue(), equalTo(message2))
     }
 }

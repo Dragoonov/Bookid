@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.moonlightbutterfly.bookid.UserManager
+import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
@@ -13,12 +13,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ShelfViewModel @Inject constructor(
-    private val userManager: UserManager,
+    private val userManager: Manager,
     private val repository: InternalRepository
 ) : ViewModel() {
 
     val shelfsLiveData: LiveData<List<Shelf>> = liveData {
-        repository.getUserShelfs(userManager.user.value?.id!!).collect { data -> emit(data) }
+        repository.getUserShelfs(userManager.user.value?.id!!)
+            .collect { data -> data?.let { emit(it) } }
     }
 
     fun deleteShelf(shelf: Shelf) = viewModelScope.launch {

@@ -3,7 +3,7 @@ package com.moonlightbutterfly.bookid.fragments
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.moonlightbutterfly.bookid.UserManager
+import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.databinding.ProfileFragmentBinding
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
@@ -11,7 +11,7 @@ import javax.inject.Inject
 class ProfileFragment : BaseFragment<ProfileFragmentBinding, ShelfViewModel>(ShelfViewModel::class.java) {
 
     @Inject
-    lateinit var userManager: UserManager
+    lateinit var userManager: Manager
 
     override fun inject() = appComponent.inject(this)
 

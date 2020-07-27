@@ -6,14 +6,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import com.moonlightbutterfly.bookid.DrawerManager
-import com.moonlightbutterfly.bookid.UserManager
+import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.databinding.FragmentSplashBinding
 import javax.inject.Inject
 
 class SplashFragment : BaseFragment<FragmentSplashBinding,ViewModel>() {
 
     @Inject
-    lateinit var userManager: UserManager
+    lateinit var userManager: Manager
 
     override fun inject() = appComponent.inject(this)
 

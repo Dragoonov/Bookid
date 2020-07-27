@@ -30,15 +30,13 @@ class RoomRepository @Inject constructor(context: Context) : InternalRepository 
 
     override suspend fun getShelfByName(name: String): Shelf = shelfDao.getShelfByName(name)
 
-    override suspend fun getShelfes(): List<Shelf> = shelfDao.getShelfs()
+    override suspend fun getShelfes(): List<Shelf>? = shelfDao.getShelfs()
 
-    override fun getUserShelfs(userId: String): Flow<List<Shelf>> = shelfDao.getUserShelfs(userId)
+    override fun getUserShelfs(userId: String): Flow<List<Shelf>?> = shelfDao.getUserShelfs(userId)
 
-    override fun getLoggedUser(): Flow<User> = userDao.getLoggedUser()
+    override fun getUser(): Flow<User?> = userDao.getUser()
 
-    override suspend fun insertLoggedUser(user: User) = userDao.insertLoggedUser(user)
+    override suspend fun insertUser(user: User) = userDao.insertUser(user)
 
-    override suspend fun deleteLoggedUser(user: User) = userDao.deleteLoggedUser(user)
-
-
+    override suspend fun deleteUser(user: User) = userDao.deleteUser(user)
 }

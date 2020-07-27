@@ -10,7 +10,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.moonlightbutterfly.bookid.DrawerManager
 import com.moonlightbutterfly.bookid.MainActivity
-import com.moonlightbutterfly.bookid.UserManager
+import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.databinding.FragmentLoginBinding
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ import javax.inject.Inject
 class LoginFragment : BaseFragment<FragmentLoginBinding, ViewModel>() {
 
     @Inject
-    lateinit var userManager: UserManager
+    lateinit var userManager: Manager
 
     private lateinit var googleSignInClient: GoogleSignInClient
 

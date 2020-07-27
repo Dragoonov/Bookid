@@ -11,7 +11,7 @@
 
         <variable
             name="userManager"
-            type="com.moonlightbutterfly.bookid.UserManager" />
+            type="com.moonlightbutterfly.bookid.Manager" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
