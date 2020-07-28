@@ -8,11 +8,14 @@ import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
 import com.moonlightbutterfly.bookid.repository.internalrepo.RoomRepositoryFake
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
-import org.hamcrest.CoreMatchers.notNullValue
+import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -27,7 +30,6 @@ class ShelfViewModelTest {
     private lateinit var viewModel: ShelfViewModel
     private lateinit var manager: Manager
     private lateinit var internalRepo: InternalRepository
-    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     @Before
     fun setUp() {
@@ -43,22 +45,35 @@ class ShelfViewModelTest {
         }
         internalRepo = RoomRepositoryFake()
         viewModel = ShelfViewModel(manager, internalRepo)
-        Dispatchers.setMain(mainThreadSurrogate)
+        Dispatchers.setMain(Dispatchers.Unconfined)
+    }
+
+    @After
+    fun tearDown() = Dispatchers.resetMain()
+
+
+    @Test
+    fun `test insert shelf`() = runBlockingTest {
+        //Given
+        val shelfName = "shelf1"
+        //When
+        viewModel.insertShelf(shelfName)
+        //Then
+        assertThat(
+            internalRepo.getShelfByName(shelfName),
+            CoreMatchers.notNullValue()
+        )
     }
 
     @Test
-    fun `test insert shelf`() {
-        runBlockingTest {
-            //Given
-            val shelfName = "shelf1"
-            //When
-            viewModel.insertShelf(shelfName)
-            //Then
-            assertThat(
-                internalRepo.getShelfByName(shelfName),
-                notNullValue()
-            )
+    fun `test insert null shelf`() = runBlockingTest {
+        //Given
+        val shelfName: String? = null
+        //When
+        viewModel.insertShelf(shelfName)
+        //Then
+        internalRepo.getUserShelfs("1").collect {
+            assertThat(it, nullValue())
         }
     }
-
 }

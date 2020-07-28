@@ -48,7 +48,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(Sear
             }
             (binding?.recyclerLayout?.listRecycler?.adapter as BookAdapter).clearList()
             viewModel.let {
-                it.clearData()
+                it.clearLatestSearchedBooksBatch()
                 it.requestSearch(newText)
             }
             return false

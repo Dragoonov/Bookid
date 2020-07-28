@@ -22,36 +22,50 @@ class ShelfViewModel @Inject constructor(
             .collect { data -> data?.let { emit(it) } }
     }
 
-    fun deleteShelf(shelf: Shelf) = viewModelScope.launch {
-        repository.deleteShelf(shelf)
-    }
-
-    fun deleteBookFromShelf(book: Book, shelf: Shelf) = viewModelScope.launch {
-        shelf.books = shelf.books.filter { it.id != book.id }
-        repository.updateShelf(shelf)
-    }
-
-
-    fun updateShelfName(shelf: Shelf, name: String) = viewModelScope.launch {
-        shelf.name = name
-        repository.updateShelf(shelf)
-    }
-
-
-    fun insertBookToShelf(shelf: Shelf, book: Book) = viewModelScope.launch {
-        if (!shelf.books.contains(book)) {
-            shelf.books = shelf.books.toMutableList().apply { add(book) }
-            repository.updateShelf(shelf)
+    fun deleteShelf(shelf: Shelf?) = shelf?.let {
+        viewModelScope.launch {
+            repository.deleteShelf(it)
         }
     }
 
-    fun insertShelf(name: String) = viewModelScope.launch {
-        repository.insertShelf(
-            Shelf(
-                name,
-                ArrayList(),
-                userManager.user.value?.id!!
+    fun deleteBookFromShelf(book: Book?, shelf: Shelf?) {
+        if (book != null && shelf != null) {
+            viewModelScope.launch {
+                shelf.books = shelf.books.filter { it.id != book.id }
+                repository.updateShelf(shelf)
+            }
+        }
+    }
+
+
+    fun updateShelfName(shelf: Shelf?, name: String?) {
+        if (shelf != null && name != null) {
+            viewModelScope.launch {
+                shelf.name = name
+                repository.updateShelf(shelf)
+            }
+        }
+    }
+
+
+    fun insertBookToShelf(shelf: Shelf?, book: Book?) {
+        if (shelf != null && book != null && !shelf.books.contains(book)) {
+            viewModelScope.launch {
+                shelf.books = shelf.books.toMutableList().apply { add(book) }
+                repository.updateShelf(shelf)
+            }
+        }
+    }
+
+    fun insertShelf(name: String?) = name?.let {
+        viewModelScope.launch {
+            repository.insertShelf(
+                Shelf(
+                    it,
+                    ArrayList(),
+                    userManager.user.value?.id!!
+                )
             )
-        )
+        }
     }
 }

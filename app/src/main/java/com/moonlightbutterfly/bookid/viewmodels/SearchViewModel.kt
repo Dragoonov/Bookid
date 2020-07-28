@@ -36,7 +36,7 @@ class SearchViewModel @Inject constructor(private val externalRepository: Extern
         searchedBooks.value != null
     }
 
-    fun clearData() {
+    fun clearLatestSearchedBooksBatch() {
         searchedBooks.value = null
     }
 
@@ -54,7 +54,7 @@ class SearchViewModel @Inject constructor(private val externalRepository: Extern
     }
 
     fun loadMore() {
-        clearData()
+        clearLatestSearchedBooksBatch()
         page = page.inc()
         viewModelScope.launch {
             searchedBooks.value = externalRepository.loadSearchedBooks(currentQuery, page)

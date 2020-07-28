@@ -7,11 +7,16 @@ import kotlinx.coroutines.flow.flowOf
 
 class RoomRepositoryFake : InternalRepository {
 
-    private val shelfs: MutableList<Shelf>? = ArrayList()
+    private val _shelfs: MutableList<Shelf> = ArrayList()
+    private val shelfs: MutableList<Shelf>?
+        get() = if (_shelfs.isEmpty()) null else _shelfs
+
 
     private var user: User? = null
 
-    override suspend fun insertShelf(shelf: Shelf): Unit = run { shelfs?.add(shelf)!! }
+    override suspend fun insertShelf(shelf: Shelf): Unit = run {
+        shelfs?.add(shelf)!!
+    }
 
     override suspend fun updateShelf(shelf: Shelf): Unit = run {
         shelfs?.removeIf { shelf.id == it.id }.also {
@@ -25,13 +30,13 @@ class RoomRepositoryFake : InternalRepository {
         shelfs?.removeIf { shelf.id == it.id }!!
     }
 
-    override suspend fun getShelfById(id: Int): Shelf? = shelfs!![id]
+    override suspend fun getShelfById(id: Int): Shelf? = shelfs?.get(id)
 
     override suspend fun getShelfByName(name: String): Shelf? = shelfs?.find { it.name == name }
 
     override suspend fun getShelfes(): List<Shelf>? = shelfs
 
-    override fun getUserShelfs(userId: String): Flow<List<Shelf>?> = flowOf(shelfs?.toList()!!)
+    override fun getUserShelfs(userId: String): Flow<List<Shelf>?> = flowOf(shelfs?.toList())
 
     override fun getUser(): Flow<User?> = flowOf(
         User(
@@ -41,7 +46,9 @@ class RoomRepositoryFake : InternalRepository {
             "https://lh3.googleusercontent.com/a-/AOh14GiPou93h951L-XfDmexoG3YKIFM1e7zsNzl5a4B"
         )
     )
+
     override suspend fun insertUser(user: User): Unit = run { this.user = user }
 
     override suspend fun deleteUser(user: User) = run { this.user = null }
+
 }
