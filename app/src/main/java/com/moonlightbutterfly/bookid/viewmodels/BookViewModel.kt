@@ -4,14 +4,14 @@ import androidx.lifecycle.*
 import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-fun List<Book>.removeDisplayedBookFromList(book: Book): List<Book>? = this
-    .toMutableList()
-    .filter { it.id != book.id }
-
-class BookViewModel @Inject constructor(val repository: ExternalRepository) : ViewModel() {
+class BookViewModel @Inject constructor(
+    private val repository: ExternalRepository,
+    private val dispatcher: CoroutineDispatcher
+) : ViewModel() {
 
     private val _authorBooksLiveData = liveData {
         val books = repository
@@ -50,7 +50,7 @@ class BookViewModel @Inject constructor(val repository: ExternalRepository) : Vi
 
     fun refreshData() {
         clearCurrentData()
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             val books = repository
                 .loadAuthorBooks(_bookLiveData.value?.author!!)
                 .removeDisplayedBookFromList(_bookLiveData.value as Book)
@@ -63,5 +63,9 @@ class BookViewModel @Inject constructor(val repository: ExternalRepository) : Vi
         _authorBooksLiveData.value = null
         _authorInfoLiveData.value = null
     }
+
+    private fun List<Book>.removeDisplayedBookFromList(book: Book): List<Book>? = this
+        .toMutableList()
+        .filter { it.id != book.id }
 
 }

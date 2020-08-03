@@ -7,18 +7,18 @@ import kotlinx.coroutines.flow.flowOf
 
 class RoomRepositoryFake : InternalRepository {
 
-    private val _shelfs: MutableList<Shelf> = ArrayList()
-    private val shelfs: MutableList<Shelf>?
-        get() = if (_shelfs.isEmpty()) null else _shelfs
+    private var shelfs: MutableList<Shelf>? = null
 
 
     private var user: User? = null
 
     override suspend fun insertShelf(shelf: Shelf): Unit = run {
+        if(shelfs == null) shelfs = ArrayList()
         shelfs?.add(shelf)!!
     }
 
     override suspend fun updateShelf(shelf: Shelf): Unit = run {
+        if(shelfs == null) shelfs = ArrayList()
         shelfs?.removeIf { shelf.id == it.id }.also {
             if (it!!) {
                 shelfs?.add(shelf)
@@ -27,10 +27,10 @@ class RoomRepositoryFake : InternalRepository {
     }
 
     override suspend fun deleteShelf(shelf: Shelf): Unit = run {
-        shelfs?.removeIf { shelf.id == it.id }!!
+        shelfs?.removeIf { shelf.id == it.id }
     }
 
-    override suspend fun getShelfById(id: Int): Shelf? = shelfs?.get(id)
+    override suspend fun getShelfById(id: Int): Shelf? = shelfs?.find { id == it.id }
 
     override suspend fun getShelfByName(name: String): Shelf? = shelfs?.find { it.name == name }
 

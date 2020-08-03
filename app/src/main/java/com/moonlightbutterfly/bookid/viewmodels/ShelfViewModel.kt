@@ -8,13 +8,15 @@ import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ShelfViewModel @Inject constructor(
     private val userManager: Manager,
-    private val repository: InternalRepository
+    private val repository: InternalRepository,
+    private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     val shelfsLiveData: LiveData<List<Shelf>> = liveData {
@@ -23,14 +25,14 @@ class ShelfViewModel @Inject constructor(
     }
 
     fun deleteShelf(shelf: Shelf?) = shelf?.let {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             repository.deleteShelf(it)
         }
     }
 
     fun deleteBookFromShelf(book: Book?, shelf: Shelf?) {
         if (book != null && shelf != null) {
-            viewModelScope.launch {
+            viewModelScope.launch(dispatcher) {
                 shelf.books = shelf.books.filter { it.id != book.id }
                 repository.updateShelf(shelf)
             }
@@ -40,7 +42,7 @@ class ShelfViewModel @Inject constructor(
 
     fun updateShelfName(shelf: Shelf?, name: String?) {
         if (shelf != null && name != null) {
-            viewModelScope.launch {
+            viewModelScope.launch(dispatcher) {
                 shelf.name = name
                 repository.updateShelf(shelf)
             }
@@ -50,7 +52,7 @@ class ShelfViewModel @Inject constructor(
 
     fun insertBookToShelf(shelf: Shelf?, book: Book?) {
         if (shelf != null && book != null && !shelf.books.contains(book)) {
-            viewModelScope.launch {
+            viewModelScope.launch(dispatcher) {
                 shelf.books = shelf.books.toMutableList().apply { add(book) }
                 repository.updateShelf(shelf)
             }
@@ -58,7 +60,7 @@ class ShelfViewModel @Inject constructor(
     }
 
     fun insertShelf(name: String?) = name?.let {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             repository.insertShelf(
                 Shelf(
                     it,

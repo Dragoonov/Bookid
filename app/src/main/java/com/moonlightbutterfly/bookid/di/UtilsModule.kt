@@ -6,6 +6,9 @@ import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.UserManager
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
 @Module
 abstract class UtilsModule {
@@ -15,4 +18,9 @@ abstract class UtilsModule {
 
     @Binds
     abstract fun bindManager(x: UserManager): Manager
+
+    companion object {
+        @Provides
+        fun provideDispatcher(): CoroutineDispatcher = Dispatchers.IO
+    }
 }

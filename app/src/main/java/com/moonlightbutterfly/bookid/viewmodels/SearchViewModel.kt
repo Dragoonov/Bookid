@@ -3,11 +3,14 @@ package com.moonlightbutterfly.bookid.viewmodels
 import androidx.lifecycle.*
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SearchViewModel @Inject constructor(private val externalRepository: ExternalRepository) :
+class SearchViewModel @Inject constructor(
+    private val externalRepository: ExternalRepository,
+    private val dispatcher: CoroutineDispatcher) :
     ViewModel() {
 
     private var searchedBooks: MutableLiveData<List<Book>> = liveData<List<Book>> {
@@ -27,6 +30,7 @@ class SearchViewModel @Inject constructor(private val externalRepository: Extern
     private var _showHint = MutableLiveData(true)
 
     var currentQuery: String? = ""
+    private set
 
     private var page = 1
 
@@ -36,18 +40,19 @@ class SearchViewModel @Inject constructor(private val externalRepository: Extern
         searchedBooks.value != null
     }
 
-    fun clearLatestSearchedBooksBatch() {
-        searchedBooks.value = null
+    private fun clearLatestSearchedBooksBatch() = with(searchedBooks) {
+        value = null
     }
 
     fun requestSearch(query: String?) {
+        clearLatestSearchedBooksBatch()
         currentJob?.cancel()
         allBooks.value = ArrayList()
         page = 1
         currentQuery = query
         _showHint.value = false
         if (!query.isNullOrEmpty()) {
-            currentJob = viewModelScope.launch {
+            currentJob = viewModelScope.launch(dispatcher) {
                 searchedBooks.value = externalRepository.loadSearchedBooks(query, page)
             }
         }
@@ -56,7 +61,7 @@ class SearchViewModel @Inject constructor(private val externalRepository: Extern
     fun loadMore() {
         clearLatestSearchedBooksBatch()
         page = page.inc()
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             searchedBooks.value = externalRepository.loadSearchedBooks(currentQuery, page)
         }
     }

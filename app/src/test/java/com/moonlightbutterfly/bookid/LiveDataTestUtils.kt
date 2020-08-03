@@ -22,7 +22,7 @@ fun <T> LiveData<T>.getOrAwaitValue(
             this@getOrAwaitValue.removeObserver(this)
         }
     }
-    this.observeForever(observer)
+        this.observeForever(observer)
 
     try {
         afterObserve.invoke()
