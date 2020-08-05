@@ -19,7 +19,7 @@ interface ShelfDao {
     @Query("select * from shelfs where id = :id")
     suspend fun getShelfById(id: Int): Shelf
 
-    @Query("select * from shelfs where id = :name")
+    @Query("select * from shelfs where name = :name")
     suspend fun getShelfByName(name: String): Shelf
 
     @Query("select * from shelfs")

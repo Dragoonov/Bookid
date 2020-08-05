@@ -63,9 +63,9 @@ class ShelfViewModel @Inject constructor(
         viewModelScope.launch(dispatcher) {
             repository.insertShelf(
                 Shelf(
-                    it,
-                    ArrayList(),
-                    userManager.user.value?.id!!
+                    name = it,
+                    books = ArrayList(),
+                    userId = userManager.user.value?.id!!
                 )
             )
         }

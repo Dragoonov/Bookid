@@ -21,6 +21,6 @@ abstract class UtilsModule {
 
     companion object {
         @Provides
-        fun provideDispatcher(): CoroutineDispatcher = Dispatchers.IO
+        fun provideDispatcher(): CoroutineDispatcher = Dispatchers.Main
     }
 }
