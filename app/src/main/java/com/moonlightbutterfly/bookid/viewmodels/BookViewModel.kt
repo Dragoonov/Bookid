@@ -15,25 +15,16 @@ class BookViewModel @Inject constructor(
 
     private val _authorBooksLiveData = liveData {
         val books = repository
-            .loadAuthorBooks(_bookLiveData.value?.author!!)
+            .loadAuthorBooks(_bookLiveData.value?.author)
             .removeDisplayedBookFromList(_bookLiveData.value as Book)
         emit(books)
     } as MutableLiveData
     val authorBooksLiveData: LiveData<List<Book>?> get() = _authorBooksLiveData
 
-    private val _authorInfoLiveData = liveData {
-        val author = repository.loadAuthorInfo(_bookLiveData.value?.author!!)
-        emit(author)
-    } as MutableLiveData
-    val authorInfoLiveData: LiveData<Author> get() = _authorInfoLiveData
-
     private var _bookLiveData = MutableLiveData<Book>()
     val bookLiveData: LiveData<Book> get() = _bookLiveData
 
-    private val _allDataLoaded: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
-        addSource(authorInfoLiveData) { value = updateDataLoaded() }
-        addSource(authorBooksLiveData) { value = updateDataLoaded() }
-    }
+    private val _allDataLoaded = Transformations.map(authorBooksLiveData) {it != null}
     val allDataLoaded: LiveData<Boolean> get() = _allDataLoaded
 
     fun setBook(book: Book) {
@@ -44,24 +35,18 @@ class BookViewModel @Inject constructor(
         refreshData()
     }
 
-    private fun updateDataLoaded(): Boolean =
-        authorInfoLiveData.value != null && authorBooksLiveData.value != null
-
-
     fun refreshData() {
         clearCurrentData()
         viewModelScope.launch(dispatcher) {
             val books = repository
-                .loadAuthorBooks(_bookLiveData.value?.author!!)
+                .loadAuthorBooks(_bookLiveData.value?.author)
                 .removeDisplayedBookFromList(_bookLiveData.value as Book)
             _authorBooksLiveData.value = books
-            _authorInfoLiveData.value = repository.loadAuthorInfo(_bookLiveData.value?.author!!)
         }
     }
 
     private fun clearCurrentData() {
         _authorBooksLiveData.value = null
-        _authorInfoLiveData.value = null
     }
 
     private fun List<Book>.removeDisplayedBookFromList(book: Book): List<Book>? = this

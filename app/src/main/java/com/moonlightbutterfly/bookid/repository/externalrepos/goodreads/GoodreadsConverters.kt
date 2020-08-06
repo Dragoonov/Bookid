@@ -1,6 +1,5 @@
 package com.moonlightbutterfly.bookid.repository.externalrepos.goodreads
 
-import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.externalrepos.goodreads.dtos.GoodreadsResponseDto
 
@@ -11,13 +10,9 @@ object GoodreadsConverters {
         return worksList
             ?.map { workDto ->
                 Book(
-                    workDto.bestBook?.id!!,
+                    workDto.bestBook?.id.toString(),
                     workDto.bestBook?.title,
-                    Author(
-                        workDto.bestBook?.author?.id!!,
-                        workDto.bestBook?.author?.name,
-                        null
-                    ),
+                    workDto.bestBook?.author?.id.toString(),
                     String.format(
                         "%d.%d.%d",
                         workDto.originalPublicationDay,
@@ -36,13 +31,9 @@ object GoodreadsConverters {
         return worksList
             ?.map { book ->
                 Book(
-                    book.id!!,
+                    book.id.toString(),
                     book.title!!,
-                    Author(
-                        book.authors?.authors?.get(0)?.id!!,
-                        book.authors?.authors?.get(0)?.name,
-                        null
-                    ),
+                    book.authors?.authors?.get(0)?.id.toString(),
                     String.format(
                         "%d.%d.%d",
                         book.publicationDay,
@@ -54,11 +45,5 @@ object GoodreadsConverters {
                 )
             }
             ?.toList()
-    }
-
-    fun extractAuthorFromDto(response: GoodreadsResponseDto?): Author? {
-        val author = response?.author
-        if (author == null) return author
-        return Author(author?.id!!, author.name, author.imageUrl)
     }
 }

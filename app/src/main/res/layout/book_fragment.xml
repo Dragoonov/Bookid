@@ -64,7 +64,7 @@
                             style="@style/MediumLabel"
                             android:layout_weight="1"
                             android:gravity="center|center_vertical"
-                            android:text="@{viewModel.bookLiveData.author.name, default=@string/default_author}"
+                            android:text="@{viewModel.bookLiveData.author, default=@string/default_author}"
                             android:textSize="18sp" />
 
                         <TextView
@@ -122,19 +122,12 @@
                         android:layout_margin="16dp"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:contentDescription="TODO"
-                            app:loadImage="@{viewModel.authorInfoLiveData.imageUrl}" />
-
                         <TextView
                             style="@style/MediumLabel"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="@{viewModel.authorInfoLiveData.name, default=@string/default_author}" />
+                            android:text="@{viewModel.bookLiveData.author, default=@string/default_author}" />
                     </LinearLayout>
 
                     <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
