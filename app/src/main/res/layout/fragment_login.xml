@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="fragment"
-            type="com.moonlightbutterfly.bookid.fragments.LoginFragment" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,7 +10,7 @@
         tools:context=".fragments.LoginFragment">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/logo"
             src="@tools:sample/backgrounds/scenic"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -27,8 +20,9 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.207"
-            app:srcCompat="@drawable/logo" />
+            app:layout_constraintVertical_bias="0.2"
+            app:srcCompat="@drawable/logo"
+            android:transitionName="logo"/>
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
@@ -37,8 +31,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3"
-            app:layout_constraintVertical_bias="0.25" />
+            app:layout_constraintTop_toBottomOf="@+id/logo"
+            app:layout_constraintVertical_bias="0.25"
+            android:alpha="0"
+            android:visibility="invisible"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

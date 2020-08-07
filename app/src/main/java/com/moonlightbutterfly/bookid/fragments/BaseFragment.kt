@@ -28,7 +28,7 @@ abstract class BaseFragment<T : ViewDataBinding,K : ViewModel>(private val clas:
             viewModel = ViewModelProvider(this,viewModelFactory)[clas]
         }
     }
-    open fun initializeCustom() {}
+    open fun initializeCustom(savedInstanceState: Bundle?) {}
 
     open fun inject() {}
 
@@ -41,7 +41,7 @@ abstract class BaseFragment<T : ViewDataBinding,K : ViewModel>(private val clas:
         inject()
         initializeViewModel()
         initializeBinding(inflater, container)
-        initializeCustom()
+        initializeCustom(savedInstanceState)
         return binding?.root
     }
 

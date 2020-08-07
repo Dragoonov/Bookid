@@ -1,5 +1,6 @@
 package com.moonlightbutterfly.bookid.fragments
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +42,7 @@ class ShelfFragment : BaseFragment<ShelfFragmentBinding, ShelfViewModel>(ShelfVi
         }
     }
 
-    override fun initializeCustom() = (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
+    override fun initializeCustom(savedInstanceState: Bundle?) = (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
 
     override fun onDestroyView() {
         binding?.viewPager?.adapter = null

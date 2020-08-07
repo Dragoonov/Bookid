@@ -1,5 +1,6 @@
 package com.moonlightbutterfly.bookid.fragments
 
+import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -33,5 +34,5 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding, ViewModel>() {
         }
     }
 
-    override fun initializeCustom() = (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
+    override fun initializeCustom(savedInstanceState: Bundle?) = (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
 }

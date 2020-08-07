@@ -1,5 +1,6 @@
 package com.moonlightbutterfly.bookid.fragments
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.SearchView
@@ -70,7 +71,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(Sear
         }
     }
 
-    override fun initializeCustom() {
+    override fun initializeCustom(savedInstanceState: Bundle?) {
         (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.searchToolbar)
         (activity as DrawerManager).unlockDrawer()
     }

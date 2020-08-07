@@ -1,13 +1,16 @@
 package com.moonlightbutterfly.bookid.fragments
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.moonlightbutterfly.bookid.DrawerManager
 import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.databinding.FragmentSplashBinding
+import kotlinx.android.synthetic.main.fragment_splash.*
 import javax.inject.Inject
 
 class SplashFragment : BaseFragment<FragmentSplashBinding,ViewModel>() {
@@ -21,7 +24,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding,ViewModel>() {
         binding = FragmentSplashBinding.inflate(inflater, container, false)
     }
 
-    override fun initializeCustom() {
+    override fun initializeCustom(savedInstanceState: Bundle?) {
         authenticateUser()
         (activity as DrawerManager).lockDrawer()
     }
@@ -30,7 +33,8 @@ class SplashFragment : BaseFragment<FragmentSplashBinding,ViewModel>() {
         val navController = findNavController()
         userManager.user.observe(viewLifecycleOwner, Observer {
             if (it == null) {
-                navController.navigate(SplashFragmentDirections.actionSplashFragmentToLoginGraph())
+                val extras = FragmentNavigatorExtras(logo to "logo")
+                navController.navigate(SplashFragmentDirections.actionSplashFragmentToLoginGraph(), extras)
             } else {
                 userManager.signInUser(it)
                 navController.navigate(SplashFragmentDirections.actionSplashFragmentToAppGraph())
