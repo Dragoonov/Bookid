@@ -3,11 +3,14 @@ package com.moonlightbutterfly.bookid.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.ViewDataBinding
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.moonlightbutterfly.bookid.AppGraphDirections
 import com.moonlightbutterfly.bookid.Converters
 import com.moonlightbutterfly.bookid.databinding.BookContainerBinding
+import com.moonlightbutterfly.bookid.databinding.BookContainerHorizontalBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
 
@@ -24,16 +27,18 @@ class BookAdapter(private val layoutType: LAYOUT = LAYOUT.HORIZONTAL) : Recycler
             }
         }
 
-        private var binding: BookContainerBinding? = null
+        private var binding: ViewDataBinding? = null
 
-        constructor(binding: BookContainerBinding, layoutType: LAYOUT) : this(binding.root) {
-            this.binding = binding.also {
-                it.layoutType = layoutType
-            }
+        constructor(binding: ViewDataBinding) : this(binding.root) {
+            this.binding = binding
         }
 
         fun bind(book:Book) = with(binding) {
-            this?.book = book
+            if (this is BookContainerBinding) {
+                this.book = book
+            } else if (this is BookContainerHorizontalBinding) {
+                this.book = book
+            }
             this?.executePendingBindings()
         }
 
@@ -51,8 +56,12 @@ class BookAdapter(private val layoutType: LAYOUT = LAYOUT.HORIZONTAL) : Recycler
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val itemBinding = BookContainerBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder(itemBinding, layoutType)
+        val itemBinding = if (layoutType == LAYOUT.VERTICAL) {
+            BookContainerBinding.inflate(layoutInflater, parent, false)
+        } else {
+            BookContainerHorizontalBinding.inflate(layoutInflater, parent, false)
+        }
+        return ViewHolder(itemBinding)
     }
 
     override fun getItemCount(): Int = books.size

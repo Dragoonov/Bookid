@@ -8,8 +8,14 @@ import androidx.room.PrimaryKey
 data class Book(
     @PrimaryKey val id: String,
     @ColumnInfo(name = "title") val title: String? = null,
-    @ColumnInfo(name = "author") val author: String? = null,
-    @ColumnInfo(name = "publicationDate") val publicationDate: String? = null,
-    @ColumnInfo(name = "rating") val rating: Double? = null,
+    @ColumnInfo(name = "subtitle") val subtitle: String? = null,
+    @ColumnInfo(name = "authors") val authors: List<String>? = null,
+    @ColumnInfo(name = "description") val description: String? = null,
+    @ColumnInfo(name = "cathegories") val cathegories: List<String>? = null,
+    @ColumnInfo(name = "publicationInfo") val publicationInfo: PublicationInfo? = null,
+    @ColumnInfo(name = "pageCount") val pageCount: Int? = null,
+    @ColumnInfo(name = "isbn") val isbn: ISBN? = null,
+    @ColumnInfo(name = "rating") val rating: Rating? = null,
+    @ColumnInfo(name = "accessInfo") val accessInfo: AccessInfo? = null,
     @ColumnInfo(name = "imageUrl") val imageUrl: String? = null
 )

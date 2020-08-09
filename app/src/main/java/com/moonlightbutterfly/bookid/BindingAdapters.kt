@@ -108,15 +108,6 @@ fun createBookShelfs(view: LinearLayout, shelfsList: List<Shelf>?) {
     }
 }
 
-@BindingAdapter("override_width")
-fun overrideWidth(view: ConstraintLayout, type: LAYOUT) {
-    if (type == LAYOUT.VERTICAL) {
-        view.layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT
-    } else {
-        view.layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT
-    }
-}
-
 @BindingAdapter("fillData")
 fun fillData(view: RadioGroup, list: List<Shelf>?) {
     list?.forEach {

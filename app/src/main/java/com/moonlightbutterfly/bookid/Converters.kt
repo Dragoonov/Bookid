@@ -4,9 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
-import com.moonlightbutterfly.bookid.repository.database.entities.Author
-import com.moonlightbutterfly.bookid.repository.database.entities.Book
-import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
+import com.moonlightbutterfly.bookid.repository.database.entities.*
 
 object Converters {
 
@@ -27,8 +25,13 @@ object Converters {
 
     @TypeConverter
     @JvmStatic
-    fun fromStringToAuthor(value: String): Author? {
-        val type = object : TypeToken<Author>() {}.type
+    fun fromStringListToString(list: List<String>): String? = Gson().toJson(list)
+
+
+    @TypeConverter
+    @JvmStatic
+    fun fromStringToStringList(value: String): List<String>? {
+        val type = object : TypeToken<List<String>>() {}.type
         return try {
             Gson().fromJson(value, type)
         } catch (e: JsonSyntaxException) {
@@ -38,7 +41,63 @@ object Converters {
 
     @TypeConverter
     @JvmStatic
-    fun fromAuthorToString(author: Author): String? = Gson().toJson(author)
+    fun fromPublicationInfoToString(publicationInfo: PublicationInfo): String? = Gson().toJson(publicationInfo)
+
+    @TypeConverter
+    @JvmStatic
+    fun fromStringToPublicationInfo(value: String): PublicationInfo? {
+        val type = object : TypeToken<PublicationInfo>() {}.type
+        return try {
+            Gson().fromJson(value, type)
+        } catch (e: JsonSyntaxException) {
+            null
+        }
+    }
+
+    @TypeConverter
+    @JvmStatic
+    fun fromISBNToString(isbn: ISBN): String? = Gson().toJson(isbn)
+
+    @TypeConverter
+    @JvmStatic
+    fun fromStringToISBN(value: String): ISBN? {
+        val type = object : TypeToken<ISBN>() {}.type
+        return try {
+            Gson().fromJson(value, type)
+        } catch (e: JsonSyntaxException) {
+            null
+        }
+    }
+
+    @TypeConverter
+    @JvmStatic
+    fun fromRatingToString(rating: Rating): String? = Gson().toJson(rating)
+
+    @TypeConverter
+    @JvmStatic
+    fun fromStringToRating(value: String): Rating? {
+        val type = object : TypeToken<Rating>() {}.type
+        return try {
+            Gson().fromJson(value, type)
+        } catch (e: JsonSyntaxException) {
+            null
+        }
+    }
+
+    @TypeConverter
+    @JvmStatic
+    fun fromAccessInfoToString(accessInfo: AccessInfo): String? = Gson().toJson(accessInfo)
+
+    @TypeConverter
+    @JvmStatic
+    fun fromStringToAccessInfo(value: String): AccessInfo? {
+        val type = object : TypeToken<AccessInfo>() {}.type
+        return try {
+            Gson().fromJson(value, type)
+        } catch (e: JsonSyntaxException) {
+            null
+        }
+    }
 
     @TypeConverter
     @JvmStatic
@@ -54,6 +113,7 @@ object Converters {
     @TypeConverter
     @JvmStatic
     fun fromShelfListToString(shelfList: List<Shelf>): String? = Gson().toJson(shelfList)
+
 
     fun <T> convertToJSONString(obj: T?): String? = Gson().toJson(obj)
 

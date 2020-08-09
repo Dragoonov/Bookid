@@ -4,32 +4,20 @@
 
     <data>
 
-        <import type="com.moonlightbutterfly.bookid.adapters.LAYOUT" />
-
-        <import type="android.view.View" />
-
-        <import type="android.widget.LinearLayout.LayoutParams" />
-
         <variable
             name="book"
             type="com.moonlightbutterfly.bookid.repository.database.entities.Book" />
-
-        <variable
-            name="layoutType"
-            type="LAYOUT" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:override_width="@{layoutType}">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="@{layoutType == LAYOUT.VERTICAL}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -63,13 +51,13 @@
                         style="@style/MediumLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{book.author, default = @string/default_author}" />
+                        android:text="@{book.authors[0], default = @string/default_author}" />
 
                     <TextView
                         style="@style/MediumLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{book.publicationDate, default = @string/publication_date_default}" />
+                        android:text="@{book.publicationInfo.publicationDate, default = @string/publication_date_default}" />
 
                     <TextView
                         style="@style/MediumLabel"
@@ -92,37 +80,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:loadImage="@{book.imageUrl}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{layoutType == LAYOUT.HORIZONTAL}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="150dp"
-                    android:layout_gravity="center_horizontal"
-                    android:contentDescription="image"
-                    app:loadImage="@{book.imageUrl}" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@{book.title, default = Tekst}" />
-            </LinearLayout>
 
         </LinearLayout>
 

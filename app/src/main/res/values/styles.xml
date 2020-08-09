@@ -10,16 +10,30 @@
     </style>
 
     <style name="MediumLabel">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">sans-serif-thin</item>
         <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Subtitle" parent="MediumLabel">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Authors" parent="SmallLabel">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="LargeLabel" parent="MediumLabel" >
         <item name="android:gravity">center</item>
         <item name="android:textSize">30sp</item>
         <item name="android:layout_marginTop">16dp</item>
+    </style>
+    
+    <style name="Title" parent="LargeLabel" >
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SmallLabel" parent="MediumLabel">
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="LineSeparatorHorizontal">
@@ -45,8 +59,6 @@
 
     <style name="LargeBookidButton" parent="BookidButton">
         <item name="android:textSize">30sp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="BooksListRecycler">
