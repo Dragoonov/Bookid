@@ -7,11 +7,6 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
 
-fun View.convertDpsToPixels(dps: Int): Int {
-    val scale = context.resources.displayMetrics.density
-    return (dps * scale + 0.5f).toInt()
-}
-
 class CustomItemDecoration(private val layoutType: LAYOUT) : RecyclerView.ItemDecoration() {
 
 
@@ -39,5 +34,10 @@ class CustomItemDecoration(private val layoutType: LAYOUT) : RecyclerView.ItemDe
             drawable.setBounds(left, top, right, bottom)
             drawable.draw(c)
         }
+    }
+
+    private fun View.convertDpsToPixels(dps: Int): Int {
+        val scale = context.resources.displayMetrics.density
+        return (dps * scale + 0.5f).toInt()
     }
 }

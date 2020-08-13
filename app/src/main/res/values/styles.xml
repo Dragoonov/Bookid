@@ -18,6 +18,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="SmallLabelIntense" parent="SmallLabel">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Subtitle" parent="MediumLabel">
         <item name="android:textStyle">bold</item>
     </style>

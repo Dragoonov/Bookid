@@ -46,4 +46,6 @@
     <string name="buy">Kup za %.2f %s</string>
     <string name="more_info">Zobacz więcej…</string>
     <string name="preview">Podejrzyj zawartość</string>
+    <string name="expand">Rozwiń</string>
+    <string name="shrink">Zwiń</string>
 </resources>

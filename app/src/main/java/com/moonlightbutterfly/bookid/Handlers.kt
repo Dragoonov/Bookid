@@ -1,13 +1,28 @@
 package com.moonlightbutterfly.bookid
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.net.Uri
 import android.view.View
-import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.moonlightbutterfly.bookid.dialogs.AddShelfDialog
 
+fun changeDescriptionExpansion(firstView: View, secondView: View, view: TextView) {
+    val resultLines = if (view.maxLines == 3) view.lineCount else 3
+    if (firstView.visibility == View.VISIBLE) {
+        firstView.visibility = View.INVISIBLE
+        secondView.visibility = View.VISIBLE
+    } else {
+        firstView.visibility = View.VISIBLE
+        secondView.visibility = View.INVISIBLE
+    }
+    ObjectAnimator.ofInt(view, "maxLines", resultLines).apply {
+        duration = 200
+        start()
+    }
+}
 
 fun openLink(view: View, url: String?) {
     val webpage: Uri = Uri.parse(url)

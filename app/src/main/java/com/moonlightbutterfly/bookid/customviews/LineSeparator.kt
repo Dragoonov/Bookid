@@ -9,12 +9,6 @@ import android.util.AttributeSet
 import android.view.View
 import com.moonlightbutterfly.bookid.R
 
-fun View.convertDpsToPixels(dps: Int): Int {
-    val scale = context.resources.displayMetrics.density
-    return (dps * scale + 0.5f).toInt()
-}
-
-
 class LineSeparator(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private val paint = Paint(ANTI_ALIAS_FLAG).apply {
@@ -80,5 +74,10 @@ class LineSeparator(context: Context, attrs: AttributeSet) : View(context, attrs
     companion object {
         private const val LINE_SIZE: Int = 2
         private const val MARGINS = 8
+    }
+
+    private fun View.convertDpsToPixels(dps: Int): Int {
+        val scale = context.resources.displayMetrics.density
+        return (dps * scale + 0.5f).toInt()
     }
 }

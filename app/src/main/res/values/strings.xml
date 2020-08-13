@@ -49,4 +49,6 @@
     <string name="buy">Buy for %.2f %s</string>
     <string name="more_info">More info…</string>
     <string name="preview">Preview book</string>
+    <string name="expand">Expand</string>
+    <string name="shrink">Shrink</string>
 </resources>
