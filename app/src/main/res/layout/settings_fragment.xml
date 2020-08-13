@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -74,12 +75,13 @@
             style="@style/MediumLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:text="@string/version"
             app:layout_constraintBottom_toTopOf="@+id/sing_out"
             app:layout_constraintEnd_toEndOf="@+id/sing_out"
             app:layout_constraintStart_toStartOf="@+id/sing_out" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/sing_out"
             style="@style/BookidButton"
             android:layout_width="wrap_content"
@@ -90,5 +92,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

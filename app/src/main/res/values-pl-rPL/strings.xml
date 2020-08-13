@@ -36,4 +36,14 @@
     <string name="my_profile">Mój profil</string>
     <string name="book_added">Dodano książkę</string>
     <string name="signed_out">Wylogowano</string>
+    <string name="cathegories">Kategorie</string>
+    <string name="no_info">Brak informacji</string>
+    <string name="pages_count">Liczba stron</string>
+    <string name="publication_date">Data wydania</string>
+    <string name="publisher">Wydawca</string>
+    <string name="pdf_availability">Dostępne jako PDF</string>
+    <string name="epub_availability">Dostępne jako EPUB</string>
+    <string name="buy">Kup za %.2f %s</string>
+    <string name="more_info">Zobacz więcej…</string>
+    <string name="preview">Podejrzyj zawartość</string>
 </resources>

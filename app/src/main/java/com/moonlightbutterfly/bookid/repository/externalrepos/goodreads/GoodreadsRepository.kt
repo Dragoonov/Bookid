@@ -50,6 +50,10 @@ class GoodreadsRepository @Inject constructor() : ExternalRepository {
         }
     }
 
+    override suspend fun loadSimilarBooks(author: String?): List<Book> {
+        TODO("Goodreads doesn't provide that functionality")
+    }
+
     override suspend fun loadSearchedBooks(query: String?, page: Int): List<Book> {
         val response = getRetrofitService().getBooksBySearchString(query, page)
         return if (response.isSuccessful) {

@@ -17,14 +17,13 @@ object GoogleBooksConverters {
                     it.volumeInfo?.publishedDate,
                     it.volumeInfo?.publisher),
                 pageCount = it.volumeInfo?.pageCount,
-                isbn = ISBN(
-                    it.volumeInfo?.industryIdentifiers?.get(0)?.identifier,
-                    if (it.volumeInfo?.industryIdentifiers?.size!! > 1) {
-                        it.volumeInfo?.industryIdentifiers?.get(1)?.identifier
+                isbn = it.volumeInfo?.industryIdentifiers?.let { list ->
+                    if (list.size > 1) {
+                        ISBN(list[0].identifier, list[1].identifier)
                     } else {
-                        null
+                        ISBN(list[0].identifier, null)
                     }
-                ),
+                } ?: ISBN(),
                 rating = Rating(
                     it.volumeInfo?.averageRating,
                     it.volumeInfo?.ratingsCount),

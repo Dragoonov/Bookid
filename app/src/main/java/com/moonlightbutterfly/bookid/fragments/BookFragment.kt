@@ -32,9 +32,14 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
 
     override fun initializeBinding(inflater: LayoutInflater, container: ViewGroup?) {
         binding = BookFragmentBinding.inflate(inflater, container, false).also {
-                    it.viewModel = viewModel
+            it.viewModel = viewModel
             it.lifecycleOwner = viewLifecycleOwner
-            it.authorBooksInclude.listRecycler.apply {
+            it.authorBooks.listRecycler.apply {
+                addItemDecoration(CustomItemDecoration(LAYOUT.HORIZONTAL))
+                layoutManager = LinearLayoutManager(view?.context, LinearLayoutManager.HORIZONTAL, false)
+                adapter = BookAdapter()
+            }
+            it.similarBooks.listRecycler.apply {
                 addItemDecoration(CustomItemDecoration(LAYOUT.HORIZONTAL))
                 layoutManager = LinearLayoutManager(view?.context, LinearLayoutManager.HORIZONTAL, false)
                 adapter = BookAdapter()
@@ -47,5 +52,6 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
         }
     }
 
-    override fun initializeCustom(savedInstanceState: Bundle?) = (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
+    override fun initializeCustom(savedInstanceState: Bundle?) =
+        (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
 }

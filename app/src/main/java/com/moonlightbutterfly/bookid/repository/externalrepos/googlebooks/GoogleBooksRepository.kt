@@ -27,15 +27,8 @@ class GoogleBooksRepository @Inject constructor(): ExternalRepository {
         suspend fun getBooksBySearchString(
             @Query("q") query: String?,
             @Query("page") page: Int = 1,
-            @Query("startIndex") startIndex: Int,
+            @Query("startIndex") startIndex: Int = 0,
             @Query("maxResults") maxResults: Int = ITEMS_PER_REQUEST,
-            @Query("projection") projection: String = "full",
-            @Query("key") developerKey: String = "AIzaSyAKofDXfSaF5-75HyFBJLJt-2pApcP2Dw0"
-        ): Response<VolumeListDto>
-
-        @GET("volumes")
-        suspend fun getAuthorBooks(
-            @Query("q") query: String?,
             @Query("projection") projection: String = "full",
             @Query("key") developerKey: String = "AIzaSyAKofDXfSaF5-75HyFBJLJt-2pApcP2Dw0"
         ): Response<VolumeListDto>
@@ -46,7 +39,16 @@ class GoogleBooksRepository @Inject constructor(): ExternalRepository {
     }
 
     override suspend fun loadAuthorBooks(author: String?): List<Book> {
-        val response = getRetrofitService().getAuthorBooks("inauthor:$author")
+        val response = getRetrofitService().getBooksBySearchString("inauthor:$author")
+        return if (response.isSuccessful) {
+            GoogleBooksConverters.extractBookListFromDto(response.body())
+        } else {
+            ArrayList()
+        }
+    }
+
+    override suspend fun loadSimilarBooks(cathegory: String?): List<Book> {
+        val response = getRetrofitService().getBooksBySearchString("subject:$cathegory")
         return if (response.isSuccessful) {
             GoogleBooksConverters.extractBookListFromDto(response.body())
         } else {

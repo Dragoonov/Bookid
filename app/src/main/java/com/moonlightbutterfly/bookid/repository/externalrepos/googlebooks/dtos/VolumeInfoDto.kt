@@ -13,7 +13,7 @@ data class VolumeInfoDto (
     var printType: String?,
     var mainCategory: String?,
     var categories: List<String>,
-    var averageRating: Double?,
+    var averageRating: Float?,
     var ratingsCount: Int?,
     var contentVersion: String?,
     var imageLinks: ImageLinksDto,
