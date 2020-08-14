@@ -25,10 +25,12 @@ fun changeDescriptionExpansion(firstView: View, secondView: View, view: TextView
 }
 
 fun openLink(view: View, url: String?) {
-    val webpage: Uri = Uri.parse(url)
-    val intent = Intent(Intent.ACTION_VIEW, webpage)
-    if (intent.resolveActivity(view.context.packageManager) != null) {
-        view.context.startActivity(intent)
+    url?.let {
+        val webpage: Uri = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        if (intent.resolveActivity(view.context.packageManager) != null) {
+            view.context.startActivity(intent)
+        }
     }
 }
 

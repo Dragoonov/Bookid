@@ -2,10 +2,12 @@ package com.moonlightbutterfly.bookid.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.appbar.AppBarLayout
 import com.moonlightbutterfly.bookid.Converters
 import com.moonlightbutterfly.bookid.CustomItemDecoration
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
@@ -14,10 +16,20 @@ import com.moonlightbutterfly.bookid.databinding.BookFragmentBinding
 import com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
+import kotlin.math.abs
 
 class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewModel::class.java) {
 
     private val args: BookFragmentArgs by navArgs()
+
+    private val offsetChangedListener = AppBarLayout.OnOffsetChangedListener {layout: AppBarLayout, i: Int ->
+        if (abs(i) >= layout.totalScrollRange) {
+            binding?.toolbar?.appTitle?.visibility = View.VISIBLE
+        } else {
+            binding?.toolbar?.appTitle?.visibility = View.INVISIBLE
+        }
+    }
+
 
     override fun inject() = appComponent.inject(this)
 
@@ -49,6 +61,7 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
                     .newInstance(viewModel.bookLiveData.value!!)
                     .show(activity?.supportFragmentManager!!, AddBookToShelfDialog.NAME)
             }
+            it.appBar.addOnOffsetChangedListener(offsetChangedListener)
         }
     }
 
