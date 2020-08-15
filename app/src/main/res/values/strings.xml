@@ -51,4 +51,9 @@
     <string name="preview">Preview book</string>
     <string name="expand">Expand</string>
     <string name="shrink">Shrink</string>
+    <string-array name="basic_shelfs">
+        <item>Favorites</item>
+        <item>Saved</item>
+        <item>Recently viewed</item>
+    </string-array>
 </resources>

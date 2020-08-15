@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ShelfDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertShelf(shelf: Shelf)
 
     @Update
@@ -17,7 +17,7 @@ interface ShelfDao {
     suspend fun deleteShelf(shelf: Shelf)
 
     @Query("select * from shelfs where id = :id")
-    suspend fun getShelfById(id: Int): Shelf
+    fun getShelfById(id: Int): Flow<Shelf>
 
     @Query("select * from shelfs where name = :name")
     suspend fun getShelfByName(name: String): Shelf

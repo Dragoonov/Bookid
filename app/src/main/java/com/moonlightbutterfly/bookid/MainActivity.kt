@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.palette.graphics.Palette
@@ -22,6 +23,7 @@ import com.moonlightbutterfly.bookid.databinding.ActivityMainBinding
 import com.moonlightbutterfly.bookid.dialogs.QuitAppDialog
 import com.moonlightbutterfly.bookid.fragments.LoginFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.User
+import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 
 fun NavController.canGoBack(): Boolean =
@@ -36,6 +38,11 @@ class MainActivity : AppCompatActivity(), DrawerManager {
 
     @Inject
     lateinit var userManager: Manager
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private lateinit var viewModel: ShelfViewModel
 
     private lateinit var navController: NavController
 
@@ -73,6 +80,7 @@ class MainActivity : AppCompatActivity(), DrawerManager {
                 communicator.clearMessage()
             }
         })
+        viewModel = ViewModelProvider(this,viewModelFactory)[ShelfViewModel::class.java]
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -95,6 +103,7 @@ class MainActivity : AppCompatActivity(), DrawerManager {
                     account.photoUrl.toString()
                 )
                 userManager.signInUser(loggedUser)
+                viewModel.prepareBasicShelfs(resources.getStringArray(R.array.basic_shelfs))
                 navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
             }
 
@@ -109,6 +118,7 @@ class MainActivity : AppCompatActivity(), DrawerManager {
                 "https://lh3.googleusercontent.com/a-/AOh14GiPou93h951L-XfDmexoG3YKIFM1e7zsNzl5a4B"
             )
             userManager.signInUser(loggedUser)
+            viewModel.prepareBasicShelfs(resources.getStringArray(R.array.basic_shelfs))
             navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
         }
     }

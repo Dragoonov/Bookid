@@ -26,7 +26,9 @@ class RoomRepository @Inject constructor(context: Context) : InternalRepository 
 
     override suspend fun deleteShelf(shelf: Shelf): Unit = shelfDao.deleteShelf(shelf)
 
-    override suspend fun getShelfById(id: Int): Shelf = shelfDao.getShelfById(id)
+    override fun getShelfById(id: Int): Flow<Shelf>? {
+        return shelfDao.getShelfById(id)
+    }
 
     override suspend fun getShelfByName(name: String): Shelf = shelfDao.getShelfByName(name)
 

@@ -9,7 +9,7 @@ interface InternalRepository {
     suspend fun insertShelf(shelf: Shelf)
     suspend fun updateShelf(shelf: Shelf)
     suspend fun deleteShelf(shelf: Shelf)
-    suspend fun getShelfById(id: Int): Shelf?
+    fun getShelfById(id: Int): Flow<Shelf>?
     suspend fun getShelfByName(name: String): Shelf?
     suspend fun getShelfes(): List<Shelf>?
     fun getUserShelfs(userId: String): Flow<List<Shelf>?>

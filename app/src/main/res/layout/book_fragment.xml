@@ -27,7 +27,7 @@
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:contentScrim="?attr/colorPrimary"
+                app:contentScrim="@color/primaryColor"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:titleEnabled="false"
                 app:toolbarId="@+id/my_toolbar">
@@ -123,7 +123,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
-                            android:text="@{viewModel.toStringWithoutBrackets(viewModel.bookLiveData.authors), default=@string/default_author}"
+                            android:text='@{viewModel.bookLiveData.authors != null ? viewModel.toStringWithoutBrackets(viewModel.bookLiveData.authors) : "", default=@string/default_author}'
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/ratingBar" />
 
@@ -147,7 +147,7 @@
                             style="@style/LineSeparatorHorizontal"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/share" />
+                            app:layout_constraintTop_toBottomOf="@+id/saved" />
 
                         <TextView
                             android:id="@+id/isbn13"
@@ -334,36 +334,27 @@
                             app:layout_constraintTop_toBottomOf="@+id/pdfValue" />
 
                         <ImageView
-                            android:id="@+id/share"
+                            android:id="@+id/saved"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="16dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/expand"
-                            app:srcCompat="@drawable/ic_share_24px" />
+                            android:src="@{viewModel.isBookInSavedLiveData ? @drawable/ic_bookmark_24px : @drawable/ic_bookmark_border_24px}"
+                            android:onClick="@{() -> viewModel.isBookInSavedLiveData ? viewModel.deleteBookFromSaved() : viewModel.insertBookToSaved()}" />
 
                         <ImageView
-                            android:id="@+id/favoriteFilled"
+                            android:id="@+id/favorite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
-                            android:visibility="@{viewModel.isBookInFavorites ? View.VISIBLE : View.INVISIBLE}"
-                            app:layout_constraintBottom_toBottomOf="@+id/share"
-                            app:layout_constraintEnd_toStartOf="@+id/share"
-                            app:layout_constraintTop_toTopOf="@+id/share"
-                            app:srcCompat="@drawable/ic_favorite_24px" />
+                            app:layout_constraintBottom_toBottomOf="@+id/saved"
+                            app:layout_constraintEnd_toStartOf="@+id/saved"
+                            app:layout_constraintTop_toTopOf="@+id/saved"
+                            android:src="@{viewModel.isBookInFavoritesLiveData ? @drawable/ic_favorite_24px : @drawable/ic_favorite_border_24px}"
+                            android:onClick="@{() -> viewModel.isBookInFavoritesLiveData ? viewModel.deleteBookFromFavorites() : viewModel.insertBookToFavorites()}"/>
 
-                        <ImageView
-                            android:id="@+id/favoriteNotFilled"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            android:visibility="@{viewModel.isBookInFavorites ? View.INVISIBLE : View.VISIBLE}"
-                            app:layout_constraintBottom_toBottomOf="@+id/share"
-                            app:layout_constraintEnd_toStartOf="@+id/share"
-                            app:layout_constraintTop_toTopOf="@+id/share"
-                            app:srcCompat="@drawable/ic_favorite_border_24px" />
 
                         <Button
                             android:id="@+id/moreInfo"
@@ -439,9 +430,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/favoriteFilled"
-                            app:layout_constraintEnd_toStartOf="@+id/favoriteFilled"
-                            app:layout_constraintTop_toTopOf="@+id/favoriteFilled"
+                            app:layout_constraintBottom_toBottomOf="@+id/favorite"
+                            app:layout_constraintEnd_toStartOf="@+id/favorite"
+                            app:layout_constraintTop_toTopOf="@+id/favorite"
                             app:srcCompat="@drawable/add_24px" />
 
                         <TextView

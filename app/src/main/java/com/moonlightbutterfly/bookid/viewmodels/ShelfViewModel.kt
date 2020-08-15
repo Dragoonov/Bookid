@@ -8,6 +8,7 @@ import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
+import com.moonlightbutterfly.bookid.utils.BasicShelfsId
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -22,6 +23,14 @@ class ShelfViewModel @Inject constructor(
     val shelfsLiveData: LiveData<List<Shelf>> = liveData {
         repository.getUserShelfs(userManager.user.value?.id!!)
             .collect { data -> data?.let { emit(it) } }
+    }
+
+    fun prepareBasicShelfs(names: Array<String>) = viewModelScope.launch(dispatcher) {
+        if (names.size == BasicShelfsId.values().size) {
+            for ((index, value) in BasicShelfsId.values().withIndex()) {
+                insertShelf(names[index],value.id)
+            }
+        }
     }
 
     fun deleteShelf(shelf: Shelf?) = shelf?.let {
@@ -59,15 +68,23 @@ class ShelfViewModel @Inject constructor(
         }
     }
 
-    fun insertShelf(name: String?) = name?.let {
+    fun insertShelf(name: String?, id: Int? = null) = name?.let {
         viewModelScope.launch(dispatcher) {
-            repository.insertShelf(
+            val shelf = if (id == null) {
                 Shelf(
                     name = it,
                     books = ArrayList(),
                     userId = userManager.user.value?.id!!
                 )
-            )
+            } else {
+                Shelf(
+                    id = id,
+                    name = it,
+                    books = ArrayList(),
+                    userId = userManager.user.value?.id!!
+                )
+            }
+            repository.insertShelf(shelf)
         }
     }
 }
