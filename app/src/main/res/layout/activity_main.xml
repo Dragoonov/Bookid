@@ -4,29 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <import type="com.moonlightbutterfly.bookid.R" />
-
-        <variable
-            name="drawerNavigator"
-            type="com.moonlightbutterfly.bookid.DrawerNavigator" />
-
-        <variable
-            name="drawerManager"
-            type="com.moonlightbutterfly.bookid.DrawerManager" />
-
-        <variable
-            name="userManager"
-            type="com.moonlightbutterfly.bookid.Manager" />
-    </data>
-
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -38,105 +15,25 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:defaultNavHost="true"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/bottomNav"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:navGraph="@navigation/nav_graph" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="300dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true">
-
-            <ScrollView
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNav"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:background="@color/primaryColor"
+                app:itemIconTint="@color/bottom_nav_color"
+                app:itemTextColor="@color/bottom_nav_color"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:menu="@menu/bottom_nav_menu" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:paddingTop="24dp">
-
-                    <LinearLayout
-                        android:id="@+id/avatar_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="170dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="105dp"
-                            android:layout_height="105dp"
-                            android:layout_margin="5dp"
-                            app:cardCornerRadius="128dp">
-
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_gravity="center"
-                                app:cardCornerRadius="128dp">
-
-                                <ImageView
-                                    android:id="@+id/avatar"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:onClick="@{() -> drawerNavigator.setProfileDestination()}"
-                                    app:drawerManager="@{drawerManager}"
-                                    app:loadImage="@{userManager.user.avatar}" />
-                            </androidx.cardview.widget.CardView>
-                        </androidx.cardview.widget.CardView>
-
-                        <TextView
-                            android:id="@+id/avatar_name"
-                            style="@style/MediumLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginLeft="32dp"
-                            android:text="@{userManager.user.nick}" />
-                    </LinearLayout>
-
-                    <TextView
-                        style="@style/MenuItemSmall"
-                        android:layout_marginTop="16dp"
-                        android:onClick="@{() -> drawerNavigator.setProfileDestination()}"
-                        android:text="@string/my_profile" />
-
-                    <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
-
-                    <TextView
-                        android:id="@+id/searchButton"
-                        style="@style/MenuItemMedium"
-                        android:onClick="@{() -> drawerNavigator.setSearchBooksDestination()}"
-                        android:text="@string/search_for_book" />
-
-                    <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
-
-                    <TextView
-                        style="@style/MenuItemMedium"
-                        android:onClick="@{() -> drawerNavigator.setShelfsDestination()}"
-                        android:text="@string/shelfs" />
-
-                    <TextView
-                        style="@style/MenuItemSmall"
-                        android:onClick="@{() -> drawerNavigator.setEditShelfsDestination()}"
-                        android:text="@string/manage_shelfs" />
-
-                    <com.moonlightbutterfly.bookid.customviews.LineSeparator style="@style/LineSeparatorHorizontal" />
-
-                    <TextView
-                        style="@style/MenuItemMedium"
-                        android:onClick="@{() -> drawerNavigator.setSettingsDestination()}"
-                        android:text="@string/support_and_settings" />
-                </LinearLayout>
-            </ScrollView>
-        </com.google.android.material.navigation.NavigationView>
-    </androidx.drawerlayout.widget.DrawerLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

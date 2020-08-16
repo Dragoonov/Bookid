@@ -119,6 +119,7 @@ class BookViewModel @Inject constructor(
                     deleteBookFromShelf(19, it)
                     insertBookToShelf(bookLiveData.value, it, 0)
                 }
+                else -> insertBookToShelf(bookLiveData.value, it, 0)
             }
             insertedToRecentlyViewed = true
         }
@@ -158,6 +159,4 @@ class BookViewModel @Inject constructor(
     private fun List<Book>.removeDisplayedBookFromList(book: Book): List<Book>? = this
         .toMutableList()
         .filter { it.id != book.id }
-
-    fun <T> List<T>.toStringWithoutBrackets(): String = toString().removePrefix("[").removeSuffix("]")
 }

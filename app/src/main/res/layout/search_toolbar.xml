@@ -12,23 +12,14 @@
         android:id="@+id/search_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primaryColor">
+        android:background="@color/primaryColor"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/hamburger"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/menu_24px"
-                android:onClick="@{(view) -> HandlersKt.onClickListener(view)}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:gravity="center_vertical">
 
             <SearchView
                 android:id="@+id/searchView"
@@ -39,7 +30,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/lineSeparator"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/hamburger"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.moonlightbutterfly.bookid.customviews.LineSeparator

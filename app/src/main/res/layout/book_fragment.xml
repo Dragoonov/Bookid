@@ -123,7 +123,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
-                            android:text='@{viewModel.bookLiveData.authors != null ? viewModel.toStringWithoutBrackets(viewModel.bookLiveData.authors) : "", default=@string/default_author}'
+                            android:text='@{viewModel.bookLiveData.authors != null ? viewModel.bookLiveData.authors.toString().replace("[","").replace("]","") : "", default=@string/default_author}'
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/ratingBar" />
 
@@ -232,7 +232,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="32dp"
-                            android:text="@{viewModel.bookLiveData.cathegories != null ? viewModel.toStringWithoutBrackets(viewModel.bookLiveData.cathegories) : null, default=@string/no_info}"
+                            android:text='@{viewModel.bookLiveData.cathegories != null ? viewModel.bookLiveData.cathegories.toString().replace("[","").replace("]","") : null, default=@string/no_info}'
                             app:layout_constraintBottom_toBottomOf="@+id/cathegories"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/cathegories" />

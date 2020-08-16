@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import com.moonlightbutterfly.bookid.DrawerManager
+import com.moonlightbutterfly.bookid.MainActivity
 import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.databinding.FragmentSplashBinding
 import kotlinx.android.synthetic.main.fragment_splash.*
@@ -26,7 +26,6 @@ class SplashFragment : BaseFragment<FragmentSplashBinding,ViewModel>() {
 
     override fun initializeCustom(savedInstanceState: Bundle?) {
         authenticateUser()
-        (activity as DrawerManager).lockDrawer()
     }
 
     private fun authenticateUser() {
@@ -37,6 +36,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding,ViewModel>() {
                 navController.navigate(SplashFragmentDirections.actionSplashFragmentToLoginGraph(), extras)
             } else {
                 userManager.signInUser(it)
+                (activity as MainActivity).unlockBottomNav()
                 navController.navigate(SplashFragmentDirections.actionSplashFragmentToAppGraph())
             }
         })

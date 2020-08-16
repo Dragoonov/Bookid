@@ -1,54 +1,26 @@
 package com.moonlightbutterfly.bookid
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
-import com.moonlightbutterfly.bookid.adapters.BookAdapter
-import com.moonlightbutterfly.bookid.adapters.EditShelfsShelfAdapter
-import com.moonlightbutterfly.bookid.adapters.LAYOUT
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.moonlightbutterfly.bookid.adapters.*
 import com.moonlightbutterfly.bookid.databinding.ComposableBookListBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 
 
-@BindingAdapter("loadImage", "drawerManager", requireAll = false)
-fun loadImage(view: ImageView, url: String?, drawerManager: DrawerManager?) {
+@BindingAdapter("loadImage")
+fun loadImage(view: ImageView, url: String?) {
     Glide.with(view.context)
         .load(url)
         .placeholder(R.drawable.ic_launcher_foreground)
-        .listener(object : RequestListener<Drawable> {
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: Target<Drawable>?,
-                isFirstResource: Boolean
-            ): Boolean {
-                return false
-            }
-
-            override fun onResourceReady(
-                resource: Drawable?,
-                model: Any?,
-                target: Target<Drawable>?,
-                dataSource: DataSource?,
-                isFirstResource: Boolean
-            ): Boolean {
-                drawerManager?.paintDrawer(resource?.toBitmap())
-                return false
-            }
-        })
-        .error(R.drawable.ic_launcher_foreground)
+        .transition(DrawableTransitionOptions.withCrossFade())
         .into(view)
 }
 
@@ -99,7 +71,7 @@ fun createBookShelfs(view: LinearLayout, shelfsList: List<Shelf>?) {
                         false
                     )
                     addItemDecoration(CustomItemDecoration(LAYOUT.HORIZONTAL))
-                    adapter = BookAdapter()
+                    adapter = BookAdapterHorizontal()
                 }
                 it.books = shelf.books
                 it.title = shelf.name

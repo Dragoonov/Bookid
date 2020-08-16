@@ -7,11 +7,9 @@ import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.moonlightbutterfly.bookid.CustomItemDecoration
-import com.moonlightbutterfly.bookid.DrawerManager
 import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
-import com.moonlightbutterfly.bookid.adapters.LAYOUT
+import com.moonlightbutterfly.bookid.adapters.BookAdapterVertical
 import com.moonlightbutterfly.bookid.databinding.SearchFragmentBinding
 import com.moonlightbutterfly.bookid.viewmodels.SearchViewModel
 import javax.inject.Inject
@@ -56,16 +54,13 @@ class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(Sear
     override fun inject() = appComponent.inject(this)
 
     override fun initializeBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        val itemDecor = CustomItemDecoration(LAYOUT.VERTICAL)
         binding = SearchFragmentBinding.inflate(inflater, container, false).also {
             it.viewModel = viewModel
             it.lifecycleOwner = viewLifecycleOwner
             it.recyclerLayout.listRecycler.apply {
-                adapter = BookAdapter(LAYOUT.VERTICAL)
-                addItemDecoration(itemDecor)
+                adapter = BookAdapterVertical()
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 addOnScrollListener(onScrollListener)
-                setHasFixedSize(true)
             }
             it.toolbar.searchView.setOnQueryTextListener(onQueryChangeListener)
         }
@@ -73,6 +68,5 @@ class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(Sear
 
     override fun initializeCustom(savedInstanceState: Bundle?) {
         (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.searchToolbar)
-        (activity as DrawerManager).unlockDrawer()
     }
 }

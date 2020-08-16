@@ -34,8 +34,6 @@ fun openLink(view: View, url: String?) {
     }
 }
 
-fun onClickListener(view: View) = (view.context as DrawerManager).openDrawer()
-
 fun openAddShelfDialog(view: View) = AddShelfDialog
     .newInstance()
     .show((view.context as AppCompatActivity).supportFragmentManager, AddShelfDialog.NAME)

@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
 
@@ -13,7 +14,7 @@ class CustomItemDecoration(private val layoutType: LAYOUT) : RecyclerView.ItemDe
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val childCount = parent.childCount
-        val drawable = parent.context.getDrawable(R.drawable.divider)
+        val drawable = ContextCompat.getDrawable(parent.context,R.drawable.divider)
         var left: Int
         var right: Int
         var top: Int

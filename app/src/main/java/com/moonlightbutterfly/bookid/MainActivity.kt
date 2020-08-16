@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.palette.graphics.Palette
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -26,12 +27,8 @@ import com.moonlightbutterfly.bookid.repository.database.entities.User
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 
-fun NavController.canGoBack(): Boolean =
-    currentDestination?.id != R.id.loginFragment
-            && currentDestination?.id != R.id.splashFragment
-            && currentDestination?.id != R.id.searchFragment
 
-class MainActivity : AppCompatActivity(), DrawerManager {
+class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var communicator: Communicator
@@ -48,13 +45,6 @@ class MainActivity : AppCompatActivity(), DrawerManager {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val drawerListener = object : DrawerLayout.DrawerListener {
-        override fun onDrawerStateChanged(newState: Int) {}
-        override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
-        override fun onDrawerOpened(drawerView: View) {}
-        override fun onDrawerClosed(drawerView: View) =
-            (binding.drawerNavigator as DrawerNavigator).navigate()
-    }
 
     companion object {
         const val SIGN_IN_CODE = 100
@@ -69,10 +59,23 @@ class MainActivity : AppCompatActivity(), DrawerManager {
         navController = navHostFragment.navController
         binding.let {
             it.lifecycleOwner = this
-            it.userManager = userManager
-            it.drawerNavigator = DrawerNavigator(this, navController)
-            it.drawerManager = this
-            it.drawerLayout.addDrawerListener(drawerListener)
+            it.bottomNav.setOnNavigationItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.search -> {
+                        navController.navigate(R.id.action_global_searchFragment)
+                        true
+                    }
+                    R.id.shelfs -> {
+                        navController.navigate(R.id.action_global_shelfFragment)
+                        true
+                    }
+                    R.id.profile -> {
+                        navController.navigate(R.id.action_global_profileFragment)
+                        true
+                    }
+                    else -> false
+                }
+            }
         }
         communicator.message.observe(this, Observer {
             if (!it.isNullOrEmpty()) {
@@ -80,7 +83,7 @@ class MainActivity : AppCompatActivity(), DrawerManager {
                 communicator.clearMessage()
             }
         })
-        viewModel = ViewModelProvider(this,viewModelFactory)[ShelfViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[ShelfViewModel::class.java]
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -104,6 +107,7 @@ class MainActivity : AppCompatActivity(), DrawerManager {
                 )
                 userManager.signInUser(loggedUser)
                 viewModel.prepareBasicShelfs(resources.getStringArray(R.array.basic_shelfs))
+                unlockBottomNav()
                 navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
             }
 
@@ -111,6 +115,7 @@ class MainActivity : AppCompatActivity(), DrawerManager {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             communicator.postMessage(getString(R.string.login_fail))
+            //For now just sign in with default data
             val loggedUser = User(
                 "116644458345052983935",
                 "Jakub Lipowski",
@@ -119,19 +124,10 @@ class MainActivity : AppCompatActivity(), DrawerManager {
             )
             userManager.signInUser(loggedUser)
             viewModel.prepareBasicShelfs(resources.getStringArray(R.array.basic_shelfs))
+            unlockBottomNav()
             navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
         }
     }
-
-    override fun lockDrawer() =
-        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-
-    override fun unlockDrawer() =
-        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-
-    override fun openDrawer() = binding.drawerLayout.open()
-
-    override fun closeDrawer() = binding.drawerLayout.close()
 
     override fun onBackPressed() {
         if (navController.canGoBack()) {
@@ -141,12 +137,10 @@ class MainActivity : AppCompatActivity(), DrawerManager {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    override fun paintDrawer(bitmap: Bitmap?) {
-        if (bitmap != null) {
-            val paletteSwatch = Palette.from(bitmap).generate()
-            binding.avatarContainer.setBackgroundColor(paletteSwatch.getLightMutedColor(getColor(R.color.primaryColor)))
-            binding.avatarName.setTextColor(paletteSwatch.getDarkMutedColor(getColor(R.color.primaryTextColor)))
-        }
-    }
+    fun unlockBottomNav() = run { binding.bottomNav.visibility = View.VISIBLE }
+
+    private fun NavController.canGoBack(): Boolean =
+        currentDestination?.id != R.id.loginFragment
+                && currentDestination?.id != R.id.splashFragment
+                && currentDestination?.id != R.id.searchFragment
 }

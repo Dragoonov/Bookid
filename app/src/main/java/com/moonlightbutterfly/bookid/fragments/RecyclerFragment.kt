@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
 import com.moonlightbutterfly.bookid.databinding.RecyclerViewLayoutBinding
 import com.moonlightbutterfly.bookid.Converters
 import com.moonlightbutterfly.bookid.CustomItemDecoration
+import com.moonlightbutterfly.bookid.adapters.BookAdapterVertical
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
 class RecyclerFragment: BaseFragment<RecyclerViewLayoutBinding, ViewModel>() {
@@ -27,7 +27,7 @@ class RecyclerFragment: BaseFragment<RecyclerViewLayoutBinding, ViewModel>() {
             it.lifecycleOwner = viewLifecycleOwner
             it.listRecycler.let { recycler ->
                 recycler.addItemDecoration(CustomItemDecoration(LAYOUT.VERTICAL))
-                recycler.adapter = BookAdapter(LAYOUT.VERTICAL)
+                recycler.adapter = BookAdapterVertical()
                 recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             }
         }

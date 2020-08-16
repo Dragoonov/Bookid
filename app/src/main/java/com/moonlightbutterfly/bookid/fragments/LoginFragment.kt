@@ -13,7 +13,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
-import com.moonlightbutterfly.bookid.DrawerManager
 import com.moonlightbutterfly.bookid.MainActivity
 import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.R
@@ -60,7 +59,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, ViewModel>() {
             interpolator = EnhancedAccelerateDecelerateInterpolator()
         }
         binding?.signInButton?.animateIfNeeded()
-        (activity as DrawerManager).lockDrawer()
     }
 
     private fun initializeGoogleSignIn() {

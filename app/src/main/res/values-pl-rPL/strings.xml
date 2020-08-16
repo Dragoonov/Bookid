@@ -48,6 +48,7 @@
     <string name="preview">Podejrzyj zawartość</string>
     <string name="expand">Rozwiń</string>
     <string name="shrink">Zwiń</string>
+    <string name="search">Szukaj</string>
     <string-array name="basic_shelfs">
         <item>Ulubione</item>
         <item>Zapisane</item>
