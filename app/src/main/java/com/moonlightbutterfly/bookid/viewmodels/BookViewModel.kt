@@ -86,19 +86,31 @@ class BookViewModel @Inject constructor(
         }
     }
 
-    fun insertBookToFavorites() = viewModelScope.launch(dispatcher) {
+    fun handleFavoriteOperation() = if (isBookInFavoritesLiveData.value!!) {
+        deleteBookFromFavorites()
+    } else {
+        insertBookToFavorites()
+    }
+
+    fun handleSavedOperation() = if (isBookInSavedLiveData.value!!) {
+        deleteBookFromSaved()
+    } else {
+        insertBookToSaved()
+    }
+
+    private fun insertBookToFavorites() = viewModelScope.launch(dispatcher) {
         insertBookToShelf(bookLiveData.value, favoriteShelfLiveData.value)
     }
 
-    fun deleteBookFromFavorites() = viewModelScope.launch(dispatcher) {
+    private fun deleteBookFromFavorites() = viewModelScope.launch(dispatcher) {
         deleteBookFromShelf(bookLiveData.value, favoriteShelfLiveData.value)
     }
 
-    fun insertBookToSaved() = viewModelScope.launch(dispatcher) {
+    private fun insertBookToSaved() = viewModelScope.launch(dispatcher) {
         insertBookToShelf(bookLiveData.value, savedShelfLiveData.value)
     }
 
-    fun deleteBookFromSaved() = viewModelScope.launch(dispatcher) {
+    private fun deleteBookFromSaved() = viewModelScope.launch(dispatcher) {
         deleteBookFromShelf(bookLiveData.value, savedShelfLiveData.value)
     }
 

@@ -3,6 +3,7 @@ package com.moonlightbutterfly.bookid.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
+import com.moonlightbutterfly.bookid.viewmodels.BooksListViewModel
 import com.moonlightbutterfly.bookid.viewmodels.SearchViewModel
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import dagger.Binds
@@ -29,4 +30,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SearchViewModel::class)
     internal abstract fun bindSearchViewModel(viewModel: SearchViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(BooksListViewModel::class)
+    internal abstract fun bindBooksListViewModel(viewModel: BooksListViewModel): ViewModel
 }

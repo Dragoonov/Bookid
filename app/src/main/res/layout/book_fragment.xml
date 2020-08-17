@@ -342,7 +342,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/expand"
                             android:src="@{viewModel.isBookInSavedLiveData ? @drawable/ic_bookmark_24px : @drawable/ic_bookmark_border_24px}"
-                            android:onClick="@{() -> viewModel.isBookInSavedLiveData ? viewModel.deleteBookFromSaved() : viewModel.insertBookToSaved()}" />
+                            android:onClick="@{() -> viewModel.handleSavedOperation()}" />
 
                         <ImageView
                             android:id="@+id/favorite"
@@ -353,7 +353,7 @@
                             app:layout_constraintEnd_toStartOf="@+id/saved"
                             app:layout_constraintTop_toTopOf="@+id/saved"
                             android:src="@{viewModel.isBookInFavoritesLiveData ? @drawable/ic_favorite_24px : @drawable/ic_favorite_border_24px}"
-                            android:onClick="@{() -> viewModel.isBookInFavoritesLiveData ? viewModel.deleteBookFromFavorites() : viewModel.insertBookToFavorites()}"/>
+                            android:onClick="@{() -> viewModel.handleFavoriteOperation()}"/>
 
 
                         <Button
