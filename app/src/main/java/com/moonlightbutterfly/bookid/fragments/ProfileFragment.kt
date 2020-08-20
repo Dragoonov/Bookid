@@ -1,9 +1,7 @@
 package com.moonlightbutterfly.bookid.fragments
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.databinding.ProfileFragmentBinding
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
@@ -23,6 +21,4 @@ class ProfileFragment : BaseFragment<ProfileFragmentBinding, ShelfViewModel>(She
             it.lifecycleOwner = viewLifecycleOwner
         }
     }
-
-    override fun initializeCustom(savedInstanceState: Bundle?) = (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
 }

@@ -65,6 +65,4 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
         }
     }
 
-    override fun initializeCustom(savedInstanceState: Bundle?) =
-        (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
 }

@@ -15,8 +15,6 @@ import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 
-fun RadioGroup.returnSelectedIndex(): Int = indexOfChild(findViewById<RadioButton>(checkedRadioButtonId))
-
 class AddBookToShelfDialog private constructor(private val book: Book): DialogFragment() {
     companion object {
         fun newInstance(book: Book): AddBookToShelfDialog = AddBookToShelfDialog(book)
@@ -61,4 +59,6 @@ class AddBookToShelfDialog private constructor(private val book: Book): DialogFr
             it.lifecycleOwner = this
         }
     }
+
+    private fun RadioGroup.returnSelectedIndex(): Int = indexOfChild(findViewById<RadioButton>(checkedRadioButtonId))
 }

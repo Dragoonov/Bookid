@@ -1,6 +1,7 @@
 package com.moonlightbutterfly.bookid.viewmodels
 
 import androidx.lifecycle.*
+import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
@@ -15,7 +16,7 @@ class BooksListViewModel @Inject constructor(
     private val internalRepository: InternalRepository
 ) : ViewModel() {
 
-    private val observer: Observer<Shelf> = Observer {  }
+    private val observer: Observer<Any> = Observer { }
 
     private val favoriteShelfLiveData: LiveData<Shelf> = liveData {
         internalRepository.getShelfById(BasicShelfsId.FAVORITES.id)?.collect {
@@ -29,10 +30,21 @@ class BooksListViewModel @Inject constructor(
         }
     }
 
+    private val customShelfIdLiveData = MutableLiveData(1000)
+    val customShelfLiveData: LiveData<List<Book>> = Transformations.switchMap(customShelfIdLiveData) {
+        liveData {
+            internalRepository.getShelfById(it)?.collect {
+                emit(it.books)
+            }
+        }
+    }
+
     init {
         favoriteShelfLiveData.observeForever(observer)
         savedShelfLiveData.observeForever(observer)
     }
+
+    fun setCustomShelfId(id: Int) = run { customShelfIdLiveData.value = id }
 
     fun handleSavedOperation(book: Book) = if (isBookInSaved(book)) {
         deleteBookFromSaved(book)

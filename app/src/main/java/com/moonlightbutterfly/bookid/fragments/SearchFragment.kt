@@ -1,10 +1,8 @@
 package com.moonlightbutterfly.bookid.fragments
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -68,7 +66,4 @@ class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(Sear
         }
     }
 
-    override fun initializeCustom(savedInstanceState: Bundle?) {
-        (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.searchToolbar)
-    }
 }

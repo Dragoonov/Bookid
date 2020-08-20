@@ -33,6 +33,4 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding, ViewModel>() {
             }
         }
     }
-
-    override fun initializeCustom(savedInstanceState: Bundle?) = (activity as AppCompatActivity).setSupportActionBar(binding?.toolbar?.myToolbar)
 }

@@ -48,11 +48,6 @@
                 app:argType="string" />
         </fragment>
         <fragment
-            android:id="@+id/editShelfsFragment"
-            android:name="com.moonlightbutterfly.bookid.fragments.EditShelfsFragment"
-            android:label="EditShelfsFragment">
-        </fragment>
-        <fragment
             android:id="@+id/profileFragment"
             android:name="com.moonlightbutterfly.bookid.fragments.ProfileFragment"
             android:label="ProfileFragment" />
@@ -96,13 +91,7 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_global_editShelfsFragment"
-            app:destination="@id/editShelfsFragment"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
         <action
             android:id="@+id/action_global_bookFragment"
             app:destination="@id/bookFragment"
@@ -121,6 +110,15 @@
             app:exitAnim="@anim/fragment_fade_exit"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <fragment
+            android:id="@+id/booksListFragment"
+            android:name="com.moonlightbutterfly.bookid.fragments.BooksListFragment"
+            android:label="BooksListFragment" >
+            <argument
+                android:name="shelfId"
+                app:argType="integer"
+                android:defaultValue="0" />
+        </fragment><action android:id="@+id/action_global_booksListFragment" app:destination="@id/booksListFragment"/>
     </navigation>
     <navigation
         android:id="@+id/login_graph"
