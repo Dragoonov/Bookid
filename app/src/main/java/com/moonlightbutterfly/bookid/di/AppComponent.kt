@@ -24,7 +24,6 @@ interface AppComponent {
     fun inject(fragment: SearchFragment)
     fun inject(fragment: LoginFragment)
     fun inject(activity: MainActivity)
-    fun inject(fragment: SettingsFragment)
     fun inject(fragment: SplashFragment)
     fun inject(fragment: BooksListFragment)
     fun inject(dialog: AddShelfDialog)

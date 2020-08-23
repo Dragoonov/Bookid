@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="com.moonlightbutterfly.bookid.HandlersKt" />
+
         <variable
             name="viewModel"
             type="com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel" />
@@ -12,6 +14,7 @@
         <variable
             name="userManager"
             type="com.moonlightbutterfly.bookid.Manager" />
+
     </data>
 
 
@@ -57,15 +60,77 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            style="@style/MediumLabel"
-            android:layout_width="wrap_content"
+            android:id="@+id/textView4"
+            style="@style/SmallLabel"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:text="@{userManager.user.email, default=@string/default_nick}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <com.moonlightbutterfly.bookid.customviews.LineSeparator
+            android:id="@+id/lineSeparator6"
+            style="@style/LineSeparatorHorizontal"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sing_out" />
+
+        <Button
+            android:id="@+id/sing_out"
+            style="@style/BookidButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:onClick="@{(view) -> HandlersKt.signOutClick(view, userManager)}"
+            android:text="@string/sign_out"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <TextView
+            android:id="@+id/text_link"
+            style="@style/MediumLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:linksClickable="true"
+            android:text="@string/privacy_policy_text"
+            android:textColorLink="@color/primaryTextColor"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/lineSeparator6"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/MediumLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:autoLink="email"
+            android:gravity="center"
+            android:text="@string/contact_text"
+            app:layout_constraintBottom_toTopOf="@+id/textView3" />
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/MediumLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/version"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
