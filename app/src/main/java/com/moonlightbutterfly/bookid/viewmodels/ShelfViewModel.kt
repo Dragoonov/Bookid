@@ -26,10 +26,13 @@ class ShelfViewModel @Inject constructor(
     }
 
     fun prepareBasicShelfs(names: Array<String>) = viewModelScope.launch(dispatcher) {
-        if (names.size == BasicShelfsId.values().size) {
-            for ((index, value) in BasicShelfsId.values().withIndex()) {
-                insertShelf(names[index],value.id)
+        repository.getUserShelfs(userManager.user.value?.id!!).collect { list ->
+            if (names.size == BasicShelfsId.values().size && list?.find { it.id == BasicShelfsId.FAVORITES.id } == null) {
+                for ((index, value) in BasicShelfsId.values().withIndex()) {
+                    insertShelf(names[index], value.id)
+                }
             }
+
         }
     }
 

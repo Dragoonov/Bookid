@@ -1,20 +1,14 @@
 package com.moonlightbutterfly.bookid
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
-import androidx.palette.graphics.Palette
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
@@ -23,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.moonlightbutterfly.bookid.databinding.ActivityMainBinding
 import com.moonlightbutterfly.bookid.dialogs.QuitAppDialog
 import com.moonlightbutterfly.bookid.fragments.LoginFragmentDirections
+import com.moonlightbutterfly.bookid.fragments.SplashFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.User
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
@@ -83,6 +78,17 @@ class MainActivity : AppCompatActivity() {
                 communicator.clearMessage()
             }
         })
+        userManager.user.observe(this, Observer {
+            if (!userManager.isUserSignedIn()) {
+                viewModel.prepareBasicShelfs(resources.getStringArray(R.array.basic_shelfs))
+                unlockBottomNav()
+                if (navController.currentDestination?.id == R.id.splashFragment) {
+                    navController.navigate(SplashFragmentDirections.actionSplashFragmentToAppGraph())
+                } else if (navController.currentDestination?.id == R.id.loginFragment) {
+                    navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
+                }
+            }
+        })
         viewModel = ViewModelProvider(this, viewModelFactory)[ShelfViewModel::class.java]
     }
 
@@ -106,9 +112,6 @@ class MainActivity : AppCompatActivity() {
                     account.photoUrl.toString()
                 )
                 userManager.signInUser(loggedUser)
-                viewModel.prepareBasicShelfs(resources.getStringArray(R.array.basic_shelfs))
-                unlockBottomNav()
-                navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
             }
 
         } catch (e: ApiException) {
@@ -123,9 +126,6 @@ class MainActivity : AppCompatActivity() {
                 "https://lh3.googleusercontent.com/a-/AOh14GiPou93h951L-XfDmexoG3YKIFM1e7zsNzl5a4B"
             )
             userManager.signInUser(loggedUser)
-            viewModel.prepareBasicShelfs(resources.getStringArray(R.array.basic_shelfs))
-            unlockBottomNav()
-            navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
         }
     }
 

@@ -40,5 +40,5 @@ fun openAddShelfDialog(view: View) = AddShelfDialog
 
 fun signOutClick(view: View, userManager: Manager) {
     userManager.singOutUser(view.context)
-    view.findNavController().navigate(R.id.action_settingsFragment_to_nav_graph)
+    view.findNavController().navigate(R.id.action_global_app_graph)
 }

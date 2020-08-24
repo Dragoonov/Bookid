@@ -21,10 +21,15 @@ class UserManager @Inject constructor(
     private val communicator: Communicator
 ) : Manager {
     override val user: LiveData<User?> get() = _user
+
+
+    override fun isUserSignedIn(): Boolean = userSignedIn
+
     private val _user: MutableLiveData<User?> = liveData {
         internalRepository.getUser().collect { data -> emit(data) }
     } as MutableLiveData<User?>
 
+    private var userSignedIn = false
 
     override fun singOutUser(context: Context) {
         val gso: GoogleSignInOptions =
@@ -38,11 +43,13 @@ class UserManager @Inject constructor(
             }
         }
         communicator.postMessage(context.getString(R.string.signed_out))
+        userSignedIn = false
     }
 
     override fun signInUser(user: User): Unit = run {
         GlobalScope.launch {
             internalRepository.insertUser(user)
         }
+        userSignedIn = true
     }
 }

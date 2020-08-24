@@ -36,8 +36,6 @@ class SplashFragment : BaseFragment<FragmentSplashBinding,ViewModel>() {
                 navController.navigate(SplashFragmentDirections.actionSplashFragmentToLoginGraph(), extras)
             } else {
                 userManager.signInUser(it)
-                (activity as MainActivity).unlockBottomNav()
-                navController.navigate(SplashFragmentDirections.actionSplashFragmentToAppGraph())
             }
         })
     }
