@@ -1,5 +1,6 @@
 package com.moonlightbutterfly.bookid
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
@@ -23,7 +25,7 @@ import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationController {
 
     @Inject
     lateinit var communicator: Communicator
@@ -54,23 +56,7 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         binding.let {
             it.lifecycleOwner = this
-            it.bottomNav.setOnNavigationItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.search -> {
-                        navController.navigate(R.id.action_global_searchFragment)
-                        true
-                    }
-                    R.id.shelfs -> {
-                        navController.navigate(R.id.action_global_shelfFragment)
-                        true
-                    }
-                    R.id.profile -> {
-                        navController.navigate(R.id.action_global_profileFragment)
-                        true
-                    }
-                    else -> false
-                }
-            }
+            it.bottomNav.setupWithNavController(navController)
         }
         communicator.message.observe(this, Observer {
             if (!it.isNullOrEmpty()) {
@@ -79,12 +65,11 @@ class MainActivity : AppCompatActivity() {
             }
         })
         userManager.user.observe(this, Observer {
-            if (!userManager.isUserSignedIn()) {
-                viewModel.prepareBasicShelfs(resources.getStringArray(R.array.basic_shelfs))
-                unlockBottomNav()
+            if (it != null) {
                 if (navController.currentDestination?.id == R.id.splashFragment) {
                     navController.navigate(SplashFragmentDirections.actionSplashFragmentToAppGraph())
                 } else if (navController.currentDestination?.id == R.id.loginFragment) {
+                    viewModel.prepareBasicShelfs(resources.getStringArray(R.array.basic_shelfs))
                     navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
                 }
             }
@@ -137,10 +122,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun unlockBottomNav() = run { binding.bottomNav.visibility = View.VISIBLE }
+    override fun unlockBottomNav() = run { binding.bottomNav.visibility = View.VISIBLE }
 
-    private fun NavController.canGoBack(): Boolean =
-        currentDestination?.id != R.id.loginFragment
+    override fun lockBottomNav() = run { binding.bottomNav.visibility = View.GONE }
+
+    private fun NavController.canGoBack(): Boolean = currentDestination?.id != R.id.loginFragment
                 && currentDestination?.id != R.id.splashFragment
-                && currentDestination?.id != R.id.searchFragment
+                && currentDestination?.id != R.id.search
+                && currentDestination?.id != R.id.shelfs
+                && currentDestination?.id != R.id.profile
 }
+
+fun Context.getNavController() = this as NavigationController

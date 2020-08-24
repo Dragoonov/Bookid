@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.moonlightbutterfly.bookid.MainActivity
 import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.databinding.FragmentSplashBinding
+import com.moonlightbutterfly.bookid.getNavController
 import kotlinx.android.synthetic.main.fragment_splash.*
 import javax.inject.Inject
 
@@ -26,6 +27,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding,ViewModel>() {
 
     override fun initializeCustom(savedInstanceState: Bundle?) {
         authenticateUser()
+        context?.getNavController()?.lockBottomNav()
     }
 
     private fun authenticateUser() {

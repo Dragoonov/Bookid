@@ -1,5 +1,6 @@
 package com.moonlightbutterfly.bookid.fragments
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.SearchView
@@ -10,6 +11,7 @@ import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.adapters.BookAdapterVertical
 import com.moonlightbutterfly.bookid.databinding.SearchFragmentBinding
+import com.moonlightbutterfly.bookid.getNavController
 import com.moonlightbutterfly.bookid.viewmodels.BooksListViewModel
 import com.moonlightbutterfly.bookid.viewmodels.SearchViewModel
 import javax.inject.Inject
@@ -64,6 +66,10 @@ class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(Sear
             }
             it.toolbar.searchView.setOnQueryTextListener(onQueryChangeListener)
         }
+    }
+
+    override fun initializeCustom(savedInstanceState: Bundle?) {
+        context?.getNavController()?.unlockBottomNav()
     }
 
 }

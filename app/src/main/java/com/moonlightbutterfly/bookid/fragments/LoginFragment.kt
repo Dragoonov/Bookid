@@ -17,6 +17,7 @@ import com.moonlightbutterfly.bookid.MainActivity
 import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.databinding.FragmentLoginBinding
+import com.moonlightbutterfly.bookid.getNavController
 import com.moonlightbutterfly.bookid.utils.EnhancedAccelerateDecelerateInterpolator
 import javax.inject.Inject
 
@@ -59,6 +60,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, ViewModel>() {
             interpolator = EnhancedAccelerateDecelerateInterpolator()
         }
         binding?.signInButton?.animateIfNeeded()
+        context?.getNavController()?.lockBottomNav()
     }
 
     private fun initializeGoogleSignIn() {

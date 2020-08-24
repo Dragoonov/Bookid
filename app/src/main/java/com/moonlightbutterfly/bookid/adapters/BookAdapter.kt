@@ -4,8 +4,10 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.moonlightbutterfly.bookid.AppGraphDirections
 import com.moonlightbutterfly.bookid.Converters
+import com.moonlightbutterfly.bookid.R
+import com.moonlightbutterfly.bookid.fragments.BookFragmentDirections
+import com.moonlightbutterfly.bookid.fragments.SearchFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
 
@@ -17,9 +19,18 @@ abstract class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
 
         init {
             itemView.setOnClickListener {
-                val action = AppGraphDirections.actionGlobalBookFragment(Converters.convertToJSONString(books[adapterPosition])!!)
-                    it.findNavController().navigate(action)
-                //TODO: Zmienic jak zmienie Navigation
+                val navController = it.findNavController()
+                when (navController.currentDestination?.id) {
+                    R.id.search ->
+                        navController.navigate(SearchFragmentDirections
+                            .actionSearchFragmentToBookFragment(Converters
+                                .convertToJSONString(books[adapterPosition])!!))
+                    R.id.book ->
+                        navController.navigate(BookFragmentDirections
+                            .actionBookFragmentSelf(Converters
+                                .convertToJSONString(books[adapterPosition])!!))
+                }
+
             }
         }
 

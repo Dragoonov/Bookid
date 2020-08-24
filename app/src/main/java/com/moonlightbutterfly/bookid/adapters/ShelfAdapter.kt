@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.moonlightbutterfly.bookid.AppGraphDirections
 import com.moonlightbutterfly.bookid.databinding.ShelfContainerBinding
+import com.moonlightbutterfly.bookid.fragments.ShelfFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 
@@ -22,7 +22,7 @@ class ShelfAdapter(private val viewModel: ShelfViewModel) : RecyclerView.Adapter
 
         init {
             itemView.setOnClickListener {
-                val action = AppGraphDirections.actionGlobalBooksListFragment(shelfs[adapterPosition].id)
+                val action = ShelfFragmentDirections.actionShelfFragmentToBooksListFragment(shelfs[adapterPosition].id)
                 it.findNavController().navigate(action)
             }
         }

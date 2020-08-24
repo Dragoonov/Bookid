@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.moonlightbutterfly.bookid.dialogs.AddShelfDialog
+import com.moonlightbutterfly.bookid.fragments.ProfileFragmentDirections
 
 fun changeDescriptionExpansion(firstView: View, secondView: View, view: TextView) {
     val resultLines = if (view.maxLines == 3) view.lineCount else 3
@@ -40,5 +41,5 @@ fun openAddShelfDialog(view: View) = AddShelfDialog
 
 fun signOutClick(view: View, userManager: Manager) {
     userManager.singOutUser(view.context)
-    view.findNavController().navigate(R.id.action_global_app_graph)
+    view.findNavController().navigate(ProfileFragmentDirections.actionProfileToNavGraph())
 }
