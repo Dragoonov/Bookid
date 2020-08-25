@@ -31,10 +31,10 @@ class BooksListViewModel @Inject constructor(
     }
 
     private val customShelfIdLiveData = MutableLiveData(1000)
-    val customShelfLiveData: LiveData<List<Book>> = Transformations.switchMap(customShelfIdLiveData) {
+    val customShelfLiveData: LiveData<Shelf> = Transformations.switchMap(customShelfIdLiveData) {
         liveData {
             internalRepository.getShelfById(it)?.collect {
-                emit(it.books)
+                emit(it)
             }
         }
     }
@@ -76,6 +76,10 @@ class BooksListViewModel @Inject constructor(
 
     private fun deleteBookFromSaved(book: Book) = viewModelScope.launch(dispatcher) {
         deleteBookFromShelf(book, savedShelfLiveData.value)
+    }
+
+    fun deleteBookFromCustom(book: Book) = viewModelScope.launch(dispatcher) {
+        deleteBookFromShelf(book, customShelfLiveData.value)
     }
 
     private suspend fun insertBookToShelf(book: Book?, shelf: Shelf?) {

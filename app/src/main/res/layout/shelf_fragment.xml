@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="80dp"
             android:backgroundTint="@color/primaryColor"
             android:clickable="true"
             android:onClick="@{(view) -> HandlersKt.openAddShelfDialog(view)}"

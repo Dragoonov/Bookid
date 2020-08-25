@@ -36,7 +36,7 @@ fun goneUnless(view: View, data: Boolean) {
 @BindingAdapter("dataList")
 fun updateRecyclerBooks(view: RecyclerView, data: List<Book>?) {
     view.adapter.apply {
-        if (data != null) {
+        if (data != null && data != (this as BookAdapter).books) {
             (view.adapter as BookAdapter).let {
                 it.clearList()
                 it.updateList(data)
@@ -48,10 +48,9 @@ fun updateRecyclerBooks(view: RecyclerView, data: List<Book>?) {
 @BindingAdapter("dataList")
 fun updateRecyclerShelfs(view: RecyclerView, data: List<Shelf>?) {
     view.adapter.apply {
-        if (data != null) {
-            (view.adapter as ShelfAdapter).let {
-                it.updateList(data)
-            }
+        if ((data != null && data != (this as ShelfAdapter).shelfs) ||
+                data?.map { it.name } != (this as ShelfAdapter).shelfs.map { it.name }) {
+            (view.adapter as ShelfAdapter).updateList(data)
         }
     }
 }

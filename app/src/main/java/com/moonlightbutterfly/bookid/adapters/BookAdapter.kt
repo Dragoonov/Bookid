@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.Converters
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.fragments.BookFragmentDirections
+import com.moonlightbutterfly.bookid.fragments.BooksListFragmentDirections
 import com.moonlightbutterfly.bookid.fragments.SearchFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
@@ -28,6 +29,10 @@ abstract class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
                     R.id.book ->
                         navController.navigate(BookFragmentDirections
                             .actionBookFragmentSelf(Converters
+                                .convertToJSONString(books[adapterPosition])!!))
+                    R.id.booksList ->
+                        navController.navigate(BooksListFragmentDirections
+                            .actionBooksListFragmentToBookFragment(Converters
                                 .convertToJSONString(books[adapterPosition])!!))
                 }
 
@@ -53,6 +58,11 @@ abstract class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(books[position])
+    }
+
+    fun removeAt(position: Int) {
+        books.removeAt(position)
+        notifyItemRemoved(position)
     }
 }
 

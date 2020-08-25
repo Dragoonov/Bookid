@@ -10,14 +10,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/adapter"
+            android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:dataList="@{viewmodel.customShelfLiveData}" />
+            android:layout_height="match_parent"
+            app:dataList="@{viewmodel.customShelfLiveData.books}" />
 
     </LinearLayout>
 </layout>
