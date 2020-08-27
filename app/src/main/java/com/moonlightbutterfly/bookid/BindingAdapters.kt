@@ -3,16 +3,22 @@ package com.moonlightbutterfly.bookid
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.children
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.moonlightbutterfly.bookid.adapters.*
 import com.moonlightbutterfly.bookid.databinding.ComposableBookListBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
+import com.moonlightbutterfly.bookid.utils.BasicShelfsId
+import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 
 
 @BindingAdapter("loadImage")
@@ -84,9 +90,11 @@ fun createBookShelfs(view: LinearLayout, shelfsList: List<Shelf>?) {
 @BindingAdapter("fillData")
 fun fillData(view: RadioGroup, list: List<Shelf>?) {
     list?.forEach {
-        view.addView(RadioButton(view.context).apply {
-            text = it.name
-        })
+        if (!BasicShelfsId.matches(it.id)) {
+            view.addView(RadioButton(view.context).apply {
+                text = it.name
+            })
+        }
     }
 }
 
@@ -95,4 +103,24 @@ fun verticalBias(view: ProgressBar, value: Float) {
     val params = view.layoutParams as ConstraintLayout.LayoutParams
     params.verticalBias = value
     view.layoutParams = params
+}
+
+@BindingAdapter("populateChips", "actionHandler")
+fun populateChips(view: ChipGroup, shelfsList: List<Shelf>?, viewModel: ShelfViewModel) {
+    view.removeAllViews()
+    shelfsList?.forEach { shelf ->
+        if (!BasicShelfsId.matches(shelf.id)) {
+            val chip = Chip(view.context, null, 0)
+            chip.chipBackgroundColor = AppCompatResources.getColorStateList(view.context, R.color.chips_color)
+            chip.setOnClickListener { viewModel.updateBaseShelf(shelf.id) }
+            chip.isSelected = shelf.id == viewModel.baseShelfLiveData.value?.id
+            chip.text = shelf.name
+            view.addView(chip)
+        }
+    }
+}
+
+@BindingAdapter("updateChipsCheck")
+fun updateChipsCheck(view: ChipGroup, shelf: Shelf?) {
+    view.children.forEach { (it as Chip).isSelected = it.text == shelf?.name }
 }

@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity(), NavigationController {
                     account.email,
                     account.photoUrl.toString()
                 )
-                userManager.signInUser(loggedUser)
+                userManager.signInUser(loggedUser, this)
             }
 
         } catch (e: ApiException) {
@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity(), NavigationController {
                 "jakub.lipowski01@gmail.com",
                 "https://lh3.googleusercontent.com/a-/AOh14GiPou93h951L-XfDmexoG3YKIFM1e7zsNzl5a4B"
             )
-            userManager.signInUser(loggedUser)
+            userManager.signInUser(loggedUser, this)
         }
     }
 

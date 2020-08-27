@@ -1,6 +1,7 @@
 package com.moonlightbutterfly.bookid.viewmodels
 
 import androidx.lifecycle.*
+import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
@@ -14,7 +15,8 @@ import javax.inject.Inject
 class BookViewModel @Inject constructor(
     private val repository: ExternalRepository,
     private val dispatcher: CoroutineDispatcher,
-    private val internalRepository: InternalRepository
+    private val internalRepository: InternalRepository,
+    private val userManager: Manager
 ) : ViewModel() {
 
     private var insertedToRecentlyViewed = false
@@ -134,6 +136,12 @@ class BookViewModel @Inject constructor(
                 else -> insertBookToShelf(bookLiveData.value, it, 0)
             }
             insertedToRecentlyViewed = true
+        }
+    }
+
+    fun insertBookToBaseShelf() = viewModelScope.launch(dispatcher) {
+        internalRepository.getShelfById(userManager.user.value?.baseShelfId!!)?.collect {
+            insertBookToShelf(bookLiveData.value, it)
         }
     }
 

@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.FragmentActivity
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.databinding.BookContainerVerticalBinding
-import com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.viewmodels.BooksListViewModel
 
-class BookAdapterVertical(private val showIcons: Boolean = false, private val booksListViewModel: BooksListViewModel? = null) :
+class BookAdapterVertical(private val showIcons: Boolean = false,
+                          private val booksListViewModel: BooksListViewModel? = null) :
     BookAdapter() {
 
     inner class ViewHolderVertical(itemView: View) : ViewHolder(itemView) {
@@ -37,9 +36,7 @@ class BookAdapterVertical(private val showIcons: Boolean = false, private val bo
                 this.book = book
                 if (showIcons) {
                     add.setOnClickListener {
-                        AddBookToShelfDialog
-                            .newInstance(book)
-                            .show((it.context as FragmentActivity).supportFragmentManager, AddBookToShelfDialog.NAME)
+                        booksListViewModel?.insertBookToBaseShelf(book)
                     }
                     setupFavorites(book)
                     setupSaved(book)

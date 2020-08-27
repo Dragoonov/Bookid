@@ -36,7 +36,11 @@ class RoomRepository @Inject constructor(context: Context) : InternalRepository 
 
     override fun getUser(): Flow<User?> = userDao.getUser()
 
+    override fun getUserById(id: String): Flow<User?>? = userDao.getUserById(id)
+
     override suspend fun insertUser(user: User) = userDao.insertUser(user)
+
+    override suspend fun updateUser(user: User) = userDao.updateUser(user)
 
     override suspend fun deleteUser(user: User) = userDao.deleteUser(user)
 }

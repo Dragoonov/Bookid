@@ -13,7 +13,8 @@ import javax.inject.Inject
 
 class BooksListViewModel @Inject constructor(
     private val dispatcher: CoroutineDispatcher,
-    private val internalRepository: InternalRepository
+    private val internalRepository: InternalRepository,
+    private val userManager: Manager
 ) : ViewModel() {
 
     private val observer: Observer<Any> = Observer { }
@@ -88,6 +89,12 @@ class BooksListViewModel @Inject constructor(
                 add(book)
             }
             internalRepository.updateShelf(shelf)
+        }
+    }
+
+    fun insertBookToBaseShelf(book: Book?) = viewModelScope.launch(dispatcher) {
+        internalRepository.getShelfById(userManager.user.value?.baseShelfId!!)?.collect {
+            insertBookToShelf(book, it)
         }
     }
 

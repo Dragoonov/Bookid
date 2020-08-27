@@ -7,5 +7,7 @@ import com.moonlightbutterfly.bookid.repository.database.entities.User
 interface Manager {
     val user: LiveData<User?>
     fun singOutUser(context: Context)
-    fun signInUser(user: User)
+    fun signInUser(user: User, context: Context)
+    fun updateBaseShelf(shelfId: Int)
+    fun provideUserId(id: String)
 }

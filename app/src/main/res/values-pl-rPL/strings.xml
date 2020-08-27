@@ -53,4 +53,6 @@
         <item>Zapisane</item>
         <item>Ostatnio oglądane</item>
     </string-array>
+    <string name="select_base_shelf">Wybierz swoją podstawową półkę</string>
+    <string name="books_number">%d książek</string>
 </resources>

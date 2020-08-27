@@ -14,6 +14,8 @@ interface InternalRepository {
     suspend fun getShelfes(): List<Shelf>?
     fun getUserShelfs(userId: String): Flow<List<Shelf>?>
     fun getUser(): Flow<User?>
+    fun getUserById(id: String): Flow<User?>?
     suspend fun insertUser(user: User)
+    suspend fun updateUser(user: User)
     suspend fun deleteUser(user: User)
 }

@@ -1,9 +1,6 @@
 package com.moonlightbutterfly.bookid.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
@@ -23,6 +20,13 @@ class ShelfViewModel @Inject constructor(
     val shelfsLiveData: LiveData<List<Shelf>> = liveData {
         repository.getUserShelfs(userManager.user.value?.id!!)
             .collect { data -> data?.let { emit(it) } }
+    }
+
+    val baseShelfLiveData: LiveData<Shelf> = Transformations.switchMap(userManager.user) {
+        liveData {
+            repository.getShelfById(userManager.user.value?.baseShelfId ?: -1)
+                ?.collect { emit(it) }
+        }
     }
 
     fun prepareBasicShelfs(names: Array<String>) = viewModelScope.launch(dispatcher) {
@@ -89,5 +93,9 @@ class ShelfViewModel @Inject constructor(
             }
             repository.insertShelf(shelf)
         }
+    }
+
+    fun updateBaseShelf(shelfId: Int) {
+        userManager.updateBaseShelf(shelfId)
     }
 }

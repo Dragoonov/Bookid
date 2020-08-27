@@ -11,7 +11,6 @@ import com.moonlightbutterfly.bookid.CustomItemDecoration
 import com.moonlightbutterfly.bookid.adapters.BookAdapterHorizontal
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
 import com.moonlightbutterfly.bookid.databinding.BookFragmentBinding
-import com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 import kotlin.math.abs
@@ -55,9 +54,7 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
                 adapter = BookAdapterHorizontal()
             }
             it.addToShelf.setOnClickListener {
-                AddBookToShelfDialog
-                    .newInstance(viewModel.bookLiveData.value!!)
-                    .show(activity?.supportFragmentManager!!, AddBookToShelfDialog.NAME)
+                viewModel.insertBookToBaseShelf()
             }
             it.appBar.addOnOffsetChangedListener(offsetChangedListener)
         }

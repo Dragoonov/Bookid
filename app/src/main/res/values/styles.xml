@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
@@ -65,7 +65,7 @@
         <item name="android:fontFamily">sans-serif-thin</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/secondaryDarkColor</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_height">50dp</item>
         <item name="android:layout_width">wrap_content</item>
     </style>
 
