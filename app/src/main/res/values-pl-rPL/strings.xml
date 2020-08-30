@@ -33,7 +33,7 @@
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
     <string name="my_profile">Mój profil</string>
-    <string name="book_added">Dodano książkę</string>
+    <string name="book_added">Dodano książkę do %s</string>
     <string name="signed_out">Wylogowano</string>
     <string name="cathegories">Kategorie</string>
     <string name="no_info">Brak informacji</string>
@@ -55,4 +55,6 @@
     </string-array>
     <string name="select_base_shelf">Wybierz swoją podstawową półkę</string>
     <string name="books_number">%d książek</string>
+    <string name="default_shelf">domyślnej półki</string>
+
 </resources>

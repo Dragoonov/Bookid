@@ -1,6 +1,7 @@
 package com.moonlightbutterfly.bookid.viewmodels
 
 import androidx.lifecycle.*
+import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
@@ -14,7 +15,8 @@ import javax.inject.Inject
 class ShelfViewModel @Inject constructor(
     private val userManager: Manager,
     private val repository: InternalRepository,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher,
+    private val communicator: Communicator
 ) : ViewModel() {
 
     val shelfsLiveData: LiveData<List<Shelf>> = liveData {
@@ -66,12 +68,13 @@ class ShelfViewModel @Inject constructor(
     }
 
 
-    fun insertBookToShelf(shelf: Shelf?, book: Book?) {
+    fun insertBookToShelf(shelf: Shelf?, book: Book?, message:String? = null) {
         if (shelf != null && book != null && !shelf.books.contains(book)) {
             viewModelScope.launch(dispatcher) {
                 shelf.books = shelf.books.toMutableList().apply { add(book) }
                 repository.updateShelf(shelf)
             }
+            message?.let { communicator.postMessage(it) }
         }
     }
 

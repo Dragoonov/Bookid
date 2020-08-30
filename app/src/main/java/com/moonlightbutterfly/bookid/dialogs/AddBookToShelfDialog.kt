@@ -24,9 +24,6 @@ class AddBookToShelfDialog private constructor(private val book: Book): DialogFr
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    @Inject
-    lateinit var communicator: Communicator
-
     private lateinit var viewModel: ShelfViewModel
 
     private lateinit var binding: AddBookToShelfDialogBinding
@@ -40,10 +37,10 @@ class AddBookToShelfDialog private constructor(private val book: Book): DialogFr
                 .setView(binding.root)
                 .setPositiveButton(R.string.ok) { _, _ ->
                     val idx: Int = binding.radioGroup.returnSelectedIndex()
+                    val childName = (binding.radioGroup.getChildAt(idx) as RadioButton).text
                     if (idx >= 0) {
-                        viewModel.shelfsLiveData.value?.get(idx)?.let {
-                                viewModel.insertBookToShelf(it, book)
-                            communicator.postMessage(getString(R.string.book_added))
+                        viewModel.shelfsLiveData.value?.find { it.name == childName }?.let {
+                                viewModel.insertBookToShelf(it, book, getString(R.string.book_added, it.name))
                             }
                     }
                 }
