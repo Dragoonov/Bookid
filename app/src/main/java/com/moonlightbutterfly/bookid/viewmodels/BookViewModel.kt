@@ -1,6 +1,7 @@
 package com.moonlightbutterfly.bookid.viewmodels
 
 import androidx.lifecycle.*
+import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
@@ -16,7 +17,8 @@ class BookViewModel @Inject constructor(
     private val repository: ExternalRepository,
     private val dispatcher: CoroutineDispatcher,
     private val internalRepository: InternalRepository,
-    private val userManager: Manager
+    private val userManager: Manager,
+    private val communicator: Communicator
 ) : ViewModel() {
 
     private var insertedToRecentlyViewed = false
@@ -88,32 +90,32 @@ class BookViewModel @Inject constructor(
         }
     }
 
-    fun handleFavoriteOperation() = if (isBookInFavoritesLiveData.value!!) {
-        deleteBookFromFavorites()
+    fun handleFavoriteOperation(messageInsert: String? = null, messageDelete: String? = null) = if (isBookInFavoritesLiveData.value!!) {
+        deleteBookFromFavorites(messageDelete)
     } else {
-        insertBookToFavorites()
+        insertBookToFavorites(messageInsert)
     }
 
-    fun handleSavedOperation() = if (isBookInSavedLiveData.value!!) {
-        deleteBookFromSaved()
+    fun handleSavedOperation(messageInsert: String? = null, messageDelete: String? = null) = if (isBookInSavedLiveData.value!!) {
+        deleteBookFromSaved(messageDelete)
     } else {
-        insertBookToSaved()
+        insertBookToSaved(messageInsert)
     }
 
-    private fun insertBookToFavorites() = viewModelScope.launch(dispatcher) {
-        insertBookToShelf(bookLiveData.value, favoriteShelfLiveData.value)
+    private fun insertBookToFavorites(message: String? = null) = viewModelScope.launch(dispatcher) {
+        insertBookToShelf(bookLiveData.value, favoriteShelfLiveData.value, null, message)
     }
 
-    private fun deleteBookFromFavorites() = viewModelScope.launch(dispatcher) {
-        deleteBookFromShelf(bookLiveData.value, favoriteShelfLiveData.value)
+    private fun deleteBookFromFavorites(message: String? = null) = viewModelScope.launch(dispatcher) {
+        deleteBookFromShelf(bookLiveData.value, favoriteShelfLiveData.value, message)
     }
 
-    private fun insertBookToSaved() = viewModelScope.launch(dispatcher) {
-        insertBookToShelf(bookLiveData.value, savedShelfLiveData.value)
+    private fun insertBookToSaved(message: String? = null) = viewModelScope.launch(dispatcher) {
+        insertBookToShelf(bookLiveData.value, savedShelfLiveData.value, null, message)
     }
 
-    private fun deleteBookFromSaved() = viewModelScope.launch(dispatcher) {
-        deleteBookFromShelf(bookLiveData.value, savedShelfLiveData.value)
+    private fun deleteBookFromSaved(message: String? = null) = viewModelScope.launch(dispatcher) {
+        deleteBookFromShelf(bookLiveData.value, savedShelfLiveData.value, message)
     }
 
     private fun insertBookToRecentlyViewed() = viewModelScope.launch(dispatcher) {
@@ -139,14 +141,15 @@ class BookViewModel @Inject constructor(
         }
     }
 
-    fun insertBookToBaseShelf() = viewModelScope.launch(dispatcher) {
+    fun insertBookToBaseShelf(message: String? = null) = viewModelScope.launch(dispatcher) {
         internalRepository.getShelfById(userManager.user.value?.baseShelfId!!)?.collect {
-            insertBookToShelf(bookLiveData.value, it)
+            insertBookToShelf(bookLiveData.value, it,null, message)
         }
     }
 
-    private suspend fun insertBookToShelf(book: Book?, shelf: Shelf?, idx: Int? = null) {
+    private suspend fun insertBookToShelf(book: Book?, shelf: Shelf?, idx: Int? = null, message: String? = null) {
         if (shelf != null && book != null && !shelf.books.contains(book)) {
+            message?.let { communicator.postMessage(it) }
             shelf.books = shelf.books.toMutableList().apply {
                 if (idx != null) {
                     add(idx, book)
@@ -158,16 +161,17 @@ class BookViewModel @Inject constructor(
         }
     }
 
-    private suspend fun deleteBookFromShelf(book: Book?, shelf: Shelf?) {
+    private suspend fun deleteBookFromShelf(book: Book?, shelf: Shelf?, message: String? = null) {
         if (book != null && shelf != null) {
+            message?.let { communicator.postMessage(it) }
             shelf.books = shelf.books.filter { it.id != book.id }
             internalRepository.updateShelf(shelf)
         }
     }
 
-    private suspend fun deleteBookFromShelf(idx: Int?, shelf: Shelf?) {
+    private suspend fun deleteBookFromShelf(idx: Int?, shelf: Shelf?, message: String? = null) {
         if (shelf != null && idx != null && idx < shelf.books.size) {
-            deleteBookFromShelf(shelf.books[idx], shelf)
+            deleteBookFromShelf(shelf.books[idx], shelf, message)
         }
     }
 

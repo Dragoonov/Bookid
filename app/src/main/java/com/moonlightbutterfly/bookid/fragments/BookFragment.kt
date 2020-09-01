@@ -1,16 +1,25 @@
 package com.moonlightbutterfly.bookid.fragments
 
+import android.animation.Animator
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
+import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnticipateOvershootInterpolator
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.moonlightbutterfly.bookid.Converters
 import com.moonlightbutterfly.bookid.CustomItemDecoration
+import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.adapters.BookAdapterHorizontal
 import com.moonlightbutterfly.bookid.adapters.LAYOUT
 import com.moonlightbutterfly.bookid.databinding.BookFragmentBinding
+import com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 import kotlin.math.abs
@@ -39,6 +48,17 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
         }
     }
 
+    private fun handleAnimation(view: View) {
+        val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1.5f)
+        val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1.5f)
+        ObjectAnimator.ofPropertyValuesHolder(view,scaleX,scaleY).apply {
+            repeatCount = 1
+            repeatMode = ValueAnimator.REVERSE
+            duration = 200
+            start()
+        }
+    }
+
     override fun initializeBinding(inflater: LayoutInflater, container: ViewGroup?) {
         binding = BookFragmentBinding.inflate(inflater, container, false).also {
             it.viewModel = viewModel
@@ -53,10 +73,43 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
                 layoutManager = LinearLayoutManager(view?.context, LinearLayoutManager.HORIZONTAL, false)
                 adapter = BookAdapterHorizontal()
             }
-            it.addToShelf.setOnClickListener {
-                viewModel.insertBookToBaseShelf()
+            it.addToShelf.apply {
+                setOnClickListener { view ->
+                    val defaultShelfString = view.context.getString(R.string.default_shelf)
+                    viewModel.insertBookToBaseShelf(view.context.getString(R.string.book_added, defaultShelfString))
+                    handleAnimation(view)
+                }
+                setOnLongClickListener {
+                    AddBookToShelfDialog
+                        .newInstance(viewModel.bookLiveData.value!!)
+                        .show((context as FragmentActivity).supportFragmentManager, AddBookToShelfDialog.NAME)
+                    true
+                }
+                it.appBar.addOnOffsetChangedListener(offsetChangedListener)
             }
-            it.appBar.addOnOffsetChangedListener(offsetChangedListener)
+            it.favorite.apply {
+                setOnClickListener {view ->
+                    handleAnimation(view)
+                    val favoriteName = view.context.resources.getStringArray(R.array.basic_shelfs)[0]
+                    viewModel.handleFavoriteOperation(
+                        view.context.getString(R.string.book_added, favoriteName),
+                        view.context.getString(R.string.book_removed, favoriteName))
+                }
+            }
+            it.saved.apply {
+                setOnClickListener {view ->
+                    handleAnimation(view)
+                    val savedName = view.context.resources.getStringArray(R.array.basic_shelfs)[1]
+                    viewModel.handleSavedOperation(
+                        view.context.getString(R.string.book_added, savedName),
+                        view.context.getString(R.string.book_removed, savedName))
+                }
+            }
+            it.toolbar.share.apply {
+                setOnClickListener {view ->
+                    handleAnimation(view)
+                }
+            }
         }
     }
 

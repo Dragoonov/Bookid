@@ -36,6 +36,7 @@
     <string name="no">No</string>
     <string name="my_profile">My profile</string>
     <string name="book_added">Book added to %s</string>
+    <string name="book_removed">Book removed from %s</string>
     <string name="signed_out">Signed out</string>
     <string name="isbn13" translatable="false">ISBN13</string>
     <string name="isbn10" translatable="false">ISBN10</string>

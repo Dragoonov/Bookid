@@ -1,5 +1,8 @@
 package com.moonlightbutterfly.bookid.adapters
 
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
+import android.animation.ValueAnimator
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
@@ -41,6 +44,7 @@ class BookAdapterVertical(private val showIcons: Boolean = false,
                         setOnClickListener {
                             val defaultShelfString = it.context.getString(R.string.default_shelf)
                             booksListViewModel?.insertBookToBaseShelf(book, it.context.getString(R.string.book_added, defaultShelfString))
+                            handleAnimation(it)
                         }
                         setOnLongClickListener {
                             AddBookToShelfDialog
@@ -49,6 +53,7 @@ class BookAdapterVertical(private val showIcons: Boolean = false,
                             true
                         }
                     }
+                    share.setOnClickListener { handleAnimation(it) }
                     setupFavorites(book)
                     setupSaved(book)
                 } else {
@@ -58,6 +63,17 @@ class BookAdapterVertical(private val showIcons: Boolean = false,
                 }
             }
             executePendingBindings()
+        }
+
+        private fun handleAnimation(view: View) {
+            val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1.5f)
+            val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1.5f)
+            ObjectAnimator.ofPropertyValuesHolder(view,scaleX,scaleY).apply {
+                repeatCount = 1
+                repeatMode = ValueAnimator.REVERSE
+                duration = 200
+                start()
+            }
         }
 
         private fun setupFavorites(book: Book) {
@@ -71,7 +87,10 @@ class BookAdapterVertical(private val showIcons: Boolean = false,
                 )
                 val favoritesName = view.context.resources.getStringArray(R.array.basic_shelfs)[0]
                 view.setOnClickListener {
-                    booksListViewModel.handleFavoriteOperation(book, it.context.getString(R.string.book_added, favoritesName))
+                    booksListViewModel.handleFavoriteOperation(
+                        book,
+                        it.context.getString(R.string.book_added, favoritesName),
+                        it.context.getString(R.string.book_removed, favoritesName))
                     (it as ImageView).setImageDrawable(
                         if (it.drawable == favoriteEmptyDrawable) {
                             favoriteFilledDrawable
@@ -79,6 +98,7 @@ class BookAdapterVertical(private val showIcons: Boolean = false,
                             favoriteEmptyDrawable
                         }
                     )
+                    handleAnimation(view)
                 }
             }
         }
@@ -94,7 +114,9 @@ class BookAdapterVertical(private val showIcons: Boolean = false,
                 )
                 val savedName = view.context.resources.getStringArray(R.array.basic_shelfs)[1]
                 view.setOnClickListener {
-                    booksListViewModel.handleSavedOperation(book, it.context.getString(R.string.book_added, savedName))
+                    booksListViewModel.handleSavedOperation(book,
+                        it.context.getString(R.string.book_added, savedName),
+                        it.context.getString(R.string.book_removed, savedName))
                     (it as ImageView).setImageDrawable(
                         if (it.drawable == savedFilledDrawable) {
                             savedEmptyDrawable
@@ -102,6 +124,7 @@ class BookAdapterVertical(private val showIcons: Boolean = false,
                             savedFilledDrawable
                         }
                     )
+                    handleAnimation(view)
                 }
             }
         }

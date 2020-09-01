@@ -49,16 +49,16 @@ class BooksListViewModel @Inject constructor(
 
     fun setCustomShelfId(id: Int) = run { customShelfIdLiveData.value = id }
 
-    fun handleSavedOperation(book: Book, message: String? = null) = if (isBookInSaved(book)) {
-        deleteBookFromSaved(book)
+    fun handleSavedOperation(book: Book, messageInsert: String? = null, messageDelete: String? = null) = if (isBookInSaved(book)) {
+        deleteBookFromSaved(book, messageDelete)
     } else {
-        insertBookToSaved(book, message)
+        insertBookToSaved(book, messageInsert)
     }
 
-    fun handleFavoriteOperation(book: Book, message: String? = null) = if (isBookInFavorites(book)) {
-        deleteBookFromFavorites(book)
+    fun handleFavoriteOperation(book: Book, messageInsert: String? = null, messageDelete: String? = null) = if (isBookInFavorites(book)) {
+        deleteBookFromFavorites(book, messageDelete)
     } else {
-        insertBookToFavorites(book, message)
+        insertBookToFavorites(book, messageInsert)
     }
 
     fun isBookInSaved(book: Book) = savedShelfLiveData.value?.books?.find { it.id == book.id } != null
@@ -69,16 +69,16 @@ class BooksListViewModel @Inject constructor(
         insertBookToShelf(book, favoriteShelfLiveData.value, message)
     }
 
-    private fun deleteBookFromFavorites(book: Book) = viewModelScope.launch(dispatcher) {
-        deleteBookFromShelf(book, favoriteShelfLiveData.value)
+    private fun deleteBookFromFavorites(book: Book, message: String? = null) = viewModelScope.launch(dispatcher) {
+        deleteBookFromShelf(book, favoriteShelfLiveData.value, message)
     }
 
     private fun insertBookToSaved(book: Book, message: String? = null) = viewModelScope.launch(dispatcher) {
         insertBookToShelf(book, savedShelfLiveData.value, message)
     }
 
-    private fun deleteBookFromSaved(book: Book) = viewModelScope.launch(dispatcher) {
-        deleteBookFromShelf(book, savedShelfLiveData.value)
+    private fun deleteBookFromSaved(book: Book, message: String? = null) = viewModelScope.launch(dispatcher) {
+        deleteBookFromShelf(book, savedShelfLiveData.value, message)
     }
 
     fun deleteBookFromCustom(book: Book) = viewModelScope.launch(dispatcher) {
@@ -101,10 +101,11 @@ class BooksListViewModel @Inject constructor(
         }
     }
 
-    private suspend fun deleteBookFromShelf(book: Book?, shelf: Shelf?) {
+    private suspend fun deleteBookFromShelf(book: Book?, shelf: Shelf?, message: String? = null) {
         if (book != null && shelf != null) {
             shelf.books = shelf.books.filter { it.id != book.id }
             internalRepository.updateShelf(shelf)
+            message?.let { communicator.postMessage(it) }
         }
     }
 

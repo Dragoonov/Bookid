@@ -343,8 +343,7 @@
                             android:layout_marginEnd="16dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/expand"
-                            android:src="@{viewModel.isBookInSavedLiveData ? @drawable/ic_bookmark_24px : @drawable/ic_bookmark_border_24px}"
-                            android:onClick="@{() -> viewModel.handleSavedOperation()}" />
+                            android:src="@{viewModel.isBookInSavedLiveData ? @drawable/ic_bookmark_24px : @drawable/ic_bookmark_border_24px}"/>
 
                         <ImageView
                             android:id="@+id/favorite"
@@ -354,8 +353,7 @@
                             app:layout_constraintBottom_toBottomOf="@+id/saved"
                             app:layout_constraintEnd_toStartOf="@+id/saved"
                             app:layout_constraintTop_toTopOf="@+id/saved"
-                            android:src="@{viewModel.isBookInFavoritesLiveData ? @drawable/ic_favorite_24px : @drawable/ic_favorite_border_24px}"
-                            android:onClick="@{() -> viewModel.handleFavoriteOperation()}"/>
+                            android:src="@{viewModel.isBookInFavoritesLiveData ? @drawable/ic_favorite_24px : @drawable/ic_favorite_border_24px}"/>
 
 
                         <Button
