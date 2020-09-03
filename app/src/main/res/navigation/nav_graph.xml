@@ -71,6 +71,9 @@
             <action
                 android:id="@+id/action_shelfFragment_to_booksListFragment"
                 app:destination="@id/booksList" />
+            <action
+                android:id="@+id/action_shelfs_to_createEditShelfFragment"
+                app:destination="@id/createEditShelfFragment" />
         </fragment>
 
         <fragment
@@ -84,6 +87,15 @@
             <action
                 android:id="@+id/action_booksListFragment_to_bookFragment"
                 app:destination="@id/book" />
+        </fragment>
+        <fragment
+            android:id="@+id/createEditShelfFragment"
+            android:name="com.moonlightbutterfly.bookid.fragments.CreateEditShelfFragment"
+            android:label="CreateEditShelfFragment" >
+            <argument
+                android:name="shelfId"
+                app:argType="integer"
+                android:defaultValue="-1" />
         </fragment>
     </navigation>
     <navigation

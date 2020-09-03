@@ -32,4 +32,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(BooksListViewModel::class)
     internal abstract fun bindBooksListViewModel(viewModel: BooksListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CreateEditShelfViewModel::class)
+    internal abstract fun bindCreateEditShelfViewModel(viewModel: CreateEditShelfViewModel): ViewModel
 }

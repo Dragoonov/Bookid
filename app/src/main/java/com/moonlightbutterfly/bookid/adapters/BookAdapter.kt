@@ -4,7 +4,7 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.moonlightbutterfly.bookid.Converters
+import com.moonlightbutterfly.bookid.utils.Converters
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.fragments.BookFragmentDirections
 import com.moonlightbutterfly.bookid.fragments.BooksListFragmentDirections
@@ -24,15 +24,18 @@ abstract class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
                 when (navController.currentDestination?.id) {
                     R.id.search ->
                         navController.navigate(SearchFragmentDirections
-                            .actionSearchFragmentToBookFragment(Converters
+                            .actionSearchFragmentToBookFragment(
+                                Converters
                                 .convertToJSONString(books[adapterPosition])!!))
                     R.id.book ->
                         navController.navigate(BookFragmentDirections
-                            .actionBookFragmentSelf(Converters
+                            .actionBookFragmentSelf(
+                                Converters
                                 .convertToJSONString(books[adapterPosition])!!))
                     R.id.booksList ->
                         navController.navigate(BooksListFragmentDirections
-                            .actionBooksListFragmentToBookFragment(Converters
+                            .actionBooksListFragmentToBookFragment(
+                                Converters
                                 .convertToJSONString(books[adapterPosition])!!))
                 }
 

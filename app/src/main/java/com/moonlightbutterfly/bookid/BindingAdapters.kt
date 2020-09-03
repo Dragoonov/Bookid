@@ -20,7 +20,6 @@ import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.utils.BasicShelfsId
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 
-
 @BindingAdapter("loadImage")
 fun loadImage(view: ImageView, url: String?) {
     Glide.with(view.context)

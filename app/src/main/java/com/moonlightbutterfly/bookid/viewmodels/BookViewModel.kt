@@ -29,24 +29,24 @@ class BookViewModel @Inject constructor(
     private val _similarBooksLiveData = MutableLiveData<List<Book>>()
     val similarBooksLiveData: LiveData<List<Book>?> get() = _similarBooksLiveData
 
-    private val favoriteShelfLiveData: LiveData<Shelf> = liveData {
+    private val favoriteShelfLiveData: LiveData<Shelf?> = liveData {
         internalRepository.getShelfById(BasicShelfsId.FAVORITES.id)?.collect {
             emit(it)
         }
     }
     private val _isBookInFavoritesLiveData = Transformations.map(favoriteShelfLiveData) { shelf ->
-        shelf.books.find { bookLiveData.value?.id == it.id } != null
+        shelf?.books?.find { bookLiveData.value?.id == it.id } != null
     }
 
     val isBookInFavoritesLiveData: LiveData<Boolean> get() = _isBookInFavoritesLiveData
 
-    private val savedShelfLiveData: LiveData<Shelf> = liveData {
+    private val savedShelfLiveData: LiveData<Shelf?> = liveData {
         internalRepository.getShelfById(BasicShelfsId.SAVED.id)?.collect {
             emit(it)
         }
     }
     private val _isBookInSavedLiveData = Transformations.map(savedShelfLiveData) { shelf ->
-        shelf.books.find { bookLiveData.value?.id == it.id } != null
+        shelf?.books?.find { bookLiveData.value?.id == it.id } != null
     }
 
     val isBookInSavedLiveData: LiveData<Boolean> get() = _isBookInSavedLiveData
@@ -122,7 +122,7 @@ class BookViewModel @Inject constructor(
         internalRepository.getShelfById(BasicShelfsId.RECENTLY_VIEWED.id)?.collect {
             when {
                 insertedToRecentlyViewed -> { }
-                it.books.isEmpty() -> {
+                it!!.books.isEmpty() -> {
                     insertBookToShelf(bookLiveData.value, it)
                 }
                 it.books.contains(bookLiveData.value) -> {

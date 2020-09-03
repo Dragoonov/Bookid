@@ -17,7 +17,7 @@ interface ShelfDao {
     suspend fun deleteShelf(shelf: Shelf)
 
     @Query("select * from shelfs where id = :id")
-    fun getShelfById(id: Int): Flow<Shelf>
+    fun getShelfById(id: Int): Flow<Shelf?>?
 
     @Query("select * from shelfs where name = :name")
     suspend fun getShelfByName(name: String): Shelf

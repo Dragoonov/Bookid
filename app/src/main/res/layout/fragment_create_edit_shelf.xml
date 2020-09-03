@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.moonlightbutterfly.bookid.viewmodels.CreateEditShelfViewModel" />
+
+        <import type="com.moonlightbutterfly.bookid.R" />
+
+        <import type="com.moonlightbutterfly.bookid.HandlersKt" />
+
+        <import type="android.widget.ImageView" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                android:ems="10"
+                android:hint="@string/enter_shelf_name"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/base"
+                android:layout_width="195dp"
+                android:layout_height="300dp"
+                android:layout_marginTop="32dp"
+                android:background="#686868"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name" />
+
+            <ImageView
+                android:id="@+id/front"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="32dp"
+                android:src="@drawable/ic_soccer"
+                app:layout_constraintBottom_toBottomOf="@+id/base"
+                app:layout_constraintEnd_toEndOf="@+id/base"
+                app:layout_constraintStart_toStartOf="@+id/base"
+                app:layout_constraintTop_toTopOf="@+id/base" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/base">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/gray"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="@{(view) -> base.setBackgroundColor(0xFF686868)}"
+                    app:cardBackgroundColor="#686868"
+                    app:cardCornerRadius="30dp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/pink"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="@{(view) -> base.setBackgroundColor(0xFFE91E63)}"
+                    app:cardBackgroundColor="#E91E63"
+                    app:cardCornerRadius="30dp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/white"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="@{(view) -> base.setBackgroundColor(0xFFFFFF)}"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="30dp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/orange"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="@{(view) -> base.setBackgroundColor(0xFFFF9800)}"
+                    app:cardBackgroundColor="#FF9800"
+                    app:cardCornerRadius="30dp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/purple"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:onClick="@{(view) -> base.setBackgroundColor(0xFF9C27B0)}"
+                    app:cardBackgroundColor="#9C27B0"
+                    app:cardCornerRadius="30dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                tools:layout_editor_absoluteX="319dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/green"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="@{(view) -> base.setBackgroundColor(0xFF4CAF50)}"
+                    app:cardBackgroundColor="#4CAF50"
+                    app:cardCornerRadius="30dp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/red"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="@{(view) -> base.setBackgroundColor(0xFFF44336)}"
+                    app:cardBackgroundColor="#F44336"
+                    app:cardCornerRadius="30dp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/blue"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="@{(view) -> base.setBackgroundColor(0xFF2196F3)}"
+                    app:cardBackgroundColor="#2196F3"
+                    app:cardCornerRadius="30dp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/yellow"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="@{(view) -> base.setBackgroundColor(0xFFFFEB3B)}"
+                    app:cardBackgroundColor="#FFEB3B"
+                    app:cardCornerRadius="30dp"></androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/dark_blue"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:onClick="@{(view) -> base.setBackgroundColor(0xFFFFEB3B)}"
+                    app:cardBackgroundColor="#0D1B81"
+                    app:cardCornerRadius="30dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/fish"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="@{(view) -> HandlersKt.saveIconToViewModel(front, R.drawable.ic_fish, viewModel)}"
+                    app:cardCornerRadius="30dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_fish" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/internet"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="@{(view) -> HandlersKt.saveIconToViewModel(front, R.drawable.ic_internet, viewModel)}"
+                    app:cardCornerRadius="30dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_internet" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/ball"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="@{(view) -> HandlersKt.saveIconToViewModel(front, R.drawable.ic_soccer, viewModel)}"
+                    app:cardCornerRadius="30dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_soccer" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/science"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="@{(view) -> HandlersKt.saveIconToViewModel(front, R.drawable.ic_science, viewModel)}"
+                    app:cardCornerRadius="30dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_science" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/rubics"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:onClick="@{(view) -> HandlersKt.saveIconToViewModel(front, R.drawable.ic_rubiks_cube, viewModel)}"
+                    app:cardCornerRadius="30dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_rubiks_cube" />
+
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/ok"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

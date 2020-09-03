@@ -2,9 +2,11 @@ package com.moonlightbutterfly.bookid
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +23,7 @@ import com.moonlightbutterfly.bookid.dialogs.QuitAppDialog
 import com.moonlightbutterfly.bookid.fragments.LoginFragmentDirections
 import com.moonlightbutterfly.bookid.fragments.SplashFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.User
+import com.moonlightbutterfly.bookid.utils.Converters
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 
@@ -69,7 +72,20 @@ class MainActivity : AppCompatActivity(), NavigationController {
                 if (navController.currentDestination?.id == R.id.splashFragment) {
                     navController.navigate(SplashFragmentDirections.actionSplashFragmentToAppGraph())
                 } else if (navController.currentDestination?.id == R.id.loginFragment) {
-                    viewModel.prepareBasicShelfs(resources.getStringArray(R.array.basic_shelfs))
+                    val covers = arrayOf(
+                        Pair(
+                            Color.parseColor("#686868"),
+                            R.drawable.ic_favorite_24px
+                        ),
+                        Pair(
+                            Color.parseColor("#686868"),
+                            R.drawable.ic_bookmark_24px
+                        ),Pair(
+                            Color.parseColor("#686868"),
+                            R.drawable.ic_back
+                        )
+                    )
+                    viewModel.prepareBasicShelfs(resources.getStringArray(R.array.basic_shelfs), covers)
                     navController.navigate(LoginFragmentDirections.actionGlobalAppGraph())
                 }
             }

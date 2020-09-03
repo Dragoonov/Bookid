@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.moonlightbutterfly.bookid.Converters
+import com.moonlightbutterfly.bookid.utils.Converters
 import com.moonlightbutterfly.bookid.repository.database.daos.ShelfDao
 import com.moonlightbutterfly.bookid.repository.database.daos.UserDao
 import com.moonlightbutterfly.bookid.repository.database.entities.Author

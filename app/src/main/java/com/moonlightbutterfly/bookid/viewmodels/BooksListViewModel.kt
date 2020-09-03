@@ -19,22 +19,22 @@ class BooksListViewModel @Inject constructor(
     private val communicator: Communicator
 ) : ViewModel() {
 
-    private val observer: Observer<Any> = Observer { }
+    private val observer: Observer<in Shelf?> = Observer { }
 
-    private val favoriteShelfLiveData: LiveData<Shelf> = liveData {
+    private val favoriteShelfLiveData: LiveData<Shelf?> = liveData {
         internalRepository.getShelfById(BasicShelfsId.FAVORITES.id)?.collect {
             emit(it)
         }
     }
 
-    private val savedShelfLiveData: LiveData<Shelf> = liveData {
+    private val savedShelfLiveData: LiveData<Shelf?> = liveData {
         internalRepository.getShelfById(BasicShelfsId.SAVED.id)?.collect {
             emit(it)
         }
     }
 
     private val customShelfIdLiveData = MutableLiveData(1000)
-    val customShelfLiveData: LiveData<Shelf> = Transformations.switchMap(customShelfIdLiveData) {
+    val customShelfLiveData: LiveData<Shelf?> = Transformations.switchMap(customShelfIdLiveData) {
         liveData {
             internalRepository.getShelfById(it)?.collect {
                 emit(it)

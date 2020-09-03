@@ -1,19 +1,16 @@
 package com.moonlightbutterfly.bookid.fragments
 
-import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnticipateOvershootInterpolator
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
-import com.moonlightbutterfly.bookid.Converters
+import com.moonlightbutterfly.bookid.utils.Converters
 import com.moonlightbutterfly.bookid.CustomItemDecoration
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.adapters.BookAdapterHorizontal

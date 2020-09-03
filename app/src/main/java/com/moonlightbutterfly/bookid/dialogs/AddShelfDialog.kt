@@ -32,7 +32,7 @@ class AddShelfDialog private constructor(): DialogFragment() {
                 .setPositiveButton(R.string.ok) { _, _ ->
                     val name = binding.shelfName.text.toString()
                     if (name.isNotEmpty()) {
-                        viewModel.insertShelf(name)
+                       // viewModel.insertShelf(name)
                     }
                 }
                 .setNegativeButton(R.string.cancel) { _, _ -> dialog?.cancel() }

@@ -3,11 +3,10 @@ package com.moonlightbutterfly.bookid.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.databinding.ShelfContainerBinding
-import com.moonlightbutterfly.bookid.dialogs.RenameShelfDialog
 import com.moonlightbutterfly.bookid.fragments.ShelfFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.utils.BasicShelfsId
@@ -37,14 +36,16 @@ class ShelfAdapter(private val viewModel: ShelfViewModel) : RecyclerView.Adapter
             this?.viewModel = viewModel
             this?.basicShelfsId = BasicShelfsId.Companion
             this?.edit?.setOnClickListener {
-                RenameShelfDialog.newInstance(Shelf(shelf.id,shelf.name,shelf.books,shelf.userId))
-                    .show((it.context as AppCompatActivity).supportFragmentManager, RenameShelfDialog.NAME)
+                val action = ShelfFragmentDirections.actionShelfsToCreateEditShelfFragment(shelf.id)
+                it.findNavController().navigate(action)
             }
             this?.delete?.setOnClickListener {
                 shelfs.remove(shelf)
                 viewModel?.deleteShelf(shelf)
                 notifyItemRemoved(adapterPosition)
             }
+            this?.base?.setBackgroundColor(shelf.cover.background)
+            this?.front?.setImageDrawable(ContextCompat.getDrawable(this.front.context, shelf.cover.iconId))
         }
     }
 

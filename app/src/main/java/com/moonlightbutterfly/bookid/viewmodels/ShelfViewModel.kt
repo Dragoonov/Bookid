@@ -1,9 +1,11 @@
 package com.moonlightbutterfly.bookid.viewmodels
 
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.*
 import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
+import com.moonlightbutterfly.bookid.repository.database.entities.Cover
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
 import com.moonlightbutterfly.bookid.utils.BasicShelfsId
@@ -24,18 +26,19 @@ class ShelfViewModel @Inject constructor(
             .collect { data -> data?.let { emit(it) } }
     }
 
-    val baseShelfLiveData: LiveData<Shelf> = Transformations.switchMap(userManager.user) {
+    val baseShelfLiveData: LiveData<Shelf?> = Transformations.switchMap(userManager.user) {
         liveData {
             repository.getShelfById(userManager.user.value?.baseShelfId ?: -1)
                 ?.collect { emit(it) }
         }
     }
 
-    fun prepareBasicShelfs(names: Array<String>) = viewModelScope.launch(dispatcher) {
+    fun prepareBasicShelfs(names: Array<String>, images: Array<Pair<Int, Int>>) = viewModelScope.launch(dispatcher) {
+
         repository.getUserShelfs(userManager.user.value?.id!!).collect { list ->
             if (names.size == BasicShelfsId.values().size && list?.find { it.id == BasicShelfsId.FAVORITES.id } == null) {
                 for ((index, value) in BasicShelfsId.values().withIndex()) {
-                    insertShelf(names[index], value.id)
+                    insertShelf(names[index], images[index], value.id)
                 }
             }
 
@@ -78,20 +81,22 @@ class ShelfViewModel @Inject constructor(
         }
     }
 
-    fun insertShelf(name: String?, id: Int? = null) = name?.let {
+    fun insertShelf(name: String?, cover: Pair<Int, Int>, id: Int? = null) = name?.let {
         viewModelScope.launch(dispatcher) {
             val shelf = if (id == null) {
                 Shelf(
                     name = it,
                     books = ArrayList(),
-                    userId = userManager.user.value?.id!!
+                    userId = userManager.user.value?.id!!,
+                    cover = Cover(cover.first, cover.second)
                 )
             } else {
                 Shelf(
                     id = id,
                     name = it,
                     books = ArrayList(),
-                    userId = userManager.user.value?.id!!
+                    userId = userManager.user.value?.id!!,
+                    cover = Cover(cover.first, cover.second)
                 )
             }
             repository.insertShelf(shelf)

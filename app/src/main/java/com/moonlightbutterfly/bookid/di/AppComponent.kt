@@ -18,14 +18,15 @@ interface AppComponent {
         fun create(@BindsInstance context: Context): AppComponent
     }
 
+    fun inject(activity: MainActivity)
     fun inject(fragment: BookFragment)
     fun inject(fragment: ProfileFragment)
     fun inject(fragment: ShelfFragment)
     fun inject(fragment: SearchFragment)
     fun inject(fragment: LoginFragment)
-    fun inject(activity: MainActivity)
     fun inject(fragment: SplashFragment)
     fun inject(fragment: BooksListFragment)
+    fun inject(fragment: CreateEditShelfFragment)
     fun inject(dialog: AddShelfDialog)
     fun inject(dialog: RenameShelfDialog)
     fun inject(dialog: AddBookToShelfDialog)

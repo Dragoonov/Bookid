@@ -4,11 +4,19 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import android.net.Uri
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.moonlightbutterfly.bookid.dialogs.AddShelfDialog
 import com.moonlightbutterfly.bookid.fragments.ProfileFragmentDirections
+import com.moonlightbutterfly.bookid.viewmodels.CreateEditShelfViewModel
+
+fun saveIconToViewModel(view: ImageView, iconId: Int, viewModel: CreateEditShelfViewModel) {
+    viewModel.iconId = iconId
+    view.setImageDrawable(ContextCompat.getDrawable(view.context, iconId))
+}
 
 fun changeDescriptionExpansion(firstView: View, secondView: View, view: TextView) {
     val resultLines = if (view.maxLines == 3) view.lineCount else 3

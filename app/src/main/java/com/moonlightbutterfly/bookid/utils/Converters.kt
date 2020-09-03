@@ -1,4 +1,4 @@
-package com.moonlightbutterfly.bookid
+package com.moonlightbutterfly.bookid.utils
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
@@ -83,6 +83,22 @@ object Converters {
             null
         }
     }
+
+    @TypeConverter
+    @JvmStatic
+    fun fromStringToCover(value: String): Cover? {
+        val type = object : TypeToken<Cover>() {}.type
+        return try {
+            Gson().fromJson(value, type)
+        } catch (e: JsonSyntaxException) {
+            null
+        }
+    }
+
+    @TypeConverter
+    @JvmStatic
+    fun fromCoverToString(cover: Cover): String? = Gson().toJson(cover)
+
 
     @TypeConverter
     @JvmStatic
