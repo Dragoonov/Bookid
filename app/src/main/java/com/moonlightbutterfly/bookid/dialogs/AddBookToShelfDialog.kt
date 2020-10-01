@@ -8,14 +8,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.moonlightbutterfly.bookid.BookidApplication
-import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.databinding.AddBookToShelfDialogBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 import javax.inject.Inject
 
-class AddBookToShelfDialog private constructor(private val book: Book): DialogFragment() {
+class AddBookToShelfDialog private constructor(private val book: Book) : DialogFragment() {
     companion object {
         fun newInstance(book: Book): AddBookToShelfDialog = AddBookToShelfDialog(book)
         const val NAME = "AddBookToShelfDialog"
@@ -40,8 +39,8 @@ class AddBookToShelfDialog private constructor(private val book: Book): DialogFr
                     val childName = (binding.radioGroup.getChildAt(idx) as RadioButton).text
                     if (idx >= 0) {
                         viewModel.shelfsLiveData.value?.find { it.name == childName }?.let {
-                                viewModel.insertBookToShelf(it, book, getString(R.string.book_added, it.name))
-                            }
+                            viewModel.insertBookToShelf(it, book, getString(R.string.book_added, it.name))
+                        }
                     }
                 }
                 .setNegativeButton(R.string.cancel) { _, _ -> dialog?.cancel() }
@@ -50,7 +49,7 @@ class AddBookToShelfDialog private constructor(private val book: Book): DialogFr
     }
 
     private fun initializeDependencies() {
-        viewModel = ViewModelProvider(this,viewModelFactory)[ShelfViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[ShelfViewModel::class.java]
         binding = AddBookToShelfDialogBinding.inflate(layoutInflater).also {
             it.viewModel = viewModel
             it.lifecycleOwner = this

@@ -7,7 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.moonlightbutterfly.bookid.R
 
-class QuitAppDialog private constructor(): DialogFragment() {
+class QuitAppDialog private constructor() : DialogFragment() {
 
     companion object {
         fun newInstance(): QuitAppDialog = QuitAppDialog()
@@ -22,7 +22,8 @@ class QuitAppDialog private constructor(): DialogFragment() {
                     dialog.cancel()
                     activity?.finish()
                 }
-                .setNegativeButton(R.string.cancel
+                .setNegativeButton(
+                    R.string.cancel
                 ) { dialog, _ ->
                     dialog.cancel()
                 }

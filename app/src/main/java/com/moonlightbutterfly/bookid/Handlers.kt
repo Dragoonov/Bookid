@@ -6,10 +6,8 @@ import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
-import com.moonlightbutterfly.bookid.dialogs.AddShelfDialog
 import com.moonlightbutterfly.bookid.fragments.ProfileFragmentDirections
 import com.moonlightbutterfly.bookid.viewmodels.CreateEditShelfViewModel
 
@@ -42,10 +40,6 @@ fun openLink(view: View, url: String?) {
         }
     }
 }
-
-fun openAddShelfDialog(view: View) = AddShelfDialog
-    .newInstance()
-    .show((view.context as AppCompatActivity).supportFragmentManager, AddShelfDialog.NAME)
 
 fun signOutClick(view: View, userManager: Manager) {
     userManager.singOutUser(view.context)

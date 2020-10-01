@@ -8,7 +8,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.databinding.ShelfContainerBinding
-import com.moonlightbutterfly.bookid.fragments.ShelfFragmentDirections
+import com.moonlightbutterfly.bookid.fragments.ShelfsListFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.utils.DefaultShelf
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
@@ -25,30 +25,30 @@ class ShelfAdapter(private val viewModel: ShelfViewModel) : RecyclerView.Adapter
 
         init {
             itemView.setOnClickListener {
-                val action = ShelfFragmentDirections.actionShelfFragmentToBooksListFragment(shelfs[adapterPosition].id)
+                val action = ShelfsListFragmentDirections.actionShelfFragmentToBooksListFragment(shelfs[adapterPosition].id)
                 it.findNavController().navigate(action)
             }
         }
 
-        private var binding: ShelfContainerBinding? = null
+        private lateinit var binding: ShelfContainerBinding
 
         fun bind(shelf: Shelf) = with(binding) {
-            this?.shelf = shelf
-            this?.viewModel = viewModel
-            this?.basicShelfsId = DefaultShelf.Companion
-            this?.edit?.setOnClickListener {
-                val action = ShelfFragmentDirections.actionShelfsToCreateEditShelfFragment(
+            this.shelf = shelf
+            this.defaultShelf = DefaultShelf.Companion
+            this.edit.setOnClickListener {
+                val action = ShelfsListFragmentDirections.actionShelfsToCreateEditShelfFragment(
                     it.context.getString(R.string.edit_shelf),
-                    shelf.id)
+                    shelf.id
+                )
                 it.findNavController().navigate(action)
             }
-            this?.delete?.setOnClickListener {
+            this.delete.setOnClickListener {
                 shelfs.remove(shelf)
-                viewModel?.deleteShelf(shelf)
+                viewModel.deleteShelf(shelf)
                 notifyItemRemoved(adapterPosition)
             }
-            this?.base?.setBackgroundColor(shelf.cover.background)
-            this?.front?.setImageDrawable(ContextCompat.getDrawable(this.front.context, shelf.cover.iconId))
+            this.base.setBackgroundColor(shelf.cover.background)
+            this.front.setImageDrawable(ContextCompat.getDrawable(this.front.context, shelf.cover.iconId))
         }
     }
 

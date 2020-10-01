@@ -6,15 +6,15 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.adapters.ShelfAdapter
-import com.moonlightbutterfly.bookid.databinding.ShelfFragmentBinding
+import com.moonlightbutterfly.bookid.databinding.ShelfsListFragmentBinding
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 
-class ShelfFragment : BaseFragment<ShelfFragmentBinding, ShelfViewModel>(ShelfViewModel::class.java) {
+class ShelfsListFragment : BaseFragment<ShelfsListFragmentBinding, ShelfViewModel>(ShelfViewModel::class.java) {
 
     override fun inject() = appComponent.inject(this)
 
     override fun initializeBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        binding = ShelfFragmentBinding.inflate(inflater, container, false).also {
+        binding = ShelfsListFragmentBinding.inflate(inflater, container, false).also {
             it.viewModel = viewModel
             it.lifecycleOwner = viewLifecycleOwner
             it.shelfsAdapter.apply {
@@ -22,7 +22,7 @@ class ShelfFragment : BaseFragment<ShelfFragmentBinding, ShelfViewModel>(ShelfVi
                 adapter = ShelfAdapter(viewModel)
             }
             it.floatingActionButton.setOnClickListener {view ->
-                val action = ShelfFragmentDirections.actionShelfsToCreateEditShelfFragment(view.context.getString(R.string.create_shelf))
+                val action = ShelfsListFragmentDirections.actionShelfsToCreateEditShelfFragment(view.context.getString(R.string.create_shelf))
                 view.findNavController().navigate(action)
             }
         }

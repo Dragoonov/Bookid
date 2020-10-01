@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -8,15 +8,12 @@
         <import type="android.view.View" />
 
         <variable
-            name="BasicShelfsId"
+            name="defaultShelf"
             type="com.moonlightbutterfly.bookid.utils.DefaultShelf.Companion" />
 
         <variable
             name="shelf"
             type="com.moonlightbutterfly.bookid.repository.database.entities.Shelf" />
-        <variable
-            name="viewModel"
-            type="com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -82,7 +79,7 @@
 
             <ImageView
                 android:id="@+id/edit"
-                android:visibility="@{BasicShelfsId.matches(shelf.id) ? View.INVISIBLE : View.VISIBLE}"
+                android:visibility="@{defaultShelf.matches(shelf.id) ? View.INVISIBLE : View.VISIBLE}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -98,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:visibility="@{BasicShelfsId.matches(shelf.id) ? View.INVISIBLE : View.VISIBLE}"
+                android:visibility="@{defaultShelf.matches(shelf.id) ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:srcCompat="@drawable/delete_24px" />

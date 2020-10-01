@@ -66,7 +66,7 @@
         </fragment>
         <fragment
             android:id="@+id/shelfs"
-            android:name="com.moonlightbutterfly.bookid.fragments.ShelfFragment"
+            android:name="com.moonlightbutterfly.bookid.fragments.ShelfsListFragment"
             android:label="ShelfFragment">
             <action
                 android:id="@+id/action_shelfFragment_to_booksListFragment"

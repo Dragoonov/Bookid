@@ -25,12 +25,13 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
 
     private val args: BookFragmentArgs by navArgs()
 
-    private val offsetChangedListener = AppBarLayout.OnOffsetChangedListener {layout: AppBarLayout, i: Int ->
-        if (abs(i) >= layout.totalScrollRange) {
-            binding?.toolbar?.appTitle?.visibility = View.VISIBLE
-        } else {
-            binding?.toolbar?.appTitle?.visibility = View.INVISIBLE
-        }
+    private val offsetChangedListener = AppBarLayout.OnOffsetChangedListener { layout: AppBarLayout, i: Int ->
+        binding?.toolbar?.appTitle?.visibility =
+            if (abs(i) >= layout.totalScrollRange) {
+                View.VISIBLE
+            } else {
+                View.INVISIBLE
+            }
     }
 
 
@@ -48,7 +49,7 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
     private fun handleAnimation(view: View) {
         val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1.5f)
         val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1.5f)
-        ObjectAnimator.ofPropertyValuesHolder(view,scaleX,scaleY).apply {
+        ObjectAnimator.ofPropertyValuesHolder(view, scaleX, scaleY).apply {
             repeatCount = 1
             repeatMode = ValueAnimator.REVERSE
             duration = 200
@@ -82,28 +83,30 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
                         .show((context as FragmentActivity).supportFragmentManager, AddBookToShelfDialog.NAME)
                     true
                 }
-                it.appBar.addOnOffsetChangedListener(offsetChangedListener)
             }
+            it.appBar.addOnOffsetChangedListener(offsetChangedListener)
             it.favorite.apply {
-                setOnClickListener {view ->
+                setOnClickListener { view ->
                     handleAnimation(view)
                     val favoriteName = view.context.resources.getStringArray(R.array.basic_shelfs)[0]
                     viewModel.handleFavoriteOperation(
                         view.context.getString(R.string.book_added, favoriteName),
-                        view.context.getString(R.string.book_removed, favoriteName))
+                        view.context.getString(R.string.book_removed, favoriteName)
+                    )
                 }
             }
             it.saved.apply {
-                setOnClickListener {view ->
+                setOnClickListener { view ->
                     handleAnimation(view)
                     val savedName = view.context.resources.getStringArray(R.array.basic_shelfs)[1]
                     viewModel.handleSavedOperation(
                         view.context.getString(R.string.book_added, savedName),
-                        view.context.getString(R.string.book_removed, savedName))
+                        view.context.getString(R.string.book_removed, savedName)
+                    )
                 }
             }
             it.toolbar.share.apply {
-                setOnClickListener {view ->
+                setOnClickListener { view ->
                     handleAnimation(view)
                 }
             }

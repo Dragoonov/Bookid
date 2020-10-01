@@ -41,20 +41,8 @@ class BookAdapterVertical(
         override fun bind(book: Book) = with(binding as BookContainerVerticalBinding) {
             this.book = book
             if (showIcons) {
-                add.apply {
-                    setOnClickListener {
-                        val defaultShelfString = it.context.getString(R.string.default_shelf)
-                        booksListViewModel?.insertBookToBaseShelf(book, it.context.getString(R.string.book_added, defaultShelfString))
-                        handleAnimation(it)
-                    }
-                    setOnLongClickListener {
-                        AddBookToShelfDialog
-                            .newInstance(book)
-                            .show((context as FragmentActivity).supportFragmentManager, AddBookToShelfDialog.NAME)
-                        true
-                    }
-                }
-                share.setOnClickListener { handleAnimation(it) }
+                setupAdd()
+                setupShare()
                 setupFavorites(book)
                 setupSaved(book)
             } else {
@@ -76,7 +64,26 @@ class BookAdapterVertical(
             }
         }
 
-        private fun setupFavorites(book: Book) {
+        private fun setupAdd() = (binding as BookContainerVerticalBinding).add.apply {
+            val binding = binding as BookContainerVerticalBinding
+            setOnClickListener {
+                val defaultShelfString = it.context.getString(R.string.default_shelf)
+                booksListViewModel?.insertBookToBaseShelf(binding.book, it.context.getString(R.string.book_added, defaultShelfString))
+                handleAnimation(it)
+            }
+            setOnLongClickListener {
+                AddBookToShelfDialog
+                    .newInstance(binding.book!!)
+                    .show((context as FragmentActivity).supportFragmentManager, AddBookToShelfDialog.NAME)
+                true
+            }
+        }
+
+        private fun setupShare() = (binding as BookContainerVerticalBinding).share.apply {
+            setOnClickListener { handleAnimation(it) }
+        }
+
+        private fun setupFavorites(book: Book) =
             (binding as BookContainerVerticalBinding).favorite.apply {
                 setImageDrawable(
                     if (booksListViewModel?.isBookInFavorites(book)!!) {
@@ -102,9 +109,8 @@ class BookAdapterVertical(
                     handleAnimation(this)
                 }
             }
-        }
 
-        private fun setupSaved(book: Book) {
+        private fun setupSaved(book: Book) =
             (binding as BookContainerVerticalBinding).saved.apply {
                 setImageDrawable(
                     if (booksListViewModel?.isBookInSaved(book)!!) {
@@ -130,8 +136,6 @@ class BookAdapterVertical(
                     handleAnimation(this)
                 }
             }
-        }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
