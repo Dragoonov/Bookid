@@ -10,14 +10,14 @@ import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
-import com.moonlightbutterfly.bookid.utils.Converters
 import com.moonlightbutterfly.bookid.CustomItemDecoration
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.adapters.BookAdapterHorizontal
-import com.moonlightbutterfly.bookid.adapters.LAYOUT
 import com.moonlightbutterfly.bookid.databinding.BookFragmentBinding
 import com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
+import com.moonlightbutterfly.bookid.utils.Converters
+import com.moonlightbutterfly.bookid.utils.Layout
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 import kotlin.math.abs
 
@@ -61,12 +61,12 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
             it.viewModel = viewModel
             it.lifecycleOwner = viewLifecycleOwner
             it.authorBooks.listRecycler.apply {
-                addItemDecoration(CustomItemDecoration(LAYOUT.HORIZONTAL))
+                addItemDecoration(CustomItemDecoration(Layout.HORIZONTAL))
                 layoutManager = LinearLayoutManager(view?.context, LinearLayoutManager.HORIZONTAL, false)
                 adapter = BookAdapterHorizontal()
             }
             it.similarBooks.listRecycler.apply {
-                addItemDecoration(CustomItemDecoration(LAYOUT.HORIZONTAL))
+                addItemDecoration(CustomItemDecoration(Layout.HORIZONTAL))
                 layoutManager = LinearLayoutManager(view?.context, LinearLayoutManager.HORIZONTAL, false)
                 adapter = BookAdapterHorizontal()
             }

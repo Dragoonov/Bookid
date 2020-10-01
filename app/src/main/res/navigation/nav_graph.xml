@@ -93,6 +93,9 @@
             android:name="com.moonlightbutterfly.bookid.fragments.CreateEditShelfFragment"
             android:label="CreateEditShelfFragment" >
             <argument
+                android:name="actionTitle"
+                app:argType="string" />
+            <argument
                 android:name="shelfId"
                 app:argType="integer"
                 android:defaultValue="-1" />

@@ -7,7 +7,7 @@ import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
-import com.moonlightbutterfly.bookid.utils.BasicShelfsId
+import com.moonlightbutterfly.bookid.utils.DefaultShelf
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -30,7 +30,7 @@ class BookViewModel @Inject constructor(
     val similarBooksLiveData: LiveData<List<Book>?> get() = _similarBooksLiveData
 
     private val favoriteShelfLiveData: LiveData<Shelf?> = liveData {
-        internalRepository.getShelfById(BasicShelfsId.FAVORITES.id)?.collect {
+        internalRepository.getShelfById(DefaultShelf.FAVORITES.id)?.collect {
             emit(it)
         }
     }
@@ -41,7 +41,7 @@ class BookViewModel @Inject constructor(
     val isBookInFavoritesLiveData: LiveData<Boolean> get() = _isBookInFavoritesLiveData
 
     private val savedShelfLiveData: LiveData<Shelf?> = liveData {
-        internalRepository.getShelfById(BasicShelfsId.SAVED.id)?.collect {
+        internalRepository.getShelfById(DefaultShelf.SAVED.id)?.collect {
             emit(it)
         }
     }
@@ -119,7 +119,7 @@ class BookViewModel @Inject constructor(
     }
 
     private fun insertBookToRecentlyViewed() = viewModelScope.launch(dispatcher) {
-        internalRepository.getShelfById(BasicShelfsId.RECENTLY_VIEWED.id)?.collect {
+        internalRepository.getShelfById(DefaultShelf.RECENTLY_VIEWED.id)?.collect {
             when {
                 insertedToRecentlyViewed -> { }
                 it!!.books.isEmpty() -> {

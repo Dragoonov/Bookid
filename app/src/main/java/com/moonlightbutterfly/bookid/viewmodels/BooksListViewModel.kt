@@ -6,7 +6,7 @@ import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
-import com.moonlightbutterfly.bookid.utils.BasicShelfsId
+import com.moonlightbutterfly.bookid.utils.DefaultShelf
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -22,13 +22,13 @@ class BooksListViewModel @Inject constructor(
     private val observer: Observer<in Shelf?> = Observer { }
 
     private val favoriteShelfLiveData: LiveData<Shelf?> = liveData {
-        internalRepository.getShelfById(BasicShelfsId.FAVORITES.id)?.collect {
+        internalRepository.getShelfById(DefaultShelf.FAVORITES.id)?.collect {
             emit(it)
         }
     }
 
     private val savedShelfLiveData: LiveData<Shelf?> = liveData {
-        internalRepository.getShelfById(BasicShelfsId.SAVED.id)?.collect {
+        internalRepository.getShelfById(DefaultShelf.SAVED.id)?.collect {
             emit(it)
         }
     }

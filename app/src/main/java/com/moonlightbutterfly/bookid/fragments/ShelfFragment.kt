@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.adapters.ShelfAdapter
 import com.moonlightbutterfly.bookid.databinding.ShelfFragmentBinding
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
@@ -21,7 +22,7 @@ class ShelfFragment : BaseFragment<ShelfFragmentBinding, ShelfViewModel>(ShelfVi
                 adapter = ShelfAdapter(viewModel)
             }
             it.floatingActionButton.setOnClickListener {view ->
-                val action = ShelfFragmentDirections.actionShelfsToCreateEditShelfFragment()
+                val action = ShelfFragmentDirections.actionShelfsToCreateEditShelfFragment(view.context.getString(R.string.create_shelf))
                 view.findNavController().navigate(action)
             }
         }

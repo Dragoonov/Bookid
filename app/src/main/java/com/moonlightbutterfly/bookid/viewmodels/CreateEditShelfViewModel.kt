@@ -18,6 +18,9 @@ class CreateEditShelfViewModel @Inject constructor(
 
     private var shelfId: MutableLiveData<Int> = MutableLiveData(-1)
 
+    val actionTitle: LiveData<String> get() = _actionTitle
+    private var _actionTitle: MutableLiveData<String> = MutableLiveData("")
+
     val shelfLiveData = shelfId.switchMap {
         liveData {
             repository.getShelfById(it)?.collect {
@@ -30,6 +33,10 @@ class CreateEditShelfViewModel @Inject constructor(
     var iconId: Int = -1
 
     fun setShelfId(id: Int) = run { shelfId.value = id }
+
+    fun setActionTitle(type: String) = run {
+        _actionTitle.value = type
+    }
 
     fun finishCreateModify(name: String, background: Int, iconId: Int) {
         if (shelfId.value == -1) {

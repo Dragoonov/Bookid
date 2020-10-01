@@ -22,7 +22,7 @@ class LineSeparator(context: Context, attrs: AttributeSet) : View(context, attrs
             attrs, R.styleable.LineSeparator, 0, 0
         ).apply {
             try {
-                orientation = getInt(R.styleable.LineSeparator_orientation,0)
+                orientation = getInt(R.styleable.LineSeparator_orientation, 0)
             } finally {
                 recycle()
             }
@@ -43,7 +43,7 @@ class LineSeparator(context: Context, attrs: AttributeSet) : View(context, attrs
         width = resolveSize(width, widthMeasureSpec)
         height = resolveSize(height, heightMeasureSpec)
 
-        setMeasuredDimension(width,height)
+        setMeasuredDimension(width, height)
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -58,9 +58,9 @@ class LineSeparator(context: Context, attrs: AttributeSet) : View(context, attrs
                 )
             } else {
                 drawLine(
-                    measuredWidth/2f,
+                    measuredWidth / 2f,
                     measuredHeight.toFloat() - convertDpsToPixels(16),
-                    measuredWidth/2f,
+                    measuredWidth / 2f,
                     0f + convertDpsToPixels(16), paint
                 )
             }

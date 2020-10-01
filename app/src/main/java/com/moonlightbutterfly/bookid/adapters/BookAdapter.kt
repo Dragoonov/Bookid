@@ -4,12 +4,12 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.moonlightbutterfly.bookid.utils.Converters
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.fragments.BookFragmentDirections
 import com.moonlightbutterfly.bookid.fragments.BooksListFragmentDirections
 import com.moonlightbutterfly.bookid.fragments.SearchFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
+import com.moonlightbutterfly.bookid.utils.Converters
 
 
 abstract class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
@@ -21,22 +21,23 @@ abstract class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
         init {
             itemView.setOnClickListener {
                 val navController = it.findNavController()
+                val book = Converters.convertToJSONString(books[adapterPosition])!!
                 when (navController.currentDestination?.id) {
                     R.id.search ->
-                        navController.navigate(SearchFragmentDirections
-                            .actionSearchFragmentToBookFragment(
-                                Converters
-                                .convertToJSONString(books[adapterPosition])!!))
+                        navController.navigate(
+                            SearchFragmentDirections
+                                .actionSearchFragmentToBookFragment(book)
+                        )
                     R.id.book ->
-                        navController.navigate(BookFragmentDirections
-                            .actionBookFragmentSelf(
-                                Converters
-                                .convertToJSONString(books[adapterPosition])!!))
+                        navController.navigate(
+                            BookFragmentDirections
+                                .actionBookFragmentSelf(book)
+                        )
                     R.id.booksList ->
-                        navController.navigate(BooksListFragmentDirections
-                            .actionBooksListFragmentToBookFragment(
-                                Converters
-                                .convertToJSONString(books[adapterPosition])!!))
+                        navController.navigate(
+                            BooksListFragmentDirections
+                                .actionBooksListFragmentToBookFragment(book)
+                        )
                 }
 
             }
@@ -44,7 +45,7 @@ abstract class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
 
         protected var binding: ViewDataBinding? = null
 
-        abstract fun bind(book:Book)
+        abstract fun bind(book: Book)
     }
 
     fun updateList(list: List<Book>?) {
@@ -67,8 +68,4 @@ abstract class BookAdapter : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
         books.removeAt(position)
         notifyItemRemoved(position)
     }
-}
-
-enum class LAYOUT {
-    HORIZONTAL, VERTICAL
 }

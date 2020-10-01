@@ -17,8 +17,10 @@ import com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.viewmodels.BooksListViewModel
 
-class BookAdapterVertical(private val showIcons: Boolean = false,
-                          private val booksListViewModel: BooksListViewModel? = null) :
+class BookAdapterVertical(
+    private val showIcons: Boolean = false,
+    private val booksListViewModel: BooksListViewModel? = null
+) :
     BookAdapter() {
 
     inner class ViewHolderVertical(itemView: View) : ViewHolder(itemView) {
@@ -36,31 +38,29 @@ class BookAdapterVertical(private val showIcons: Boolean = false,
             savedFilledDrawable = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_bookmark_24px)!!
         }
 
-        override fun bind(book: Book) = with(binding) {
-            (this as BookContainerVerticalBinding).apply {
-                this.book = book
-                if (showIcons) {
-                    add.apply {
-                        setOnClickListener {
-                            val defaultShelfString = it.context.getString(R.string.default_shelf)
-                            booksListViewModel?.insertBookToBaseShelf(book, it.context.getString(R.string.book_added, defaultShelfString))
-                            handleAnimation(it)
-                        }
-                        setOnLongClickListener {
-                            AddBookToShelfDialog
-                                .newInstance(book)
-                                .show((context as FragmentActivity).supportFragmentManager, AddBookToShelfDialog.NAME)
-                            true
-                        }
+        override fun bind(book: Book) = with(binding as BookContainerVerticalBinding) {
+            this.book = book
+            if (showIcons) {
+                add.apply {
+                    setOnClickListener {
+                        val defaultShelfString = it.context.getString(R.string.default_shelf)
+                        booksListViewModel?.insertBookToBaseShelf(book, it.context.getString(R.string.book_added, defaultShelfString))
+                        handleAnimation(it)
                     }
-                    share.setOnClickListener { handleAnimation(it) }
-                    setupFavorites(book)
-                    setupSaved(book)
-                } else {
-                    add.visibility = View.GONE
-                    favorite.visibility = View.GONE
-                    saved.visibility = View.GONE
+                    setOnLongClickListener {
+                        AddBookToShelfDialog
+                            .newInstance(book)
+                            .show((context as FragmentActivity).supportFragmentManager, AddBookToShelfDialog.NAME)
+                        true
+                    }
                 }
+                share.setOnClickListener { handleAnimation(it) }
+                setupFavorites(book)
+                setupSaved(book)
+            } else {
+                add.visibility = View.GONE
+                favorite.visibility = View.GONE
+                saved.visibility = View.GONE
             }
             executePendingBindings()
         }
@@ -68,7 +68,7 @@ class BookAdapterVertical(private val showIcons: Boolean = false,
         private fun handleAnimation(view: View) {
             val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1.5f)
             val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1.5f)
-            ObjectAnimator.ofPropertyValuesHolder(view,scaleX,scaleY).apply {
+            ObjectAnimator.ofPropertyValuesHolder(view, scaleX, scaleY).apply {
                 repeatCount = 1
                 repeatMode = ValueAnimator.REVERSE
                 duration = 200
@@ -77,20 +77,21 @@ class BookAdapterVertical(private val showIcons: Boolean = false,
         }
 
         private fun setupFavorites(book: Book) {
-            (binding as BookContainerVerticalBinding).favorite.let { view ->
-                view.setImageDrawable(
+            (binding as BookContainerVerticalBinding).favorite.apply {
+                setImageDrawable(
                     if (booksListViewModel?.isBookInFavorites(book)!!) {
                         favoriteFilledDrawable
                     } else {
                         favoriteEmptyDrawable
                     }
                 )
-                val favoritesName = view.context.resources.getStringArray(R.array.basic_shelfs)[0]
-                view.setOnClickListener {
+                val favoritesName = context.resources.getStringArray(R.array.basic_shelfs)[0]
+                setOnClickListener {
                     booksListViewModel.handleFavoriteOperation(
                         book,
                         it.context.getString(R.string.book_added, favoritesName),
-                        it.context.getString(R.string.book_removed, favoritesName))
+                        it.context.getString(R.string.book_removed, favoritesName)
+                    )
                     (it as ImageView).setImageDrawable(
                         if (it.drawable == favoriteEmptyDrawable) {
                             favoriteFilledDrawable
@@ -98,25 +99,27 @@ class BookAdapterVertical(private val showIcons: Boolean = false,
                             favoriteEmptyDrawable
                         }
                     )
-                    handleAnimation(view)
+                    handleAnimation(this)
                 }
             }
         }
 
         private fun setupSaved(book: Book) {
-            (binding as BookContainerVerticalBinding).saved.let { view ->
-                view.setImageDrawable(
+            (binding as BookContainerVerticalBinding).saved.apply {
+                setImageDrawable(
                     if (booksListViewModel?.isBookInSaved(book)!!) {
                         savedFilledDrawable
                     } else {
                         savedEmptyDrawable
                     }
                 )
-                val savedName = view.context.resources.getStringArray(R.array.basic_shelfs)[1]
-                view.setOnClickListener {
-                    booksListViewModel.handleSavedOperation(book,
+                val savedName = context.resources.getStringArray(R.array.basic_shelfs)[1]
+                setOnClickListener {
+                    booksListViewModel.handleSavedOperation(
+                        book,
                         it.context.getString(R.string.book_added, savedName),
-                        it.context.getString(R.string.book_removed, savedName))
+                        it.context.getString(R.string.book_removed, savedName)
+                    )
                     (it as ImageView).setImageDrawable(
                         if (it.drawable == savedFilledDrawable) {
                             savedEmptyDrawable
@@ -124,7 +127,7 @@ class BookAdapterVertical(private val showIcons: Boolean = false,
                             savedFilledDrawable
                         }
                     )
-                    handleAnimation(view)
+                    handleAnimation(this)
                 }
             }
         }

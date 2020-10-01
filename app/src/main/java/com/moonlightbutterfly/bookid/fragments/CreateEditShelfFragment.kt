@@ -40,5 +40,6 @@ class CreateEditShelfFragment: BaseFragment<FragmentCreateEditShelfBinding, Crea
     override fun initializeViewModel() {
         super.initializeViewModel()
         viewModel.setShelfId(args.shelfId)
+        viewModel.setActionTitle(args.actionTitle)
     }
 }

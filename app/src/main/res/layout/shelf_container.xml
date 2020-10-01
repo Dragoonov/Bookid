@@ -9,7 +9,7 @@
 
         <variable
             name="BasicShelfsId"
-            type="com.moonlightbutterfly.bookid.utils.BasicShelfsId.Companion" />
+            type="com.moonlightbutterfly.bookid.utils.DefaultShelf.Companion" />
 
         <variable
             name="shelf"

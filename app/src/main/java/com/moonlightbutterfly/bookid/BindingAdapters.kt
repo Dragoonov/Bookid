@@ -13,11 +13,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.moonlightbutterfly.bookid.adapters.*
+import com.moonlightbutterfly.bookid.adapters.BookAdapter
+import com.moonlightbutterfly.bookid.adapters.BookAdapterHorizontal
+import com.moonlightbutterfly.bookid.adapters.ShelfAdapter
 import com.moonlightbutterfly.bookid.databinding.ComposableBookListBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
-import com.moonlightbutterfly.bookid.utils.BasicShelfsId
+import com.moonlightbutterfly.bookid.utils.DefaultShelf
+import com.moonlightbutterfly.bookid.utils.Layout
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 
 @BindingAdapter("loadImage")
@@ -76,7 +79,7 @@ fun createBookShelfs(view: LinearLayout, shelfsList: List<Shelf>?) {
                         LinearLayoutManager.HORIZONTAL,
                         false
                     )
-                    addItemDecoration(CustomItemDecoration(LAYOUT.HORIZONTAL))
+                    addItemDecoration(CustomItemDecoration(Layout.HORIZONTAL))
                     adapter = BookAdapterHorizontal()
                 }
                 it.books = shelf.books
@@ -89,7 +92,7 @@ fun createBookShelfs(view: LinearLayout, shelfsList: List<Shelf>?) {
 @BindingAdapter("fillData")
 fun fillData(view: RadioGroup, list: List<Shelf>?) {
     list?.forEach {
-        if (!BasicShelfsId.matches(it.id)) {
+        if (!DefaultShelf.matches(it.id)) {
             view.addView(RadioButton(view.context).apply {
                 text = it.name
             })
@@ -108,7 +111,7 @@ fun verticalBias(view: ProgressBar, value: Float) {
 fun populateChips(view: ChipGroup, shelfsList: List<Shelf>?, viewModel: ShelfViewModel) {
     view.removeAllViews()
     shelfsList?.forEach { shelf ->
-        if (!BasicShelfsId.matches(shelf.id)) {
+        if (!DefaultShelf.matches(shelf.id)) {
             val chip = Chip(view.context, null, 0)
             chip.chipBackgroundColor = AppCompatResources.getColorStateList(view.context, R.color.chips_color)
             chip.setOnClickListener { viewModel.updateBaseShelf(shelf.id) }

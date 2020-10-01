@@ -1,6 +1,5 @@
 package com.moonlightbutterfly.bookid.viewmodels
 
-import android.graphics.drawable.Drawable
 import androidx.lifecycle.*
 import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.Manager
@@ -8,7 +7,7 @@ import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Cover
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
-import com.moonlightbutterfly.bookid.utils.BasicShelfsId
+import com.moonlightbutterfly.bookid.utils.DefaultShelf
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -36,8 +35,8 @@ class ShelfViewModel @Inject constructor(
     fun prepareBasicShelfs(names: Array<String>, images: Array<Pair<Int, Int>>) = viewModelScope.launch(dispatcher) {
 
         repository.getUserShelfs(userManager.user.value?.id!!).collect { list ->
-            if (names.size == BasicShelfsId.values().size && list?.find { it.id == BasicShelfsId.FAVORITES.id } == null) {
-                for ((index, value) in BasicShelfsId.values().withIndex()) {
+            if (names.size == DefaultShelf.values().size && list?.find { it.id == DefaultShelf.FAVORITES.id } == null) {
+                for ((index, value) in DefaultShelf.values().withIndex()) {
                     insertShelf(names[index], images[index], value.id)
                 }
             }

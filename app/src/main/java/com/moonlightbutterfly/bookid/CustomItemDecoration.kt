@@ -6,9 +6,9 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.moonlightbutterfly.bookid.adapters.LAYOUT
+import com.moonlightbutterfly.bookid.utils.Layout
 
-class CustomItemDecoration(private val layoutType: LAYOUT) : RecyclerView.ItemDecoration() {
+class CustomItemDecoration(private val layoutType: Layout) : RecyclerView.ItemDecoration() {
 
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -21,7 +21,7 @@ class CustomItemDecoration(private val layoutType: LAYOUT) : RecyclerView.ItemDe
         var bottom: Int
         for (i in 0 until childCount - 1) {
             val child = parent.getChildAt(i)
-            if (layoutType == LAYOUT.VERTICAL) {
+            if (layoutType == Layout.VERTICAL) {
                 left = parent.convertDpsToPixels(16)
                 right = parent.width - parent.convertDpsToPixels(16)
                 top = child.bottom

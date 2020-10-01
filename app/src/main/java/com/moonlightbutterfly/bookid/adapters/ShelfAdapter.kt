@@ -6,10 +6,11 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.databinding.ShelfContainerBinding
 import com.moonlightbutterfly.bookid.fragments.ShelfFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
-import com.moonlightbutterfly.bookid.utils.BasicShelfsId
+import com.moonlightbutterfly.bookid.utils.DefaultShelf
 import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
 
 class ShelfAdapter(private val viewModel: ShelfViewModel) : RecyclerView.Adapter<ShelfAdapter.ViewHolder>() {
@@ -34,9 +35,11 @@ class ShelfAdapter(private val viewModel: ShelfViewModel) : RecyclerView.Adapter
         fun bind(shelf: Shelf) = with(binding) {
             this?.shelf = shelf
             this?.viewModel = viewModel
-            this?.basicShelfsId = BasicShelfsId.Companion
+            this?.basicShelfsId = DefaultShelf.Companion
             this?.edit?.setOnClickListener {
-                val action = ShelfFragmentDirections.actionShelfsToCreateEditShelfFragment(shelf.id)
+                val action = ShelfFragmentDirections.actionShelfsToCreateEditShelfFragment(
+                    it.context.getString(R.string.edit_shelf),
+                    shelf.id)
                 it.findNavController().navigate(action)
             }
             this?.delete?.setOnClickListener {
