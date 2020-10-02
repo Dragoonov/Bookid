@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.view.View
+import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
 fun View.animatePulse() {
     val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1.5f)
@@ -15,3 +16,7 @@ fun View.animatePulse() {
         start()
     }
 }
+
+fun List<Book>.removeDisplayedBookFromList(book: Book): List<Book>? = this
+    .toMutableList()
+    .filter { it.id != book.id }

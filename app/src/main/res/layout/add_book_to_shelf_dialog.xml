@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel" />
+            type="com.moonlightbutterfly.bookid.viewmodels.ShelfsViewModel" />
     </data>
 
     <LinearLayout

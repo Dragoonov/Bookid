@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.adapters.BookAdapterVertical
 import com.moonlightbutterfly.bookid.databinding.SearchFragmentBinding
 import com.moonlightbutterfly.bookid.getNavController
-import com.moonlightbutterfly.bookid.viewmodels.BooksListViewModel
 import com.moonlightbutterfly.bookid.viewmodels.SearchViewModel
 
 
@@ -55,9 +55,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(Sear
             it.viewModel = viewModel
             it.lifecycleOwner = viewLifecycleOwner
             it.recyclerLayout.listRecycler.apply {
-                adapter = BookAdapterVertical(
-                    true,
-                    ViewModelProvider(this@SearchFragment, viewModelFactory)[BooksListViewModel::class.java])
+                adapter = BookAdapterVertical(true, viewModel)
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 addOnScrollListener(onScrollListener)
             }
@@ -65,8 +63,29 @@ class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(Sear
         }
     }
 
+    override fun initializeViewModel() {
+        super.initializeViewModel()
+        val favoriteName = requireContext().resources.getStringArray(R.array.basic_shelfs)[0]
+        val bookAddedToFavourites = requireContext().getString(R.string.book_added, favoriteName)
+        val bookRemovedFromFavourites = requireContext().getString(R.string.book_removed, favoriteName)
+        val savedName = requireContext().resources.getStringArray(R.array.basic_shelfs)[1]
+        val bookAddedToSaved = requireContext().getString(R.string.book_added, savedName)
+        val bookRemovedFromSaved = requireContext().getString(R.string.book_removed, savedName)
+        val defaultShelfString = requireContext().getString(R.string.default_shelf)
+        val bookAddedToDefaults = requireContext().getString(R.string.book_added, defaultShelfString)
+        viewModel.apply {
+            bookAddedToDefaultsMessage = bookAddedToDefaults
+            bookAddedToFavouritesMessage = bookAddedToFavourites
+            bookRemovedFromFavouritesMessage = bookRemovedFromFavourites
+            bookAddedToSavedMessage = bookAddedToSaved
+            bookRemovedFromSavedMessage = bookRemovedFromSaved
+        }
+    }
+
     override fun initializeCustom(savedInstanceState: Bundle?) {
         context?.getNavController()?.unlockBottomNav()
+        viewModel.favoriteShelfLiveData.observe(viewLifecycleOwner, Observer {  })
+        viewModel.savedShelfLiveData.observe(viewLifecycleOwner, Observer {  })
     }
 
 }

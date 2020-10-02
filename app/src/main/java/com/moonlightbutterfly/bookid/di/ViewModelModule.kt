@@ -20,8 +20,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(ShelfViewModel::class)
-    internal abstract fun bindShelfViewModel(viewModel: ShelfViewModel): ViewModel
+    @ViewModelKey(ShelfsViewModel::class)
+    internal abstract fun bindShelfViewModel(viewModel: ShelfsViewModel): ViewModel
 
     @Binds
     @IntoMap

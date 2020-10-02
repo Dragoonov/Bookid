@@ -51,7 +51,8 @@ class CreateEditShelfViewModel @Inject constructor(
             name = name,
             books = ArrayList(),
             cover = Cover(background, iconId),
-            userId = userManager.user.value?.id!!)
+            userId = userManager.user.value?.id!!
+        )
         repository.insertShelf(shelf)
     }
 
@@ -61,7 +62,8 @@ class CreateEditShelfViewModel @Inject constructor(
             name = name,
             books = shelfLiveData.value!!.books,
             userId = shelfLiveData.value!!.userId,
-            cover = Cover(background, iconId))
+            cover = Cover(background, iconId)
+        )
         repository.updateShelf(shelf)
     }
 

@@ -1,8 +1,11 @@
 package com.moonlightbutterfly.bookid.viewmodels
 
 import androidx.lifecycle.*
+import com.moonlightbutterfly.bookid.Communicator
+import com.moonlightbutterfly.bookid.UserManager
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
+import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -10,8 +13,12 @@ import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
     private val externalRepository: ExternalRepository,
-    private val dispatcher: CoroutineDispatcher) :
-    ViewModel() {
+    private val dispatcher: CoroutineDispatcher,
+    internalRepository: InternalRepository,
+    userManager: UserManager,
+    communicator: Communicator
+) :
+    BaseViewModel(dispatcher, internalRepository, userManager, communicator) {
 
     private var searchedBooks: MutableLiveData<List<Book>> = liveData<List<Book>> {
         emit(ArrayList())
@@ -30,7 +37,7 @@ class SearchViewModel @Inject constructor(
     private var _showHint = MutableLiveData(true)
 
     var currentQuery: String? = ""
-    private set
+        private set
 
     private var page = 1
 

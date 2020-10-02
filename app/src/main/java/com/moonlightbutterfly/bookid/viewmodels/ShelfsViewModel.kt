@@ -1,6 +1,9 @@
 package com.moonlightbutterfly.bookid.viewmodels
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
@@ -13,7 +16,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ShelfViewModel @Inject constructor(
+class ShelfsViewModel @Inject constructor(
     private val userManager: Manager,
     private val repository: InternalRepository,
     private val dispatcher: CoroutineDispatcher,
@@ -25,22 +28,13 @@ class ShelfViewModel @Inject constructor(
             .collect { data -> data?.let { emit(it) } }
     }
 
-    val baseShelfLiveData: LiveData<Shelf?> = Transformations.switchMap(userManager.user) {
-        liveData {
-            repository.getShelfById(userManager.user.value?.baseShelfId ?: -1)
-                ?.collect { emit(it) }
-        }
-    }
-
     fun prepareBasicShelfs(names: Array<String>, images: Array<Pair<Int, Int>>) = viewModelScope.launch(dispatcher) {
-
         repository.getUserShelfs(userManager.user.value?.id!!).collect { list ->
             if (names.size == DefaultShelf.values().size && list?.find { it.id == DefaultShelf.FAVORITES.id } == null) {
                 for ((index, value) in DefaultShelf.values().withIndex()) {
                     insertShelf(names[index], images[index], value.id)
                 }
             }
-
         }
     }
 
@@ -70,7 +64,7 @@ class ShelfViewModel @Inject constructor(
     }
 
 
-    fun insertBookToShelf(shelf: Shelf?, book: Book?, message:String? = null) {
+    fun insertBookToShelf(shelf: Shelf?, book: Book?, message: String? = null) {
         if (shelf != null && book != null && !shelf.books.contains(book)) {
             viewModelScope.launch(dispatcher) {
                 shelf.books = shelf.books.toMutableList().apply { add(book) }

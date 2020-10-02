@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.adapters.ShelfAdapter
 import com.moonlightbutterfly.bookid.databinding.ShelfsListFragmentBinding
-import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
+import com.moonlightbutterfly.bookid.viewmodels.ShelfsViewModel
 
-class ShelfsListFragment : BaseFragment<ShelfsListFragmentBinding, ShelfViewModel>(ShelfViewModel::class.java) {
+class ShelfsListFragment : BaseFragment<ShelfsListFragmentBinding, ShelfsViewModel>(ShelfsViewModel::class.java) {
 
     override fun inject() = appComponent.inject(this)
 

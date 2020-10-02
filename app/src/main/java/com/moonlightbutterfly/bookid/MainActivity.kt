@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -23,8 +22,7 @@ import com.moonlightbutterfly.bookid.dialogs.QuitAppDialog
 import com.moonlightbutterfly.bookid.fragments.LoginFragmentDirections
 import com.moonlightbutterfly.bookid.fragments.SplashFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.User
-import com.moonlightbutterfly.bookid.utils.Converters
-import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
+import com.moonlightbutterfly.bookid.viewmodels.ShelfsViewModel
 import javax.inject.Inject
 
 
@@ -39,7 +37,7 @@ class MainActivity : AppCompatActivity(), NavigationController {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var viewModel: ShelfViewModel
+    private lateinit var viewModel: ShelfsViewModel
 
     private lateinit var navController: NavController
 
@@ -90,7 +88,7 @@ class MainActivity : AppCompatActivity(), NavigationController {
                 }
             }
         })
-        viewModel = ViewModelProvider(this, viewModelFactory)[ShelfViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[ShelfsViewModel::class.java]
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -13,11 +13,11 @@ import com.moonlightbutterfly.bookid.databinding.BookContainerVerticalBinding
 import com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.utils.animatePulse
-import com.moonlightbutterfly.bookid.viewmodels.BooksListViewModel
+import com.moonlightbutterfly.bookid.viewmodels.BaseViewModel
 
 class BookAdapterVertical(
     private val showIcons: Boolean = false,
-    private val booksListViewModel: BooksListViewModel? = null
+    private val booksListViewModel: BaseViewModel? = null
 ) :
     BookAdapter() {
 
@@ -54,8 +54,7 @@ class BookAdapterVertical(
         private fun setupAdd() = (binding as BookContainerVerticalBinding).add.apply {
             val binding = binding as BookContainerVerticalBinding
             setOnClickListener {
-                val defaultShelfString = it.context.getString(R.string.default_shelf)
-                booksListViewModel?.insertBookToBaseShelf(binding.book, it.context.getString(R.string.book_added, defaultShelfString))
+                booksListViewModel?.insertBookToBaseShelf(binding.book)
                 it.animatePulse()
             }
             setOnLongClickListener {
@@ -79,13 +78,8 @@ class BookAdapterVertical(
                         favoriteEmptyDrawable
                     }
                 )
-                val favoritesName = context.resources.getStringArray(R.array.basic_shelfs)[0]
                 setOnClickListener {
-                    booksListViewModel.handleFavoriteOperation(
-                        book,
-                        it.context.getString(R.string.book_added, favoritesName),
-                        it.context.getString(R.string.book_removed, favoritesName)
-                    )
+                    booksListViewModel.handleFavoriteOperation(book)
                     (it as ImageView).setImageDrawable(
                         if (it.drawable == favoriteEmptyDrawable) {
                             favoriteFilledDrawable
@@ -106,13 +100,8 @@ class BookAdapterVertical(
                         savedEmptyDrawable
                     }
                 )
-                val savedName = context.resources.getStringArray(R.array.basic_shelfs)[1]
                 setOnClickListener {
-                    booksListViewModel.handleSavedOperation(
-                        book,
-                        it.context.getString(R.string.book_added, savedName),
-                        it.context.getString(R.string.book_removed, savedName)
-                    )
+                    booksListViewModel.handleSavedOperation(book)
                     (it as ImageView).setImageDrawable(
                         if (it.drawable == savedFilledDrawable) {
                             savedEmptyDrawable

@@ -7,6 +7,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.SwipeToDeleteCallback
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.adapters.BookAdapterVertical
@@ -35,6 +36,25 @@ class BooksListFragment : BaseFragment<BooksListFragmentBinding, BooksListViewMo
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 itemTouchHelper.attachToRecyclerView(this)
             }
+        }
+    }
+
+    override fun initializeViewModel() {
+        super.initializeViewModel()
+        val favoriteName = requireContext().resources.getStringArray(R.array.basic_shelfs)[0]
+        val bookAddedToFavourites = requireContext().getString(R.string.book_added, favoriteName)
+        val bookRemovedFromFavourites = requireContext().getString(R.string.book_removed, favoriteName)
+        val savedName = requireContext().resources.getStringArray(R.array.basic_shelfs)[1]
+        val bookAddedToSaved = requireContext().getString(R.string.book_added, savedName)
+        val bookRemovedFromSaved = requireContext().getString(R.string.book_removed, savedName)
+        val defaultShelfString = requireContext().getString(R.string.default_shelf)
+        val bookAddedToDefaults = requireContext().getString(R.string.book_added, defaultShelfString)
+        viewModel.apply {
+            bookAddedToDefaultsMessage = bookAddedToDefaults
+            bookAddedToFavouritesMessage = bookAddedToFavourites
+            bookRemovedFromFavouritesMessage = bookRemovedFromFavourites
+            bookAddedToSavedMessage = bookAddedToSaved
+            bookRemovedFromSavedMessage = bookRemovedFromSaved
         }
     }
 

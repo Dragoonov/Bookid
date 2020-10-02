@@ -13,8 +13,10 @@ import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(private val userManager: Manager,
-                                           private val repository: InternalRepository): ViewModel() {
+class ProfileViewModel @Inject constructor(
+    private val userManager: Manager,
+    private val repository: InternalRepository
+) : ViewModel() {
 
     val baseShelfLiveData: LiveData<Shelf?> = Transformations.switchMap(userManager.user) {
         liveData {

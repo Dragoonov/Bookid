@@ -24,7 +24,7 @@ import org.junit.Test
 import org.junit.rules.TestRule
 
 @ExperimentalCoroutinesApi
-class ShelfViewModelTest {
+class ShelfsViewModelTest {
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
@@ -32,7 +32,7 @@ class ShelfViewModelTest {
     @get:Rule
     var coroutineRule = MainCoroutineRule()
 
-    private lateinit var viewModel: ShelfViewModel
+    private lateinit var viewModel: ShelfsViewModel
     private lateinit var manager: Manager
     private lateinit var internalRepo: InternalRepository
 
@@ -49,7 +49,7 @@ class ShelfViewModelTest {
             )
         }
         internalRepo = RoomRepositoryFake()
-        viewModel = ShelfViewModel(manager, internalRepo, Dispatchers.Main)
+        viewModel = ShelfsViewModel(manager, internalRepo, Dispatchers.Main)
     }
 
 

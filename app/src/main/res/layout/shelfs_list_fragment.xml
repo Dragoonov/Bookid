@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel" />
+            type="com.moonlightbutterfly.bookid.viewmodels.ShelfsViewModel" />
 
         <import type="com.moonlightbutterfly.bookid.HandlersKt" />
     </data>

@@ -11,7 +11,7 @@ import com.moonlightbutterfly.bookid.BookidApplication
 import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.databinding.AddBookToShelfDialogBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
-import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
+import com.moonlightbutterfly.bookid.viewmodels.ShelfsViewModel
 import javax.inject.Inject
 
 class AddBookToShelfDialog private constructor(private val book: Book) : DialogFragment() {
@@ -23,7 +23,7 @@ class AddBookToShelfDialog private constructor(private val book: Book) : DialogF
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var viewModel: ShelfViewModel
+    private lateinit var viewModel: ShelfsViewModel
 
     private lateinit var binding: AddBookToShelfDialogBinding
 
@@ -49,7 +49,7 @@ class AddBookToShelfDialog private constructor(private val book: Book) : DialogF
     }
 
     private fun initializeDependencies() {
-        viewModel = ViewModelProvider(this, viewModelFactory)[ShelfViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[ShelfsViewModel::class.java]
         binding = AddBookToShelfDialogBinding.inflate(layoutInflater).also {
             it.viewModel = viewModel
             it.lifecycleOwner = this
