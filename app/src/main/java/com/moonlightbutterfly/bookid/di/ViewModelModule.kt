@@ -37,4 +37,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CreateEditShelfViewModel::class)
     internal abstract fun bindCreateEditShelfViewModel(viewModel: CreateEditShelfViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileViewModel::class)
+    internal abstract fun bindProfileViewModel(viewModel: ProfileViewModel): ViewModel
 }

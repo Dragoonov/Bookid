@@ -15,7 +15,7 @@ import com.moonlightbutterfly.bookid.getNavController
 import kotlinx.android.synthetic.main.fragment_splash.*
 import javax.inject.Inject
 
-class SplashFragment : BaseFragment<FragmentSplashBinding,ViewModel>() {
+class SplashFragment : BaseFragment<FragmentSplashBinding, ViewModel>() {
 
     @Inject
     lateinit var userManager: Manager
@@ -35,7 +35,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding,ViewModel>() {
         val navController = findNavController()
         val userId = requireContext()
             .getSharedPreferences(UserManager.FILE_KEY, Context.MODE_PRIVATE)
-            .getString(UserManager.ID_KEY,"")
+            .getString(UserManager.ID_KEY, "")
         userManager.provideUserId(userId!!)
         userManager.user.observe(viewLifecycleOwner, Observer {
             if (it == null) {

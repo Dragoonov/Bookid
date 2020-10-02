@@ -60,7 +60,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, ViewModel>() {
             interpolator = EnhancedAccelerateDecelerateInterpolator()
         }
         binding?.signInButton?.animateIfNeeded()
-        context?.getNavController()?.lockBottomNav()
+        requireContext().getNavController().lockBottomNav()
     }
 
     private fun initializeGoogleSignIn() {

@@ -5,15 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.moonlightbutterfly.bookid.utils.Converters
 import com.moonlightbutterfly.bookid.repository.database.daos.ShelfDao
 import com.moonlightbutterfly.bookid.repository.database.daos.UserDao
-import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.database.entities.User
+import com.moonlightbutterfly.bookid.utils.Converters
 
-@Database(entities = [Book::class, Author::class, Shelf::class, User::class], version = 1)
+@Database(entities = [Book::class, Shelf::class, User::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

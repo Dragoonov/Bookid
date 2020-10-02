@@ -1,8 +1,5 @@
 package com.moonlightbutterfly.bookid.fragments
 
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
-import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +15,7 @@ import com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.utils.Converters
 import com.moonlightbutterfly.bookid.utils.Layout
+import com.moonlightbutterfly.bookid.utils.animatePulse
 import com.moonlightbutterfly.bookid.viewmodels.BookViewModel
 import kotlin.math.abs
 
@@ -34,26 +32,28 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
             }
     }
 
-
     override fun inject() = appComponent.inject(this)
 
     override fun initializeViewModel() {
         super.initializeViewModel()
+        val defaultShelfString = requireContext().getString(R.string.default_shelf)
+        val bookAddedToDefaults = requireContext().getString(R.string.book_added, defaultShelfString)
+        val favoriteName = requireContext().resources.getStringArray(R.array.basic_shelfs)[0]
+        val bookAddedToFavourites = requireContext().getString(R.string.book_added, favoriteName)
+        val bookRemovedFromFavourites = requireContext().getString(R.string.book_removed, favoriteName)
+        val savedName = requireContext().resources.getStringArray(R.array.basic_shelfs)[1]
+        val bookAddedToSaved = requireContext().getString(R.string.book_added, savedName)
+        val bookRemovedFromSaved = requireContext().getString(R.string.book_removed, savedName)
+
         viewModel.let {
             val bookString = args.book
             val book = Converters.convertToObject(bookString) as Book?
             it.setBook(book!!)
-        }
-    }
-
-    private fun handleAnimation(view: View) {
-        val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1.5f)
-        val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1.5f)
-        ObjectAnimator.ofPropertyValuesHolder(view, scaleX, scaleY).apply {
-            repeatCount = 1
-            repeatMode = ValueAnimator.REVERSE
-            duration = 200
-            start()
+            it.bookAddedToDefaultsMessage = bookAddedToDefaults
+            it.bookAddedToFavouritesMessage = bookAddedToFavourites
+            it.bookRemovedFromFavouritesMessage = bookRemovedFromFavourites
+            it.bookAddedToSavedMessage = bookAddedToSaved
+            it.bookRemovedFromSavedMessage = bookRemovedFromSaved
         }
     }
 
@@ -73,9 +73,8 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
             }
             it.addToShelf.apply {
                 setOnClickListener { view ->
-                    val defaultShelfString = view.context.getString(R.string.default_shelf)
-                    viewModel.insertBookToBaseShelf(view.context.getString(R.string.book_added, defaultShelfString))
-                    handleAnimation(view)
+                    viewModel.insertBookToBaseShelf()
+                    view.animatePulse()
                 }
                 setOnLongClickListener {
                     AddBookToShelfDialog
@@ -85,32 +84,17 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
                 }
             }
             it.appBar.addOnOffsetChangedListener(offsetChangedListener)
-            it.favorite.apply {
-                setOnClickListener { view ->
-                    handleAnimation(view)
-                    val favoriteName = view.context.resources.getStringArray(R.array.basic_shelfs)[0]
-                    viewModel.handleFavoriteOperation(
-                        view.context.getString(R.string.book_added, favoriteName),
-                        view.context.getString(R.string.book_removed, favoriteName)
-                    )
-                }
+            it.favorite.setOnClickListener { view ->
+                view.animatePulse()
+                viewModel.handleFavoriteOperation()
             }
-            it.saved.apply {
-                setOnClickListener { view ->
-                    handleAnimation(view)
-                    val savedName = view.context.resources.getStringArray(R.array.basic_shelfs)[1]
-                    viewModel.handleSavedOperation(
-                        view.context.getString(R.string.book_added, savedName),
-                        view.context.getString(R.string.book_removed, savedName)
-                    )
-                }
+            it.saved.setOnClickListener { view ->
+                view.animatePulse()
+                viewModel.handleSavedOperation()
             }
-            it.toolbar.share.apply {
-                setOnClickListener { view ->
-                    handleAnimation(view)
-                }
+            it.toolbar.share.setOnClickListener { view ->
+                view.animatePulse()
             }
         }
     }
-
 }

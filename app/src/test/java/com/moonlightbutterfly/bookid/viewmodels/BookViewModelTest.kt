@@ -3,10 +3,8 @@ package com.moonlightbutterfly.bookid.viewmodels
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.moonlightbutterfly.bookid.MainCoroutineRule
 import com.moonlightbutterfly.bookid.getOrAwaitValue
-import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
-import com.moonlightbutterfly.bookid.repository.externalrepos.goodreads.GoodreadRepositoryFake
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest

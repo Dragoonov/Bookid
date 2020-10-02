@@ -12,7 +12,7 @@ import com.moonlightbutterfly.bookid.BookidApplication
 import com.moonlightbutterfly.bookid.di.AppComponent
 import javax.inject.Inject
 
-abstract class BaseFragment<T : ViewDataBinding,K : ViewModel>(private val clas: Class<K>? = null): Fragment() {
+abstract class BaseFragment<T : ViewDataBinding, K : ViewModel>(private val clas: Class<K>? = null) : Fragment() {
 
     protected var binding: T? = null
     protected lateinit var viewModel: K
@@ -25,9 +25,10 @@ abstract class BaseFragment<T : ViewDataBinding,K : ViewModel>(private val clas:
 
     open fun initializeViewModel() {
         if (clas != null) {
-            viewModel = ViewModelProvider(this,viewModelFactory)[clas]
+            viewModel = ViewModelProvider(this, viewModelFactory)[clas]
         }
     }
+
     open fun initializeCustom(savedInstanceState: Bundle?) {}
 
     open fun inject() {}

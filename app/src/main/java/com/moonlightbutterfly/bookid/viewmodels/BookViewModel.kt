@@ -1,5 +1,8 @@
 package com.moonlightbutterfly.bookid.viewmodels
 
+import android.content.Intent
+import android.net.Uri
+import android.view.View
 import androidx.lifecycle.*
 import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.Manager
@@ -54,19 +57,15 @@ class BookViewModel @Inject constructor(
     private var _bookLiveData = MutableLiveData<Book>()
     val bookLiveData: LiveData<Book> get() = _bookLiveData
 
-    private val _allDataLoadedLiveData = MediatorLiveData<Boolean>().apply {
-        addSource(authorBooksLiveData) { value = isDataLoaded() }
-        addSource(similarBooksLiveData) { value = isDataLoaded() }
-        addSource(favoriteShelfLiveData) { value = isDataLoaded() }
-    }
-    val allDataLoadedLiveData: LiveData<Boolean> get() = _allDataLoadedLiveData
+    val descriptionExpandedMode: LiveData<Boolean> get() = _descriptionExpandedMode
+    private var _descriptionExpandedMode = MutableLiveData<Boolean>(false)
 
+    lateinit var bookAddedToDefaultsMessage: String
+    lateinit var bookAddedToFavouritesMessage: String
+    lateinit var bookAddedToSavedMessage: String
+    lateinit var bookRemovedFromSavedMessage: String
+    lateinit var bookRemovedFromFavouritesMessage: String
 
-    private fun isDataLoaded() = (
-            authorBooksLiveData.value != null
-                    && similarBooksLiveData.value != null
-                    && isBookInFavoritesLiveData.value != null
-                    && favoriteShelfLiveData.value != null)
 
     fun setBook(book: Book) {
         if (_bookLiveData.value?.id == book.id) {
@@ -75,6 +74,10 @@ class BookViewModel @Inject constructor(
         this._bookLiveData.value = book
         refreshData()
         insertBookToRecentlyViewed()
+    }
+
+    fun changeExpanded() {
+        _descriptionExpandedMode.value = !_descriptionExpandedMode.value!!
     }
 
     fun refreshData() {
@@ -90,38 +93,55 @@ class BookViewModel @Inject constructor(
         }
     }
 
-    fun handleFavoriteOperation(messageInsert: String? = null, messageDelete: String? = null) = if (isBookInFavoritesLiveData.value!!) {
-        deleteBookFromFavorites(messageDelete)
+    fun openPurchaseLink(view:View) = openLink(view, bookLiveData.value?.accessInfo?.purchaseLink)
+
+    fun openPreviewLink(view: View) = openLink(view, bookLiveData.value?.accessInfo?.previewLink)
+
+    fun openInfoLink(view: View) = openLink(view, bookLiveData.value?.accessInfo?.infoLink)
+
+
+    private fun openLink(view: View, url: String?) {
+        val webpage: Uri = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        if (intent.resolveActivity(view.context.packageManager) != null) {
+            view.context.startActivity(intent)
+        }
+    }
+
+
+    fun handleFavoriteOperation() = if (isBookInFavoritesLiveData.value!!) {
+        deleteBookFromFavorites()
     } else {
-        insertBookToFavorites(messageInsert)
+        insertBookToFavorites()
     }
 
-    fun handleSavedOperation(messageInsert: String? = null, messageDelete: String? = null) = if (isBookInSavedLiveData.value!!) {
-        deleteBookFromSaved(messageDelete)
+    fun handleSavedOperation() = if (isBookInSavedLiveData.value!!) {
+        deleteBookFromSaved()
     } else {
-        insertBookToSaved(messageInsert)
+        insertBookToSaved()
     }
 
-    private fun insertBookToFavorites(message: String? = null) = viewModelScope.launch(dispatcher) {
-        insertBookToShelf(bookLiveData.value, favoriteShelfLiveData.value, null, message)
+    private fun insertBookToFavorites() = viewModelScope.launch(dispatcher) {
+        insertBookToShelf(bookLiveData.value, favoriteShelfLiveData.value, null, bookAddedToFavouritesMessage)
     }
 
-    private fun deleteBookFromFavorites(message: String? = null) = viewModelScope.launch(dispatcher) {
-        deleteBookFromShelf(bookLiveData.value, favoriteShelfLiveData.value, message)
+    private fun deleteBookFromFavorites() = viewModelScope.launch(dispatcher) {
+        deleteBookFromShelf(bookLiveData.value, favoriteShelfLiveData.value, bookRemovedFromFavouritesMessage)
     }
 
-    private fun insertBookToSaved(message: String? = null) = viewModelScope.launch(dispatcher) {
-        insertBookToShelf(bookLiveData.value, savedShelfLiveData.value, null, message)
+    private fun insertBookToSaved() = viewModelScope.launch(dispatcher) {
+        insertBookToShelf(bookLiveData.value, savedShelfLiveData.value, null, bookAddedToSavedMessage)
     }
 
-    private fun deleteBookFromSaved(message: String? = null) = viewModelScope.launch(dispatcher) {
-        deleteBookFromShelf(bookLiveData.value, savedShelfLiveData.value, message)
+    private fun deleteBookFromSaved() = viewModelScope.launch(dispatcher) {
+        deleteBookFromShelf(bookLiveData.value, savedShelfLiveData.value, bookRemovedFromSavedMessage)
     }
 
     private fun insertBookToRecentlyViewed() = viewModelScope.launch(dispatcher) {
         internalRepository.getShelfById(DefaultShelf.RECENTLY_VIEWED.id)?.collect {
             when {
-                insertedToRecentlyViewed -> { }
+                insertedToRecentlyViewed -> {
+                }
                 it!!.books.isEmpty() -> {
                     insertBookToShelf(bookLiveData.value, it)
                 }
@@ -141,9 +161,9 @@ class BookViewModel @Inject constructor(
         }
     }
 
-    fun insertBookToBaseShelf(message: String? = null) = viewModelScope.launch(dispatcher) {
+    fun insertBookToBaseShelf() = viewModelScope.launch(dispatcher) {
         internalRepository.getShelfById(userManager.user.value?.baseShelfId!!)?.collect {
-            insertBookToShelf(bookLiveData.value, it,null, message)
+            insertBookToShelf(bookLiveData.value, it, null, bookAddedToDefaultsMessage)
         }
     }
 

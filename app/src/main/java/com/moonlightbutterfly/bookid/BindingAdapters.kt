@@ -21,7 +21,7 @@ import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.utils.DefaultShelf
 import com.moonlightbutterfly.bookid.utils.Layout
-import com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel
+import com.moonlightbutterfly.bookid.viewmodels.ProfileViewModel
 
 @BindingAdapter("loadImage")
 fun loadImage(view: ImageView, url: String?) {
@@ -108,7 +108,7 @@ fun verticalBias(view: ProgressBar, value: Float) {
 }
 
 @BindingAdapter("populateChips", "actionHandler")
-fun populateChips(view: ChipGroup, shelfsList: List<Shelf>?, viewModel: ShelfViewModel) {
+fun populateChips(view: ChipGroup, shelfsList: List<Shelf>?, viewModel: ProfileViewModel) {
     view.removeAllViews()
     shelfsList?.forEach { shelf ->
         if (!DefaultShelf.matches(shelf.id)) {

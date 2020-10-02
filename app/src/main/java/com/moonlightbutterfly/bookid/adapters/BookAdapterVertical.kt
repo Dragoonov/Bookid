@@ -1,8 +1,5 @@
 package com.moonlightbutterfly.bookid.adapters
 
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
-import android.animation.ValueAnimator
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +12,7 @@ import com.moonlightbutterfly.bookid.R
 import com.moonlightbutterfly.bookid.databinding.BookContainerVerticalBinding
 import com.moonlightbutterfly.bookid.dialogs.AddBookToShelfDialog
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
+import com.moonlightbutterfly.bookid.utils.animatePulse
 import com.moonlightbutterfly.bookid.viewmodels.BooksListViewModel
 
 class BookAdapterVertical(
@@ -53,23 +51,12 @@ class BookAdapterVertical(
             executePendingBindings()
         }
 
-        private fun handleAnimation(view: View) {
-            val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1.5f)
-            val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1.5f)
-            ObjectAnimator.ofPropertyValuesHolder(view, scaleX, scaleY).apply {
-                repeatCount = 1
-                repeatMode = ValueAnimator.REVERSE
-                duration = 200
-                start()
-            }
-        }
-
         private fun setupAdd() = (binding as BookContainerVerticalBinding).add.apply {
             val binding = binding as BookContainerVerticalBinding
             setOnClickListener {
                 val defaultShelfString = it.context.getString(R.string.default_shelf)
                 booksListViewModel?.insertBookToBaseShelf(binding.book, it.context.getString(R.string.book_added, defaultShelfString))
-                handleAnimation(it)
+                it.animatePulse()
             }
             setOnLongClickListener {
                 AddBookToShelfDialog
@@ -80,7 +67,7 @@ class BookAdapterVertical(
         }
 
         private fun setupShare() = (binding as BookContainerVerticalBinding).share.apply {
-            setOnClickListener { handleAnimation(it) }
+            setOnClickListener { it.animatePulse() }
         }
 
         private fun setupFavorites(book: Book) =
@@ -106,7 +93,7 @@ class BookAdapterVertical(
                             favoriteEmptyDrawable
                         }
                     )
-                    handleAnimation(this)
+                    animatePulse()
                 }
             }
 
@@ -133,7 +120,7 @@ class BookAdapterVertical(
                             savedFilledDrawable
                         }
                     )
-                    handleAnimation(this)
+                    animatePulse()
                 }
             }
     }

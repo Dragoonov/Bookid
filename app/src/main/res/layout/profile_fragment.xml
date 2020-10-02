@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <import type="com.moonlightbutterfly.bookid.HandlersKt" />
-
         <variable
             name="viewModel"
-            type="com.moonlightbutterfly.bookid.viewmodels.ShelfViewModel" />
-
-        <variable
-            name="userManager"
-            type="com.moonlightbutterfly.bookid.Manager" />
-
+            type="com.moonlightbutterfly.bookid.viewmodels.ProfileViewModel" />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -43,7 +35,7 @@
                     android:id="@+id/avatar"
                     android:layout_width="match_parent"
                     android:layout_height="102dp"
-                    app:loadImage="@{userManager.user.avatar}" />
+                    app:loadImage="@{viewModel.provideUserManager().user.avatar}" />
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -56,7 +48,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_weight="1"
                 android:gravity="top"
-                android:text="@{userManager.user.nick, default=@string/default_nick}"
+                android:text="@{viewModel.provideUserManager().user.nick, default=@string/default_nick}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/cardView"
@@ -69,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="@{userManager.user.email, default=@string/default_nick}"
+                android:text="@{viewModel.provideUserManager().user.email, default=@string/default_nick}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView"
@@ -118,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:onClick="@{(view) -> HandlersKt.signOutClick(view, userManager)}"
+                android:onClick="@{(view) -> viewModel.signOut(view)}"
                 android:text="@string/sign_out"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />

@@ -1,7 +1,7 @@
 package com.moonlightbutterfly.bookid
 
+import androidx.databinding.adapters.Converters
 import com.google.gson.Gson
-import com.moonlightbutterfly.bookid.repository.database.entities.Author
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import org.hamcrest.MatcherAssert.assertThat

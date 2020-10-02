@@ -7,20 +7,15 @@ import android.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
 import com.moonlightbutterfly.bookid.adapters.BookAdapterVertical
 import com.moonlightbutterfly.bookid.databinding.SearchFragmentBinding
 import com.moonlightbutterfly.bookid.getNavController
 import com.moonlightbutterfly.bookid.viewmodels.BooksListViewModel
 import com.moonlightbutterfly.bookid.viewmodels.SearchViewModel
-import javax.inject.Inject
 
 
 class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(SearchViewModel::class.java) {
-
-    @Inject
-    lateinit var userManager: Manager
 
     private val onScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
 
@@ -33,7 +28,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(Sear
             if (lastVisibleItem + 1 >= totalItemCount && viewModel.allDataLoaded.value!!) {
                 viewModel.loadMore()
             }
-            if(dy != 0) {
+            if (dy != 0) {
                 binding?.toolbar?.searchView?.clearFocus()
             }
         }
@@ -60,7 +55,9 @@ class SearchFragment : BaseFragment<SearchFragmentBinding, SearchViewModel>(Sear
             it.viewModel = viewModel
             it.lifecycleOwner = viewLifecycleOwner
             it.recyclerLayout.listRecycler.apply {
-                adapter = BookAdapterVertical(true, ViewModelProvider(this@SearchFragment,viewModelFactory)[BooksListViewModel::class.java])
+                adapter = BookAdapterVertical(
+                    true,
+                    ViewModelProvider(this@SearchFragment, viewModelFactory)[BooksListViewModel::class.java])
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 addOnScrollListener(onScrollListener)
             }

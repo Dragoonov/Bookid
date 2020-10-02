@@ -13,7 +13,7 @@ import com.moonlightbutterfly.bookid.adapters.BookAdapterVertical
 import com.moonlightbutterfly.bookid.databinding.BooksListFragmentBinding
 import com.moonlightbutterfly.bookid.viewmodels.BooksListViewModel
 
-class BooksListFragment: BaseFragment<BooksListFragmentBinding, BooksListViewModel>(BooksListViewModel::class.java)  {
+class BooksListFragment : BaseFragment<BooksListFragmentBinding, BooksListViewModel>(BooksListViewModel::class.java) {
 
     private val args: BooksListFragmentArgs by navArgs()
 

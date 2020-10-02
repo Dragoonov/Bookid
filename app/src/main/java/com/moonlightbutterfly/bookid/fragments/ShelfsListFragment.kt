@@ -21,8 +21,9 @@ class ShelfsListFragment : BaseFragment<ShelfsListFragmentBinding, ShelfViewMode
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 adapter = ShelfAdapter(viewModel)
             }
-            it.floatingActionButton.setOnClickListener {view ->
-                val action = ShelfsListFragmentDirections.actionShelfsToCreateEditShelfFragment(view.context.getString(R.string.create_shelf))
+            it.floatingActionButton.setOnClickListener { view ->
+                val action = ShelfsListFragmentDirections
+                    .actionShelfsToCreateEditShelfFragment(view.context.getString(R.string.create_shelf))
                 view.findNavController().navigate(action)
             }
         }

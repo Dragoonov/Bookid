@@ -10,7 +10,8 @@ import androidx.navigation.fragment.navArgs
 import com.moonlightbutterfly.bookid.databinding.FragmentCreateEditShelfBinding
 import com.moonlightbutterfly.bookid.viewmodels.CreateEditShelfViewModel
 
-class CreateEditShelfFragment: BaseFragment<FragmentCreateEditShelfBinding, CreateEditShelfViewModel>(CreateEditShelfViewModel::class.java)  {
+class CreateEditShelfFragment :
+    BaseFragment<FragmentCreateEditShelfBinding, CreateEditShelfViewModel>(CreateEditShelfViewModel::class.java) {
 
     private val args: CreateEditShelfFragmentArgs by navArgs()
 
@@ -22,7 +23,11 @@ class CreateEditShelfFragment: BaseFragment<FragmentCreateEditShelfBinding, Crea
             lifecycleOwner = viewLifecycleOwner
             ok.setOnClickListener {
                 val baseColor = (binding!!.base.background as ColorDrawable).color
-                this@CreateEditShelfFragment.viewModel.finishCreateModify(binding!!.name.text.toString(), baseColor, this@CreateEditShelfFragment.viewModel.iconId)
+                this@CreateEditShelfFragment.viewModel.finishCreateModify(
+                    binding!!.name.text.toString(),
+                    baseColor,
+                    this@CreateEditShelfFragment.viewModel.iconId
+                )
                 findNavController().popBackStack()
             }
             viewModel!!.shelfLiveData.observe(viewLifecycleOwner, Observer {
@@ -39,7 +44,9 @@ class CreateEditShelfFragment: BaseFragment<FragmentCreateEditShelfBinding, Crea
 
     override fun initializeViewModel() {
         super.initializeViewModel()
-        viewModel.setShelfId(args.shelfId)
-        viewModel.setActionTitle(args.actionTitle)
+        viewModel.apply {
+            setShelfId(args.shelfId)
+            setActionTitle(args.actionTitle)
+        }
     }
 }

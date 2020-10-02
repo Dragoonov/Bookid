@@ -101,8 +101,4 @@ class ShelfViewModel @Inject constructor(
             repository.insertShelf(shelf)
         }
     }
-
-    fun updateBaseShelf(shelfId: Int) {
-        userManager.updateBaseShelf(shelfId)
-    }
 }
