@@ -11,6 +11,7 @@ import com.moonlightbutterfly.bookid.repository.database.entities.Cover
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
 import com.moonlightbutterfly.bookid.utils.DefaultShelf
+import com.moonlightbutterfly.bookid.utils.Logos
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -30,7 +31,7 @@ class ShelfsViewModel @Inject constructor(
             } }
     }
 
-    fun prepareBasicShelfs(names: Array<String>, images: Array<Pair<Int, Int>>) = viewModelScope.launch(dispatcher) {
+    fun prepareBasicShelfs(names: Array<String>, images: Array<Pair<Int, Logos>>) = viewModelScope.launch(dispatcher) {
         repository.getShelfByBaseId(DefaultShelf.FAVORITES.id, userManager.user.value?.id!!)?.collect { shelf ->
             if (shelf == null) {
                 for ((index, value) in DefaultShelf.values().withIndex()) {
@@ -56,7 +57,7 @@ class ShelfsViewModel @Inject constructor(
         }
     }
 
-    private fun insertShelf(name: String?, cover: Pair<Int, Int>, baseShelfId: Int) = name?.let {
+    private fun insertShelf(name: String?, cover: Pair<Int, Logos>, baseShelfId: Int) = name?.let {
         viewModelScope.launch(dispatcher) {
             val shelf = Shelf(
                 name = it,

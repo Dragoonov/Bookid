@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.view.View
+import com.moonlightbutterfly.bookid.MainActivity
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 
 fun View.animatePulse() {
@@ -20,3 +21,6 @@ fun View.animatePulse() {
 fun List<Book>.removeDisplayedBookFromList(book: Book): List<Book>? = this
     .toMutableList()
     .filter { it.id != book.id }
+
+fun View.provideLogoId(logo: Logos): Int = (this.context as MainActivity).logoProvider.provideLogo(logo)
+fun View.provideLogoId(logo: Int): Logos = (this.context as MainActivity).logoProvider.provideLogo(logo)

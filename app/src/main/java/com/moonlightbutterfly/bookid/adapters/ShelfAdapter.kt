@@ -11,11 +11,13 @@ import com.moonlightbutterfly.bookid.databinding.ShelfContainerBinding
 import com.moonlightbutterfly.bookid.fragments.ShelfsListFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.utils.DefaultShelf
+import com.moonlightbutterfly.bookid.utils.provideLogoId
 import com.moonlightbutterfly.bookid.viewmodels.ShelfsViewModel
 
 class ShelfAdapter(private val viewModel: ShelfsViewModel) : RecyclerView.Adapter<ShelfAdapter.ViewHolder>() {
 
     val shelfs: MutableList<Shelf> = ArrayList()
+
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -48,7 +50,12 @@ class ShelfAdapter(private val viewModel: ShelfsViewModel) : RecyclerView.Adapte
                 notifyItemRemoved(adapterPosition)
             }
             this.base.setBackgroundColor(shelf.cover.background)
-            this.front.setImageDrawable(ContextCompat.getDrawable(this.front.context, shelf.cover.iconId))
+            this.front.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this.front.context,
+                    this.front.provideLogoId(shelf.cover.icon)
+                )
+            )
         }
     }
 

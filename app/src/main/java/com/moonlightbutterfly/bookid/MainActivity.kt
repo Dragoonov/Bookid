@@ -22,6 +22,8 @@ import com.moonlightbutterfly.bookid.dialogs.QuitAppDialog
 import com.moonlightbutterfly.bookid.fragments.LoginFragmentDirections
 import com.moonlightbutterfly.bookid.fragments.SplashFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.User
+import com.moonlightbutterfly.bookid.utils.CoverLogoProvider
+import com.moonlightbutterfly.bookid.utils.Logos
 import com.moonlightbutterfly.bookid.viewmodels.ShelfsViewModel
 import javax.inject.Inject
 
@@ -43,6 +45,7 @@ class MainActivity : AppCompatActivity(), NavigationController {
 
     private lateinit var binding: ActivityMainBinding
 
+    val logoProvider = CoverLogoProvider()
 
     companion object {
         const val SIGN_IN_CODE = 100
@@ -73,14 +76,15 @@ class MainActivity : AppCompatActivity(), NavigationController {
                     val covers = arrayOf(
                         Pair(
                             Color.parseColor("#686868"),
-                            R.drawable.ic_favorite_24px
+                            Logos.FAVOURITE
                         ),
                         Pair(
                             Color.parseColor("#686868"),
-                            R.drawable.ic_bookmark_24px
-                        ),Pair(
+                            Logos.SAVED
+                        ),
+                        Pair(
                             Color.parseColor("#686868"),
-                            R.drawable.ic_back
+                            Logos.RECENT
                         )
                     )
                     viewModel.prepareBasicShelfs(resources.getStringArray(R.array.basic_shelfs), covers)

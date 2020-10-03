@@ -5,6 +5,7 @@ import com.moonlightbutterfly.bookid.UserManager
 import com.moonlightbutterfly.bookid.repository.database.entities.Cover
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
+import com.moonlightbutterfly.bookid.utils.Logos
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -25,12 +26,12 @@ class CreateEditShelfViewModel @Inject constructor(
         liveData {
             repository.getShelfById(it, userManager.user.value!!.id)?.collect {
                 emit(it)
-                it?.let { iconId = it.cover.iconId }
+                it?.let { iconId = it.cover.icon }
             }
         }
     }
 
-    var iconId: Int = -1
+    lateinit var iconId: Logos
 
     fun setShelfId(id: Int) = run { shelfId.value = id }
 
@@ -38,7 +39,7 @@ class CreateEditShelfViewModel @Inject constructor(
         _actionTitle.value = type
     }
 
-    fun finishCreateModify(name: String, background: Int, iconId: Int) {
+    fun finishCreateModify(name: String, background: Int, iconId: Logos) {
         if (shelfId.value == -1) {
             saveShelf(name, background, iconId)
         } else {
@@ -46,7 +47,7 @@ class CreateEditShelfViewModel @Inject constructor(
         }
     }
 
-    private fun saveShelf(name: String, background: Int, iconId: Int) = viewModelScope.launch(dispatcher) {
+    private fun saveShelf(name: String, background: Int, iconId: Logos) = viewModelScope.launch(dispatcher) {
         val shelf = Shelf(
             name = name,
             books = ArrayList(),
@@ -56,7 +57,7 @@ class CreateEditShelfViewModel @Inject constructor(
         repository.insertShelf(shelf)
     }
 
-    private fun updateShelf(name: String, background: Int, iconId: Int) = viewModelScope.launch(dispatcher) {
+    private fun updateShelf(name: String, background: Int, iconId: Logos) = viewModelScope.launch(dispatcher) {
         val shelf = Shelf(
             id = shelfLiveData.value!!.id,
             name = name,

@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.moonlightbutterfly.bookid.databinding.FragmentCreateEditShelfBinding
+import com.moonlightbutterfly.bookid.utils.provideLogoId
 import com.moonlightbutterfly.bookid.viewmodels.CreateEditShelfViewModel
 
 class CreateEditShelfFragment :
@@ -35,7 +36,7 @@ class CreateEditShelfFragment :
                     binding?.apply {
                         name.setText(it.name)
                         base.setBackgroundColor(it.cover.background)
-                        front.setImageDrawable(ContextCompat.getDrawable(requireContext(), it.cover.iconId))
+                        front.setImageDrawable(ContextCompat.getDrawable(requireContext(), front.provideLogoId(it.cover.icon)))
                     }
                 }
             })
