@@ -20,8 +20,10 @@ class ProfileViewModel @Inject constructor(
 
     val baseShelfLiveData: LiveData<Shelf?> = Transformations.switchMap(userManager.user) {
         liveData {
-            repository.getShelfById(userManager.user.value?.baseShelfId ?: -1)
-                ?.collect { emit(it) }
+            if (userManager.user.value != null) {
+                repository.getShelfById(userManager.user.value!!.baseShelfId, userManager.user.value!!.id)
+                    ?.collect { emit(it) }
+            }
         }
     }
 

@@ -10,5 +10,6 @@ data class Shelf(
     @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "books") var books: List<Book>,
     @ColumnInfo(name = "userId") val userId: String,
-    @ColumnInfo(name = "cover") var cover: Cover
+    @ColumnInfo(name = "cover") var cover: Cover,
+    @ColumnInfo(name = "baseShelfId") var baseShelfId: Int? = null
 )

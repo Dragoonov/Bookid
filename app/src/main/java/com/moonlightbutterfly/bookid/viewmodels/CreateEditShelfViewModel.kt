@@ -23,7 +23,7 @@ class CreateEditShelfViewModel @Inject constructor(
 
     val shelfLiveData = shelfId.switchMap {
         liveData {
-            repository.getShelfById(it)?.collect {
+            repository.getShelfById(it, userManager.user.value!!.id)?.collect {
                 emit(it)
                 it?.let { iconId = it.cover.iconId }
             }

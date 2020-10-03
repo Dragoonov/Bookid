@@ -111,7 +111,7 @@ fun verticalBias(view: ProgressBar, value: Float) {
 fun populateChips(view: ChipGroup, shelfsList: List<Shelf>?, viewModel: ProfileViewModel) {
     view.removeAllViews()
     shelfsList?.forEach { shelf ->
-        if (!DefaultShelf.matches(shelf.id)) {
+        if (!DefaultShelf.matches(shelf.baseShelfId)) {
             val chip = Chip(view.context, null, 0)
             chip.chipBackgroundColor = AppCompatResources.getColorStateList(view.context, R.color.chips_color)
             chip.setOnClickListener { viewModel.updateBaseShelf(shelf.id) }

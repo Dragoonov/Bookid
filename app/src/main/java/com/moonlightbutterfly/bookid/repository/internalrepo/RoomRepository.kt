@@ -9,7 +9,9 @@ import com.moonlightbutterfly.bookid.repository.database.entities.User
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class RoomRepository @Inject constructor(context: Context) : InternalRepository {
+class RoomRepository @Inject constructor(
+    context: Context
+) : InternalRepository {
 
     private val shelfDao: ShelfDao
     private val userDao: UserDao
@@ -26,9 +28,11 @@ class RoomRepository @Inject constructor(context: Context) : InternalRepository 
 
     override suspend fun deleteShelf(shelf: Shelf): Unit = shelfDao.deleteShelf(shelf)
 
-    override fun getShelfById(id: Int): Flow<Shelf?>? = shelfDao.getShelfById(id)
+    override fun getShelfById(id: Int, userId: String): Flow<Shelf?>? = shelfDao.getShelfById(id, userId)
 
-    override suspend fun getShelfByName(name: String): Shelf = shelfDao.getShelfByName(name)
+    override suspend fun getShelfByName(name: String, userId: String): Shelf = shelfDao.getShelfByName(name, userId)
+
+    override fun getShelfByBaseId(id: Int, userId: String): Flow<Shelf?>? = shelfDao.getShelfByBaseId(id, userId)
 
     override suspend fun getShelfes(): List<Shelf>? = shelfDao.getShelfs()
 

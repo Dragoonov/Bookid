@@ -22,13 +22,13 @@ open class BaseViewModel(
 ) : ViewModel() {
 
     val favoriteShelfLiveData: LiveData<Shelf?> = liveData {
-        internalRepository.getShelfById(DefaultShelf.FAVORITES.id)?.collect {
+        internalRepository.getShelfByBaseId(DefaultShelf.FAVORITES.id, userManager.user.value!!.id)?.collect {
             emit(it)
         }
     }
 
     val savedShelfLiveData: LiveData<Shelf?> = liveData {
-        internalRepository.getShelfById(DefaultShelf.SAVED.id)?.collect {
+        internalRepository.getShelfByBaseId(DefaultShelf.SAVED.id, userManager.user.value!!.id)?.collect {
             emit(it)
         }
     }
@@ -94,7 +94,7 @@ open class BaseViewModel(
     }
 
     fun insertBookToBaseShelf(book: Book?) = viewModelScope.launch(dispatcher) {
-        internalRepository.getShelfById(userManager.user.value?.baseShelfId!!)?.collect {
+        internalRepository.getShelfById(userManager.user.value!!.baseShelfId, userManager.user.value!!.id)?.collect {
             insertBookToShelf(book, it, bookAddedToDefaultsMessage)
         }
     }

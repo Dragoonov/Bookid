@@ -25,12 +25,14 @@ class ShelfsViewModel @Inject constructor(
 
     val shelfsLiveData: LiveData<List<Shelf>> = liveData {
         repository.getUserShelfs(userManager.user.value?.id!!)
-            .collect { data -> data?.let { emit(it) } }
+            .collect { data -> data?.let {
+                emit(it)
+            } }
     }
 
     fun prepareBasicShelfs(names: Array<String>, images: Array<Pair<Int, Int>>) = viewModelScope.launch(dispatcher) {
-        repository.getUserShelfs(userManager.user.value?.id!!).collect { list ->
-            if (names.size == DefaultShelf.values().size && list?.find { it.id == DefaultShelf.FAVORITES.id } == null) {
+        repository.getShelfByBaseId(DefaultShelf.FAVORITES.id, userManager.user.value?.id!!)?.collect { shelf ->
+            if (shelf == null) {
                 for ((index, value) in DefaultShelf.values().withIndex()) {
                     insertShelf(names[index], images[index], value.id)
                 }
@@ -44,26 +46,6 @@ class ShelfsViewModel @Inject constructor(
         }
     }
 
-    fun deleteBookFromShelf(book: Book?, shelf: Shelf?) {
-        if (book != null && shelf != null) {
-            viewModelScope.launch(dispatcher) {
-                shelf.books = shelf.books.filter { it.id != book.id }
-                repository.updateShelf(shelf)
-            }
-        }
-    }
-
-
-    fun updateShelfName(shelf: Shelf?, name: String?) {
-        if (shelf != null && name != null) {
-            viewModelScope.launch(dispatcher) {
-                shelf.name = name
-                repository.updateShelf(shelf)
-            }
-        }
-    }
-
-
     fun insertBookToShelf(shelf: Shelf?, book: Book?, message: String? = null) {
         if (shelf != null && book != null && !shelf.books.contains(book)) {
             viewModelScope.launch(dispatcher) {
@@ -74,24 +56,15 @@ class ShelfsViewModel @Inject constructor(
         }
     }
 
-    fun insertShelf(name: String?, cover: Pair<Int, Int>, id: Int? = null) = name?.let {
+    private fun insertShelf(name: String?, cover: Pair<Int, Int>, baseShelfId: Int) = name?.let {
         viewModelScope.launch(dispatcher) {
-            val shelf = if (id == null) {
-                Shelf(
-                    name = it,
-                    books = ArrayList(),
-                    userId = userManager.user.value?.id!!,
-                    cover = Cover(cover.first, cover.second)
-                )
-            } else {
-                Shelf(
-                    id = id,
-                    name = it,
-                    books = ArrayList(),
-                    userId = userManager.user.value?.id!!,
-                    cover = Cover(cover.first, cover.second)
-                )
-            }
+            val shelf = Shelf(
+                name = it,
+                books = ArrayList(),
+                userId = userManager.user.value?.id!!,
+                cover = Cover(cover.first, cover.second),
+                baseShelfId = baseShelfId
+            )
             repository.insertShelf(shelf)
         }
     }

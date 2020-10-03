@@ -21,7 +21,7 @@ class BookViewModel @Inject constructor(
     private val repository: ExternalRepository,
     private val dispatcher: CoroutineDispatcher,
     private val internalRepository: InternalRepository,
-    userManager: Manager,
+    private val userManager: Manager,
     communicator: Communicator
 ) : BaseViewModel(dispatcher, internalRepository, userManager, communicator) {
 
@@ -96,7 +96,7 @@ class BookViewModel @Inject constructor(
     fun handleSavedOperation() = handleSavedOperation(bookLiveData.value!!)
 
     private fun insertBookToRecentlyViewed() = viewModelScope.launch(dispatcher) {
-        internalRepository.getShelfById(DefaultShelf.RECENTLY_VIEWED.id)?.collect {
+        internalRepository.getShelfByBaseId(DefaultShelf.RECENTLY_VIEWED.id, userManager.user.value!!.id)?.collect {
             when {
                 insertedToRecentlyViewed -> {
                 }

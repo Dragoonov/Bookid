@@ -16,11 +16,14 @@ interface ShelfDao {
     @Delete
     suspend fun deleteShelf(shelf: Shelf)
 
-    @Query("select * from shelfs where id = :id")
-    fun getShelfById(id: Int): Flow<Shelf?>?
+    @Query("select * from shelfs where id = :id and userId = :userId")
+    fun getShelfById(id: Int, userId: String): Flow<Shelf?>?
 
-    @Query("select * from shelfs where name = :name")
-    suspend fun getShelfByName(name: String): Shelf
+    @Query("select * from shelfs where name = :name and userId = :userId")
+    suspend fun getShelfByName(name: String, userId: String): Shelf
+
+    @Query("select * from shelfs where baseShelfId = :id and userId = :userId")
+    fun getShelfByBaseId(id: Int, userId: String): Flow<Shelf?>?
 
     @Query("select * from shelfs")
     suspend fun getShelfs(): List<Shelf>?

@@ -14,14 +14,14 @@ import javax.inject.Inject
 class BooksListViewModel @Inject constructor(
     private val dispatcher: CoroutineDispatcher,
     private val internalRepository: InternalRepository,
-    userManager: Manager,
+    private val userManager: Manager,
     communicator: Communicator
 ) : BaseViewModel(dispatcher, internalRepository, userManager, communicator) {
 
     private val customShelfIdLiveData = MutableLiveData(1000)
     val customShelfLiveData: LiveData<Shelf?> = Transformations.switchMap(customShelfIdLiveData) {
         liveData {
-            internalRepository.getShelfById(it)?.collect {
+            internalRepository.getShelfById(it, userManager.user.value!!.id)?.collect {
                 emit(it)
             }
         }
