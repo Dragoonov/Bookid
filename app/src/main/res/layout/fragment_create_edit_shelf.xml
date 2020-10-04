@@ -172,7 +172,7 @@
                     android:layout_marginEnd="8dp"
                     android:onClick="@{(view) -> base.setBackgroundColor(0xFFFFEB3B)}"
                     app:cardBackgroundColor="#FFEB3B"
-                    app:cardCornerRadius="30dp"></androidx.cardview.widget.CardView>
+                    app:cardCornerRadius="30dp"/>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/dark_blue"
@@ -197,7 +197,6 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="8dp"
-                    android:onClick="@{(view) -> HandlersKt.saveIconToViewModel(front, R.drawable.ic_fish, viewModel)}"
                     app:cardCornerRadius="30dp">
 
                     <ImageView
@@ -213,7 +212,6 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="8dp"
-                    android:onClick="@{(view) -> HandlersKt.saveIconToViewModel(front, R.drawable.ic_internet, viewModel)}"
                     app:cardCornerRadius="30dp">
 
                     <ImageView
@@ -229,7 +227,6 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="8dp"
-                    android:onClick="@{(view) -> HandlersKt.saveIconToViewModel(front, R.drawable.ic_soccer, viewModel)}"
                     app:cardCornerRadius="30dp">
 
                     <ImageView
@@ -245,7 +242,6 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="8dp"
-                    android:onClick="@{(view) -> HandlersKt.saveIconToViewModel(front, R.drawable.ic_science, viewModel)}"
                     app:cardCornerRadius="30dp">
 
                     <ImageView
@@ -260,7 +256,6 @@
                     android:id="@+id/rubics"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:onClick="@{(view) -> HandlersKt.saveIconToViewModel(front, R.drawable.ic_rubiks_cube, viewModel)}"
                     app:cardCornerRadius="30dp">
 
                     <ImageView

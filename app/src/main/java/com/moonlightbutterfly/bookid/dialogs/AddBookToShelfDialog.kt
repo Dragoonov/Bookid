@@ -30,7 +30,7 @@ class AddBookToShelfDialog private constructor(private val book: Book) : DialogF
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         (activity?.application as BookidApplication).appComponent.inject(this)
         return activity?.let { fragment ->
-            val builder = AlertDialog.Builder(fragment)
+            val builder = AlertDialog.Builder(fragment, R.style.AlertDialogTheme)
             initializeDependencies()
             builder
                 .setView(binding.root)

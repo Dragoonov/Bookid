@@ -16,7 +16,7 @@ class QuitAppDialog private constructor() : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
-            val builder = AlertDialog.Builder(it)
+            val builder = AlertDialog.Builder(it, R.style.AlertDialogTheme)
             builder.setMessage(R.string.quit_question)
                 .setPositiveButton(R.string.yes) { dialog: DialogInterface, _: Int ->
                     dialog.cancel()
