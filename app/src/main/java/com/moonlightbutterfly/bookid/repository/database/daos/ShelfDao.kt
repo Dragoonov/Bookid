@@ -2,32 +2,34 @@ package com.moonlightbutterfly.bookid.repository.database.daos
 
 import androidx.room.*
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
-import kotlinx.coroutines.flow.Flow
+import io.reactivex.Completable
+import io.reactivex.Flowable
+import io.reactivex.Single
 
 @Dao
 interface ShelfDao {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insertShelf(shelf: Shelf)
+    fun insertShelf(shelf: Shelf): Completable
 
     @Update
-    suspend fun updateShelf(shelf: Shelf)
+    fun updateShelf(shelf: Shelf): Completable
 
     @Delete
-    suspend fun deleteShelf(shelf: Shelf)
+    fun deleteShelf(shelf: Shelf): Completable
 
     @Query("select * from shelfs where id = :id and userId = :userId")
-    fun getShelfById(id: Int, userId: String): Flow<Shelf?>?
+    fun getShelfById(id: Int, userId: String): Flowable<Shelf?>
 
     @Query("select * from shelfs where name = :name and userId = :userId")
-    suspend fun getShelfByName(name: String, userId: String): Shelf
+    fun getShelfByName(name: String, userId: String): Single<Shelf?>
 
     @Query("select * from shelfs where baseShelfId = :id and userId = :userId")
-    fun getShelfByBaseId(id: Int, userId: String): Flow<Shelf?>?
+    fun getShelfByBaseId(id: Int, userId: String): Flowable<Shelf?>
 
     @Query("select * from shelfs")
-    suspend fun getShelfs(): List<Shelf>?
+    fun getShelfs(): Single<List<Shelf>?>
 
     @Query("select * from shelfs where userId = :userId")
-    fun getUserShelfs(userId: String): Flow<List<Shelf>?>
+    fun getUserShelfs(userId: String): Flowable<List<Shelf>?>
 }
