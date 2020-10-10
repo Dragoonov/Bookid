@@ -20,5 +20,5 @@ interface UserDao {
     fun getUser(): Flowable<User?>
 
     @Query("select * from users where id = :id")
-    fun getUserById(id:String): Flowable<User?>
+    fun getUserById(id:String): Flowable<List<User>>
 }

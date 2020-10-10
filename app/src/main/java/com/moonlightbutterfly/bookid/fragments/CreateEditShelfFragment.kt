@@ -64,6 +64,7 @@ class CreateEditShelfFragment :
             setShelfId(args.shelfId)
             setActionTitle(args.actionTitle)
             iconId = Logos.BALL
+            errorOccurredMessage = requireContext().getString(R.string.error_occurred)
         }
     }
 }

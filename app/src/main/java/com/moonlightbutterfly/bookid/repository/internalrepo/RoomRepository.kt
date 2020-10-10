@@ -8,6 +8,7 @@ import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.database.entities.User
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Maybe
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -36,13 +37,15 @@ class RoomRepository @Inject constructor(
 
     override fun getShelfByBaseId(id: Int, userId: String): Flowable<Shelf?> = shelfDao.getShelfByBaseId(id, userId)
 
+    override fun doBaseShelfsExist(id: Int, userId: String): Single<Shelf> = shelfDao.doBaseShelfsExist(id, userId)
+
     override fun getShelfes(): Single<List<Shelf>?> = shelfDao.getShelfs()
 
-    override fun getUserShelfs(userId: String): Flowable<List<Shelf>?> = shelfDao.getUserShelfs(userId)
+    override fun getUserShelfs(userId: String?): Flowable<List<Shelf>?> = shelfDao.getUserShelfs(userId)
 
     override fun getUser(): Flowable<User?> = userDao.getUser()
 
-    override fun getUserById(id: String): Flowable<User?> = userDao.getUserById(id)
+    override fun getUserById(id: String): Flowable<List<User>> = userDao.getUserById(id)
 
     override fun insertUser(user: User) = userDao.insertUser(user)
 

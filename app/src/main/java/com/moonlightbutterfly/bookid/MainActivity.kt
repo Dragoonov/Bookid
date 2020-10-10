@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(), NavigationController {
             }
         })
         userManager.user.observe(this, Observer {
-            if (it != null) {
+            if (it.id.isNotEmpty()) {
                 if (navController.currentDestination?.id == R.id.splashFragment) {
                     navController.navigate(SplashFragmentDirections.actionSplashFragmentToAppGraph())
                 } else if (navController.currentDestination?.id == R.id.loginFragment) {

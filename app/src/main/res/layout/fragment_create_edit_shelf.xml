@@ -4,16 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.moonlightbutterfly.bookid.viewmodels.CreateEditShelfViewModel" />
-
-        <import type="com.moonlightbutterfly.bookid.R" />
-
-        <import type="com.moonlightbutterfly.bookid.HandlersKt" />
-
-        <import type="android.widget.ImageView" />
     </data>
 
     <ScrollView

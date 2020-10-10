@@ -44,16 +44,18 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
         val savedName = requireContext().resources.getStringArray(R.array.basic_shelfs)[1]
         val bookAddedToSaved = requireContext().getString(R.string.book_added, savedName)
         val bookRemovedFromSaved = requireContext().getString(R.string.book_removed, savedName)
+        val errorOccurred = requireContext().getString(R.string.error_occurred)
 
-        viewModel.let {
+        viewModel.apply {
             val bookString = args.book
             val book = Converters.convertToObject(bookString) as Book?
-            it.setBook(book!!)
-            it.bookAddedToDefaultsMessage = bookAddedToDefaults
-            it.bookAddedToFavouritesMessage = bookAddedToFavourites
-            it.bookRemovedFromFavouritesMessage = bookRemovedFromFavourites
-            it.bookAddedToSavedMessage = bookAddedToSaved
-            it.bookRemovedFromSavedMessage = bookRemovedFromSaved
+            setBook(book!!)
+            bookAddedToDefaultsMessage = bookAddedToDefaults
+            bookAddedToFavouritesMessage = bookAddedToFavourites
+            bookRemovedFromFavouritesMessage = bookRemovedFromFavourites
+            bookAddedToSavedMessage = bookAddedToSaved
+            bookRemovedFromSavedMessage = bookRemovedFromSaved
+            errorOccurredMessage = errorOccurred
         }
     }
 

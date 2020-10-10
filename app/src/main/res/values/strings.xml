@@ -62,4 +62,5 @@
     <string name="select_base_shelf">Select your base shelf</string>
     <string name="books_number">%d books</string>
     <string name="default_shelf">default shelf</string>
+    <string name="error_occurred">Error occurred</string>
 </resources>

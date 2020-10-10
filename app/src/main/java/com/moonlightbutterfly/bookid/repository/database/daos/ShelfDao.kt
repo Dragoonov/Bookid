@@ -31,5 +31,8 @@ interface ShelfDao {
     fun getShelfs(): Single<List<Shelf>?>
 
     @Query("select * from shelfs where userId = :userId")
-    fun getUserShelfs(userId: String): Flowable<List<Shelf>?>
+    fun getUserShelfs(userId: String?): Flowable<List<Shelf>?>
+
+    @Query("select * from shelfs where baseShelfId = :id and userId = :userId")
+    fun doBaseShelfsExist(id: Int, userId: String): Single<Shelf>
 }

@@ -49,12 +49,14 @@ class BooksListFragment : BaseFragment<BooksListFragmentBinding, BooksListViewMo
         val bookRemovedFromSaved = requireContext().getString(R.string.book_removed, savedName)
         val defaultShelfString = requireContext().getString(R.string.default_shelf)
         val bookAddedToDefaults = requireContext().getString(R.string.book_added, defaultShelfString)
+        val error = requireContext().getString(R.string.error_occurred)
         viewModel.apply {
             bookAddedToDefaultsMessage = bookAddedToDefaults
             bookAddedToFavouritesMessage = bookAddedToFavourites
             bookRemovedFromFavouritesMessage = bookRemovedFromFavourites
             bookAddedToSavedMessage = bookAddedToSaved
             bookRemovedFromSavedMessage = bookRemovedFromSaved
+            errorOccurredMessage = error
         }
     }
 

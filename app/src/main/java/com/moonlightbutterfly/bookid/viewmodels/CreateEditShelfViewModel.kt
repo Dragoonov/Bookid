@@ -1,20 +1,20 @@
 package com.moonlightbutterfly.bookid.viewmodels
 
 import androidx.lifecycle.*
+import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.UserManager
 import com.moonlightbutterfly.bookid.repository.database.entities.Cover
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
 import com.moonlightbutterfly.bookid.utils.Logos
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class CreateEditShelfViewModel @Inject constructor(
     private val repository: InternalRepository,
-    private val dispatcher: CoroutineDispatcher,
-    private val userManager: UserManager
+    private val userManager: UserManager,
+    private val communicator: Communicator
 ) : ViewModel() {
 
     private var shelfId: MutableLiveData<Int> = MutableLiveData(-1)
@@ -22,16 +22,20 @@ class CreateEditShelfViewModel @Inject constructor(
     val actionTitle: LiveData<String> get() = _actionTitle
     private var _actionTitle: MutableLiveData<String> = MutableLiveData("")
 
-    val shelfLiveData = shelfId.switchMap {
-        liveData {
-            repository.getShelfById(it, userManager.user.value!!.id)?.collect {
-                emit(it)
-                it?.let { iconId = it.cover.icon }
-            }
-        }
+    val shelfLiveData = shelfId.switchMap { id ->
+        LiveDataReactiveStreams.fromPublisher(
+            repository.getShelfById(id, userManager.user.value!!.id)
+                .doOnNext {
+                    it?.let { iconId = it.cover.icon }
+                }
+        )
     }
 
     lateinit var iconId: Logos
+
+    lateinit var errorOccurredMessage: String
+
+    private val disposable = CompositeDisposable()
 
     fun setShelfId(id: Int) = run { shelfId.value = id }
 
@@ -47,17 +51,24 @@ class CreateEditShelfViewModel @Inject constructor(
         }
     }
 
-    private fun saveShelf(name: String, background: Int, iconId: Logos) = viewModelScope.launch(dispatcher) {
+    private fun saveShelf(name: String, background: Int, iconId: Logos) {
         val shelf = Shelf(
             name = name,
             books = ArrayList(),
             cover = Cover(background, iconId),
             userId = userManager.user.value?.id!!
         )
-        repository.insertShelf(shelf)
+        disposable.add(
+            repository.insertShelf(shelf)
+                .subscribeOn(Schedulers.io())
+                .doOnError {
+                    communicator.postMessage(errorOccurredMessage)
+                }
+                .subscribe()
+        )
     }
 
-    private fun updateShelf(name: String, background: Int, iconId: Logos) = viewModelScope.launch(dispatcher) {
+    private fun updateShelf(name: String, background: Int, iconId: Logos) {
         val shelf = Shelf(
             id = shelfLiveData.value!!.id,
             name = name,
@@ -65,7 +76,13 @@ class CreateEditShelfViewModel @Inject constructor(
             userId = shelfLiveData.value!!.userId,
             cover = Cover(background, iconId)
         )
-        repository.updateShelf(shelf)
+        disposable.add(
+            repository.updateShelf(shelf)
+                .subscribeOn(Schedulers.io())
+                .doOnError {
+                    communicator.postMessage(errorOccurredMessage)
+                }.subscribe()
+        )
     }
 
 }

@@ -58,4 +58,5 @@
     <string name="select_base_shelf">Wybierz swoją podstawową półkę</string>
     <string name="books_number">%d książek</string>
     <string name="default_shelf">domyślnej półki</string>
+    <string name="error_occurred">Wystąpił błąd</string>
 </resources>

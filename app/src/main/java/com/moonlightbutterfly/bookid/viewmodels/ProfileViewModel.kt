@@ -2,15 +2,15 @@ package com.moonlightbutterfly.bookid.viewmodels
 
 import android.view.View
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.switchMap
 import androidx.navigation.findNavController
 import com.moonlightbutterfly.bookid.Manager
 import com.moonlightbutterfly.bookid.fragments.ProfileFragmentDirections
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
-import kotlinx.coroutines.flow.collect
+import io.reactivex.Flowable
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
@@ -18,19 +18,19 @@ class ProfileViewModel @Inject constructor(
     private val repository: InternalRepository
 ) : ViewModel() {
 
-    val baseShelfLiveData: LiveData<Shelf?> = Transformations.switchMap(userManager.user) {
-        liveData {
+    val baseShelfLiveData: LiveData<Shelf?> = userManager.user.switchMap {
+        LiveDataReactiveStreams.fromPublisher(
             if (userManager.user.value != null) {
                 repository.getShelfById(userManager.user.value!!.baseShelfId, userManager.user.value!!.id)
-                    ?.collect { emit(it) }
+            } else {
+                Flowable.fromArray()
             }
-        }
+        )
     }
 
-    val shelfsLiveData: LiveData<List<Shelf>> = liveData {
+    val shelfsLiveData: LiveData<List<Shelf>?> = LiveDataReactiveStreams.fromPublisher(
         repository.getUserShelfs(userManager.user.value?.id!!)
-            .collect { data -> data?.let { emit(it) } }
-    }
+    )
 
     fun updateBaseShelf(shelfId: Int) {
         userManager.updateBaseShelf(shelfId)

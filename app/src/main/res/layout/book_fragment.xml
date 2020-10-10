@@ -3,11 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <import type="android.view.View" />
-
-        <import type="com.moonlightbutterfly.bookid.HandlersKt" />
-
         <variable
             name="viewModel"
             type="com.moonlightbutterfly.bookid.viewmodels.BookViewModel" />

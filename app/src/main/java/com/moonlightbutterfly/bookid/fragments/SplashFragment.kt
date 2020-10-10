@@ -36,9 +36,9 @@ class SplashFragment : BaseFragment<FragmentSplashBinding, ViewModel>() {
         val userId = requireContext()
             .getSharedPreferences(UserManager.FILE_KEY, Context.MODE_PRIVATE)
             .getString(UserManager.ID_KEY, "")
-        userManager.provideUserId(userId!!)
+        userManager.receiveUserId(userId!!)
         userManager.user.observe(viewLifecycleOwner, Observer {
-            if (it == null) {
+            if (it.id.isEmpty()) {
                 val extras = FragmentNavigatorExtras(logo to "logo")
                 navController.navigate(SplashFragmentDirections.actionSplashFragmentToLoginGraph(), extras)
             }

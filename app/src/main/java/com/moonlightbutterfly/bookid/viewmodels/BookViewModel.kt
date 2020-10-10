@@ -12,18 +12,15 @@ import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
 import com.moonlightbutterfly.bookid.utils.DefaultShelf
 import com.moonlightbutterfly.bookid.utils.removeDisplayedBookFromList
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class BookViewModel @Inject constructor(
     private val repository: ExternalRepository,
-    private val dispatcher: CoroutineDispatcher,
     private val internalRepository: InternalRepository,
     private val userManager: Manager,
     communicator: Communicator
-) : BaseViewModel(dispatcher, internalRepository, userManager, communicator) {
+) : BaseViewModel(internalRepository, communicator, userManager) {
 
     private var insertedToRecentlyViewed = false
 
@@ -31,34 +28,36 @@ class BookViewModel @Inject constructor(
     val bookLiveData: LiveData<Book> get() = _bookLiveData
 
     val authorBooksLiveData: LiveData<List<Book>?> = _bookLiveData.switchMap {
-        liveData {
-            val books = repository
+        LiveDataReactiveStreams.fromPublisher(
+            repository
                 .loadAuthorBooks(_bookLiveData.value?.authors?.get(0))
-                .removeDisplayedBookFromList(_bookLiveData.value as Book)
-            emit(books)
-        }
+                .subscribeOn(Schedulers.io())
+                .map {
+                    it.removeDisplayedBookFromList(_bookLiveData.value as Book)
+                }.toFlowable()
+        )
     }
 
     val similarBooksLiveData: LiveData<List<Book>> = _bookLiveData.switchMap {
-        liveData {
-            val books = repository
+        LiveDataReactiveStreams.fromPublisher(
+            repository
                 .loadSimilarBooks(_bookLiveData.value?.authors?.get(0))
-            emit(books)
-        }
+                .subscribeOn(Schedulers.io())
+                .toFlowable()
+        )
     }
 
-    private val _isBookInFavoritesLiveData = Transformations.map(favoriteShelfLiveData) {
+    private val _isBookInFavoritesLiveData = favoriteShelfLiveData.map {
         isBookInFavorites(bookLiveData.value!!)
     }
 
     val isBookInFavoritesLiveData: LiveData<Boolean> get() = _isBookInFavoritesLiveData
 
-    private val _isBookInSavedLiveData = Transformations.map(savedShelfLiveData) {
+    private val _isBookInSavedLiveData = savedShelfLiveData.map {
         isBookInSaved(bookLiveData.value!!)
     }
 
     val isBookInSavedLiveData: LiveData<Boolean> get() = _isBookInSavedLiveData
-
 
     val descriptionExpandedMode: LiveData<Boolean> get() = _descriptionExpandedMode
     private var _descriptionExpandedMode = MutableLiveData<Boolean>(false)
@@ -95,11 +94,13 @@ class BookViewModel @Inject constructor(
 
     fun handleSavedOperation() = handleSavedOperation(bookLiveData.value!!)
 
-    private fun insertBookToRecentlyViewed() = viewModelScope.launch(dispatcher) {
-        internalRepository.getShelfByBaseId(DefaultShelf.RECENTLY_VIEWED.id, userManager.user.value!!.id)?.collect {
+    private fun insertBookToRecentlyViewed() = disposable.add(internalRepository
+        .getShelfByBaseId(DefaultShelf.RECENTLY_VIEWED.id, userManager.user.value!!.id)
+        .subscribeOn(Schedulers.io())
+        .subscribe {
             when {
-                insertedToRecentlyViewed -> {
-                }
+                insertedToRecentlyViewed -> { }
+
                 it!!.books.isEmpty() -> {
                     insertBookToShelf(bookLiveData.value, it)
                 }
@@ -116,12 +117,11 @@ class BookViewModel @Inject constructor(
                 else -> insertBookToShelf(bookLiveData.value, it, null, 0)
             }
             insertedToRecentlyViewed = true
-        }
-    }
+        })
 
     fun insertBookToBaseShelf() = insertBookToBaseShelf(bookLiveData.value!!)
 
-    private suspend fun deleteBookFromShelf(idx: Int?, shelf: Shelf?, message: String? = null) {
+    private fun deleteBookFromShelf(idx: Int?, shelf: Shelf?, message: String? = null) {
         if (shelf != null && idx != null && idx < shelf.books.size) {
             deleteBookFromShelf(shelf.books[idx], shelf, message)
         }

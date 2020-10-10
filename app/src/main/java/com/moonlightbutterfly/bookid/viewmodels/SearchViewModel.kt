@@ -1,28 +1,28 @@
 package com.moonlightbutterfly.bookid.viewmodels
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.UserManager
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
     private val externalRepository: ExternalRepository,
-    private val dispatcher: CoroutineDispatcher,
     internalRepository: InternalRepository,
     userManager: UserManager,
     communicator: Communicator
-) :
-    BaseViewModel(dispatcher, internalRepository, userManager, communicator) {
+) : BaseViewModel(internalRepository, communicator, userManager) {
 
-    private var searchedBooks: MutableLiveData<List<Book>> = liveData<List<Book>> {
-        emit(ArrayList())
-    } as MutableLiveData<List<Book>>
+    private var searchedBooks: MutableLiveData<List<Book>> = MutableLiveData(listOf())
+
     val allBooks = MediatorLiveData<MutableList<Book>>().apply {
         value = ArrayList()
         addSource(searchedBooks) {
@@ -33,6 +33,7 @@ class SearchViewModel @Inject constructor(
             }
         }
     }
+
     val showHint: LiveData<Boolean> get() = _showHint
     private var _showHint = MutableLiveData(true)
 
@@ -41,35 +42,39 @@ class SearchViewModel @Inject constructor(
 
     private var page = 1
 
-    private var currentJob: Job? = null
+    private var currentStream: Disposable? = null
 
-    val allDataLoaded: LiveData<Boolean> = Transformations.map(searchedBooks) {
+    val allDataLoaded: LiveData<Boolean> = searchedBooks.map {
         searchedBooks.value != null
     }
 
-    private fun clearLatestSearchedBooksBatch() = with(searchedBooks) {
-        value = null
+    private fun clearLatestSearchedBooksBatch() {
+        searchedBooks.value = null
     }
 
     fun requestSearch(query: String?) {
         clearLatestSearchedBooksBatch()
-        currentJob?.cancel()
+        currentStream?.dispose()
         allBooks.value = ArrayList()
         page = 1
         currentQuery = query
         _showHint.value = false
         if (!query.isNullOrEmpty()) {
-            currentJob = viewModelScope.launch(dispatcher) {
-                searchedBooks.value = externalRepository.loadSearchedBooks(query, page)
-            }
+            currentStream = externalRepository.loadSearchedBooks(query, page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess { searchedBooks.value = it }
+                .subscribe()
         }
     }
 
     fun loadMore() {
         clearLatestSearchedBooksBatch()
         page = page.inc()
-        viewModelScope.launch(dispatcher) {
-            searchedBooks.value = externalRepository.loadSearchedBooks(currentQuery, page)
-        }
+        disposable.add(externalRepository.loadSearchedBooks(currentQuery, page)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSuccess { searchedBooks.value = it }
+            .subscribe())
     }
 }
