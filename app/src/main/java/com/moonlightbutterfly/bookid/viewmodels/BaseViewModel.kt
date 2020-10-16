@@ -114,4 +114,6 @@ open class BaseViewModel(
         super.onCleared()
         disposable.dispose()
     }
+
+    fun onShareBookFail(message: String) = communicator.postMessage(message)
 }

@@ -1,5 +1,7 @@
 package com.moonlightbutterfly.bookid.fragments
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -96,7 +98,21 @@ class BookFragment : BaseFragment<BookFragmentBinding, BookViewModel>(BookViewMo
             }
             it.toolbar.share.setOnClickListener { view ->
                 view.animatePulse()
+                shareBook()
             }
+        }
+    }
+
+    private fun shareBook() {
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, viewModel.bookLiveData.value?.title)
+            type = "text/plain"
+        }
+        try {
+            startActivity(sendIntent)
+        } catch (ex: ActivityNotFoundException) {
+            viewModel.onShareBookFail(getString(R.string.share_failed))
         }
     }
 }

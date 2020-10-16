@@ -59,4 +59,5 @@
     <string name="books_number">%d książek</string>
     <string name="default_shelf">domyślnej półki</string>
     <string name="error_occurred">Wystąpił błąd</string>
+    <string name="share_failed">Nie udało się udostępnić książki</string>
 </resources>
