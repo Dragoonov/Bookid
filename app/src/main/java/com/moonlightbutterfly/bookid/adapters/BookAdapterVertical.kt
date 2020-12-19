@@ -1,5 +1,8 @@
 package com.moonlightbutterfly.bookid.adapters
 
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
@@ -66,7 +69,10 @@ class BookAdapterVertical(
         }
 
         private fun setupShare() = (binding as BookContainerVerticalBinding).share.apply {
-            setOnClickListener { it.animatePulse() }
+            setOnClickListener {
+                it.animatePulse()
+                shareBook(it.context, (binding as BookContainerVerticalBinding).book?.title!!)
+            }
         }
 
         private fun setupFavorites(book: Book) =
@@ -118,5 +124,18 @@ class BookAdapterVertical(
         val layoutInflater = LayoutInflater.from(parent.context)
         val itemBinding = BookContainerVerticalBinding.inflate(layoutInflater, parent, false)
         return ViewHolderVertical(itemBinding)
+    }
+
+    private fun shareBook(context: Context, title: String) {
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, title)
+            type = "text/plain"
+        }
+        try {
+            context.startActivity(sendIntent)
+        } catch (ex: ActivityNotFoundException) {
+            booksListViewModel?.onShareBookFail(context.getString(R.string.share_failed))
+        }
     }
 }

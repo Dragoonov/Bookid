@@ -63,4 +63,5 @@
     <string name="books_number">%d books</string>
     <string name="default_shelf">default shelf</string>
     <string name="error_occurred">Error occurred</string>
+    <string name="share_failed">Failed to share the book</string>
 </resources>
