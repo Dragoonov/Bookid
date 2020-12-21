@@ -1,8 +1,11 @@
 package com.moonlightbutterfly.bookid
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
+import com.moonlightbutterfly.bookid.repository.database.entities.User
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -14,11 +17,17 @@ class CommunicatorImplTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
-    private lateinit var communicatorImpl: CommunicatorImpl
+    private val communicatorImpl: CommunicatorImpl = CommunicatorImpl()
+    private val observer = Observer<String> {}
 
     @Before
-    fun initializeCommunicator() {
-        communicatorImpl = CommunicatorImpl()
+    fun init() {
+        communicatorImpl.message.observeForever(observer)
+    }
+
+    @After
+    fun cleanUp() {
+        communicatorImpl.message.removeObserver(observer)
     }
 
     @Test

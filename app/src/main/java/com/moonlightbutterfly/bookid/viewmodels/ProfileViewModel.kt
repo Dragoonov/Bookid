@@ -37,7 +37,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun signOut(view: View) {
-        userManager.singOutUser(view.context)
+        userManager.signOutUser(view.context)
         view.findNavController().navigate(ProfileFragmentDirections.actionProfileToNavGraph())
     }
 

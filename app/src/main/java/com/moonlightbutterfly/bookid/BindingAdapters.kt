@@ -1,26 +1,21 @@
 package com.moonlightbutterfly.bookid
 
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.moonlightbutterfly.bookid.adapters.BookAdapter
-import com.moonlightbutterfly.bookid.adapters.BookAdapterHorizontal
 import com.moonlightbutterfly.bookid.adapters.ShelfAdapter
-import com.moonlightbutterfly.bookid.databinding.ComposableBookListBinding
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.utils.DefaultShelf
-import com.moonlightbutterfly.bookid.utils.Layout
 import com.moonlightbutterfly.bookid.viewmodels.ProfileViewModel
 
 @BindingAdapter("loadImage")
@@ -59,32 +54,6 @@ fun updateRecyclerShelfs(view: RecyclerView, data: List<Shelf>?) {
         if ((data != null && data != (this as ShelfAdapter).shelfs) ||
                 data?.map { it.name } != (this as ShelfAdapter).shelfs.map { it.name }) {
             (view.adapter as ShelfAdapter).updateList(data)
-        }
-    }
-}
-
-@BindingAdapter("createBookShelfs")
-fun createBookShelfs(view: LinearLayout, shelfsList: List<Shelf>?) {
-    view.removeAllViews()
-    if (shelfsList != null) {
-        for (shelf in shelfsList) {
-            ComposableBookListBinding.inflate(
-                LayoutInflater.from(view.context),
-                view,
-                true
-            ).also {
-                it.listRecycler.apply {
-                    layoutManager = LinearLayoutManager(
-                        view.context,
-                        LinearLayoutManager.HORIZONTAL,
-                        false
-                    )
-                    addItemDecoration(CustomItemDecoration(Layout.HORIZONTAL))
-                    adapter = BookAdapterHorizontal()
-                }
-                it.books = shelf.books
-                it.title = shelf.name
-            }
         }
     }
 }

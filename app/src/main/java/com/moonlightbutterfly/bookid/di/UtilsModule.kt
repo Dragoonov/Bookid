@@ -1,9 +1,6 @@
 package com.moonlightbutterfly.bookid.di
 
-import com.moonlightbutterfly.bookid.Communicator
-import com.moonlightbutterfly.bookid.CommunicatorImpl
-import com.moonlightbutterfly.bookid.Manager
-import com.moonlightbutterfly.bookid.UserManager
+import com.moonlightbutterfly.bookid.*
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -18,6 +15,9 @@ abstract class UtilsModule {
 
     @Binds
     abstract fun bindManager(x: UserManager): Manager
+
+    @Binds
+    abstract fun bindScheduler(x: SchedulerProviderImpl): SchedulerProvider
 
     companion object {
         @Provides

@@ -59,7 +59,7 @@ class GoogleBooksRepository @Inject constructor() : ExternalRepository {
         .map(responseMapper)
 
     override fun loadSearchedBooks(query: String?, page: Int): Single<List<Book>> {
-        val googleStartIndex = GoogleBooksRepository.RetrofitServiceGoogleBooks.ITEMS_PER_REQUEST * (page - 1)
+        val googleStartIndex = RetrofitServiceGoogleBooks.ITEMS_PER_REQUEST * (page - 1)
         return getRetrofitService().getBooksBySearchString(query, page, googleStartIndex)
             .map(responseMapper)
     }

@@ -6,6 +6,7 @@ import android.view.View
 import androidx.lifecycle.*
 import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.Manager
+import com.moonlightbutterfly.bookid.SchedulerProvider
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
@@ -19,8 +20,9 @@ class BookViewModel @Inject constructor(
     private val repository: ExternalRepository,
     private val internalRepository: InternalRepository,
     private val userManager: Manager,
+    private val schedulerProvider: SchedulerProvider,
     communicator: Communicator
-) : BaseViewModel(internalRepository, communicator, userManager) {
+) : BaseViewModel(internalRepository, communicator, schedulerProvider, userManager) {
 
     private var insertedToRecentlyViewed = false
 
@@ -31,7 +33,7 @@ class BookViewModel @Inject constructor(
         LiveDataReactiveStreams.fromPublisher(
             repository
                 .loadAuthorBooks(_bookLiveData.value?.authors?.get(0))
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(schedulerProvider.io())
                 .map {
                     it.removeDisplayedBookFromList(_bookLiveData.value as Book)
                 }.toFlowable()
@@ -42,7 +44,7 @@ class BookViewModel @Inject constructor(
         LiveDataReactiveStreams.fromPublisher(
             repository
                 .loadSimilarBooks(_bookLiveData.value?.authors?.get(0))
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(schedulerProvider.io())
                 .toFlowable()
         )
     }
@@ -96,7 +98,7 @@ class BookViewModel @Inject constructor(
 
     private fun insertBookToRecentlyViewed() = disposable.add(internalRepository
         .getShelfByBaseId(DefaultShelf.RECENTLY_VIEWED.id, userManager.user.value!!.id)
-        .subscribeOn(Schedulers.io())
+        .subscribeOn(schedulerProvider.io())
         .subscribe {
             when {
                 insertedToRecentlyViewed -> { }

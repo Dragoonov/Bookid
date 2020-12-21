@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.Manager
+import com.moonlightbutterfly.bookid.SchedulerProvider
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
@@ -14,8 +15,9 @@ import javax.inject.Inject
 class BooksListViewModel @Inject constructor(
     private val internalRepository: InternalRepository,
     private val userManager: Manager,
+    schedulerProvider: SchedulerProvider,
     communicator: Communicator
-) : BaseViewModel(internalRepository, communicator, userManager) {
+) : BaseViewModel(internalRepository, communicator, schedulerProvider, userManager) {
 
     private val customShelfIdLiveData = MutableLiveData(1000)
     val customShelfLiveData: LiveData<Shelf?> = customShelfIdLiveData.switchMap {

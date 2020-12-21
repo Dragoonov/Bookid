@@ -10,16 +10,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.moonlightbutterfly.bookid.repository.database.entities.User
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class UserManager @Inject constructor(
     private val internalRepository: InternalRepository,
-    private val communicator: Communicator
+    private val communicator: Communicator,
+    private val schedulerProvider: SchedulerProvider
 ) : Manager {
 
     private var userId: MutableLiveData<String> = MutableLiveData()
@@ -45,7 +44,7 @@ class UserManager @Inject constructor(
         userId.value = id
     }
 
-    override fun singOutUser(context: Context) {
+    override fun signOutUser(context: Context) {
         val gso: GoogleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -60,13 +59,13 @@ class UserManager @Inject constructor(
         disposable.add(
             internalRepository.getUserById(user.id)
                 .take(1)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
                 .subscribe {
                 if (it.isEmpty()) {
                     disposable.add(internalRepository
                         .insertUser(user)
-                        .subscribeOn(Schedulers.io())
+                        .subscribeOn(schedulerProvider.io())
                         .subscribe())
                 }
                 userId.value = user.id
@@ -79,7 +78,7 @@ class UserManager @Inject constructor(
         val userTemp = user.value
         userTemp?.baseShelfId = shelfId
         disposable.add(internalRepository.updateUser(userTemp!!)
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(schedulerProvider.io())
             .subscribe())
     }
 

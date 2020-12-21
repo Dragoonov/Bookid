@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.ViewModel
 import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.Manager
+import com.moonlightbutterfly.bookid.SchedulerProvider
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
 import com.moonlightbutterfly.bookid.repository.internalrepo.InternalRepository
@@ -16,6 +17,7 @@ import io.reactivex.schedulers.Schedulers
 open class BaseViewModel(
     private val internalRepository: InternalRepository,
     private val communicator: Communicator,
+    private val schedulerProvider: SchedulerProvider,
     userManager: Manager
 ) : ViewModel() {
 
@@ -27,7 +29,7 @@ open class BaseViewModel(
         internalRepository.getShelfByBaseId(DefaultShelf.SAVED.id, userManager.user.value!!.id)
     )
 
-    private val baseShelfLiveData: LiveData<Shelf?> = LiveDataReactiveStreams.fromPublisher(
+    val baseShelfLiveData: LiveData<Shelf?> = LiveDataReactiveStreams.fromPublisher(
         internalRepository.getShelfById(userManager.user.value!!.baseShelfId, userManager.user.value!!.id)
     )
 
@@ -64,8 +66,8 @@ open class BaseViewModel(
         disposable.add(
             internalRepository
                 .updateShelf(shelf)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
                 .subscribe (
                     {
                         message?.let { communicator.postMessage(it) }

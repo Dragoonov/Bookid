@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.moonlightbutterfly.bookid.Communicator
+import com.moonlightbutterfly.bookid.SchedulerProvider
 import com.moonlightbutterfly.bookid.UserManager
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.externalrepos.ExternalRepository
@@ -16,10 +17,11 @@ import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
     private val externalRepository: ExternalRepository,
+    private val schedulerProvider: SchedulerProvider,
     internalRepository: InternalRepository,
     userManager: UserManager,
     communicator: Communicator
-) : BaseViewModel(internalRepository, communicator, userManager) {
+) : BaseViewModel(internalRepository, communicator, schedulerProvider, userManager) {
 
     private var searchedBooks: MutableLiveData<List<Book>> = MutableLiveData(listOf())
 
@@ -61,8 +63,8 @@ class SearchViewModel @Inject constructor(
         _showHint.value = false
         if (!query.isNullOrEmpty()) {
             currentStream = externalRepository.loadSearchedBooks(query, page)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
                 .doOnSuccess { searchedBooks.value = it }
                 .subscribe()
         }
@@ -72,8 +74,8 @@ class SearchViewModel @Inject constructor(
         clearLatestSearchedBooksBatch()
         page = page.inc()
         disposable.add(externalRepository.loadSearchedBooks(currentQuery, page)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
             .doOnSuccess { searchedBooks.value = it }
             .subscribe())
     }
