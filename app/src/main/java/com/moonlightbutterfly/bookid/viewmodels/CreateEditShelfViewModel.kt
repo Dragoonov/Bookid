@@ -2,6 +2,7 @@ package com.moonlightbutterfly.bookid.viewmodels
 
 import androidx.lifecycle.*
 import com.moonlightbutterfly.bookid.Communicator
+import com.moonlightbutterfly.bookid.SchedulerProvider
 import com.moonlightbutterfly.bookid.UserManager
 import com.moonlightbutterfly.bookid.repository.database.entities.Cover
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
@@ -14,7 +15,8 @@ import javax.inject.Inject
 class CreateEditShelfViewModel @Inject constructor(
     private val repository: InternalRepository,
     private val userManager: UserManager,
-    private val communicator: Communicator
+    private val communicator: Communicator,
+    private val schedulerProvider: SchedulerProvider
 ) : ViewModel() {
 
     private var shelfId: MutableLiveData<Int> = MutableLiveData(-1)
@@ -60,7 +62,7 @@ class CreateEditShelfViewModel @Inject constructor(
         )
         disposable.add(
             repository.insertShelf(shelf)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(schedulerProvider.io())
                 .doOnError {
                     communicator.postMessage(errorOccurredMessage)
                 }
@@ -78,7 +80,7 @@ class CreateEditShelfViewModel @Inject constructor(
         )
         disposable.add(
             repository.updateShelf(shelf)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(schedulerProvider.io())
                 .doOnError {
                     communicator.postMessage(errorOccurredMessage)
                 }.subscribe()

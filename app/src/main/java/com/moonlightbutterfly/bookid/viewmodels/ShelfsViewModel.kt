@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.room.EmptyResultSetException
 import com.moonlightbutterfly.bookid.Communicator
 import com.moonlightbutterfly.bookid.Manager
+import com.moonlightbutterfly.bookid.SchedulerProvider
 import com.moonlightbutterfly.bookid.repository.database.entities.Book
 import com.moonlightbutterfly.bookid.repository.database.entities.Cover
 import com.moonlightbutterfly.bookid.repository.database.entities.Shelf
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class ShelfsViewModel @Inject constructor(
     private val userManager: Manager,
     private val repository: InternalRepository,
-    private val communicator: Communicator
+    private val communicator: Communicator,
+    private val schedulerProvider: SchedulerProvider
 ) : ViewModel() {
 
     val shelfsLiveData: LiveData<List<Shelf>?> = LiveDataReactiveStreams.fromPublisher(
@@ -32,11 +34,9 @@ class ShelfsViewModel @Inject constructor(
 
     fun prepareBasicShelfs(names: Array<String>, images: Array<Pair<Int, Logos>>) = disposable.add(
         repository.doBaseShelfsExist(DefaultShelf.FAVORITES.id, userManager.user.value?.id!!)
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(schedulerProvider.io())
             .subscribe(
-                {
-
-                },
+                {},
                 {
                     if (it.javaClass == EmptyResultSetException::class.java) {
                         for ((index, value) in DefaultShelf.values().withIndex()) {
@@ -48,7 +48,7 @@ class ShelfsViewModel @Inject constructor(
 
     fun deleteShelf(shelf: Shelf?) = shelf?.let {
         disposable.add(repository.deleteShelf(it)
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(schedulerProvider.io())
             .subscribe()
         )
     }
@@ -57,8 +57,8 @@ class ShelfsViewModel @Inject constructor(
         if (shelf != null && book != null && !shelf.books.contains(book)) {
             shelf.books = shelf.books.toMutableList().apply { add(book) }
             disposable.add(repository.updateShelf(shelf)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
                 .subscribe {
                 message?.let { communicator.postMessage(it) }
             })
@@ -75,7 +75,7 @@ class ShelfsViewModel @Inject constructor(
             )
             disposable.add(repository
                 .insertShelf(shelf)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(schedulerProvider.io())
                 .subscribe())
     }
 

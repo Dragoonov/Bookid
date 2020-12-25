@@ -32,9 +32,7 @@ class ProfileViewModel @Inject constructor(
         repository.getUserShelfs(userManager.user.value?.id!!)
     )
 
-    fun updateBaseShelf(shelfId: Int) {
-        userManager.updateBaseShelf(shelfId)
-    }
+    fun updateBaseShelf(shelfId: Int) = userManager.updateBaseShelf(shelfId)
 
     fun signOut(view: View) {
         userManager.signOutUser(view.context)
